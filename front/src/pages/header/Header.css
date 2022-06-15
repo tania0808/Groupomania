@@ -1,0 +1,32 @@
+
+.image-container {
+    height: 70px;
+    width: 30%;
+}
+.logo {
+    width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.dropdown {}
+
+.btn-primaire { 
+    background-color: #FF2D01 !important; 
+    color: white;
+    font-weight: 700;
+}
+.btn-primaire:hover, .dropdown-item:hover { 
+    background-color: #FFD7D7 !important;
+    color: #FF2D01 !important; 
+    outline: none !important;
+}
+
+.btn-primaire:hover a {
+    color: #FF2D01 !important;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
