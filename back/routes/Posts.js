@@ -17,12 +17,20 @@ router.post('/', multer,  async (req, res) => {
         userName: req.body.userName,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
-    console.log(req.file);
     await Posts.create(post);
-    console.log(post);
-    //res.json(post)
-    res.json(req.file)
+    res.json(post)
 })
+
+router.get('/post/:id', async (req, res) => {
+    const id = req.params.id;
+    
+    const post = await Posts.findOne({
+        where: {id: id}
+    })
+    res.json(post)
+})
+
+
 
 
 
