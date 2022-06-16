@@ -18,6 +18,7 @@ export default function SignUp() {
 
     const createUser = async (e) => {
         e.preventDefault()
+        
         await axios.post("http://localhost:3000/auth/signup", { 
             userName: userName,
             email: email,
@@ -28,18 +29,20 @@ export default function SignUp() {
             setStatus(response.data.status)
             setToggle(true);
             if(response.data.status) {
-                navigate('/')
+                setTimeout(() => {
+                  navigate('/');
+                }, 1000);
             }
         })
     }
 
    
   return (
-    <div>
+    <div className='mb-5'>
         <Header/>
-        <div className="container">
-            <h1 className='mb-3'>SIGN UP</h1>
-            <form action="" method='POST' className='col-md-8' onSubmit={createUser}>
+        <div className="container mt-5">
+            <h1 className='pt-5 mb-3 text-center'>SIGN UP</h1>
+            <form action="" method='POST' className='col-md-8 m-auto' onSubmit={createUser}>
                 <div className="mb-3">
                     <label htmlFor="userName" className="form-label">Username</label>
                     <input required type="text" className="form-control" id="userName" placeholder="jane_doe" onChange={(e) => {setUserName(e.target.value)}}/>

@@ -24,8 +24,10 @@ export default function Login() {
       setStatus(response.data.status)
       setToggle(true);
       if(response.data.status) {
-        navigate('/')
-    }
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
+      }
     })
   }
 
