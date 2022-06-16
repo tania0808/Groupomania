@@ -11,6 +11,9 @@ export default function Header() {
             <Link to='/' className="image-container">
                 <img className='logo' src={logo} alt="logo groupomania" />
             </Link>
+            <Link className='btn btn-primaire ' to='/auth/signup'>Sign Up</Link>
+            <Link className='btn btn-primaire ' to='/auth/login'>Log In</Link>
+
             <div className='d-flex justify-content-between align-items-center bg-white'>
                 <div className="dropdown">
                     <button className="btn btn-primaire dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -20,9 +23,9 @@ export default function Header() {
                         </svg>                
                     </button>
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a className="dropdown-item" href="#">Action</a></li>
-                        <li><a className="dropdown-item" href="#">Another action</a></li>
-                        <li><a className="dropdown-item" href="#">Something else here</a></li>
+                        <li><a className="dropdown-item" href="http://localhost:3000/">Action</a></li>
+                        <li><a className="dropdown-item" href="http://localhost:3000">Another action</a></li>
+                        <li><a className="dropdown-item" href="http://localhost:3000">Something else here</a></li>
                     </ul>
                 </div>
                 <Link className='btn btn-primaire h-100 m-3' to='/createpost'>Add a post</Link>

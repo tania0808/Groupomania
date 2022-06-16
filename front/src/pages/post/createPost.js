@@ -42,7 +42,7 @@ export default function Post() {
           </div>
           <div className="form-group mt-5">
             <label htmlFor="postText">Share your thoughts</label>
-            <input className="form-control p-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
+            <input type='text' className="form-control p-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
           </div>
           <div className="form-group mt-5">
             <label htmlFor="imageUrl">Choose the image if you want</label><br />

@@ -21,13 +21,10 @@ router.post('/', multer,  async (req, res) => {
     res.json(post)
 })
 
-router.get('/post/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const id = req.params.id;
-    
-    const post = await Posts.findOne({
-        where: {id: id}
-    })
-    res.json(post)
+    const post = await Posts.findByPk(id);
+    res.json(post);
 })
 
 
