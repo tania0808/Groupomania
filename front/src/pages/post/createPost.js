@@ -24,7 +24,11 @@ export default function Post() {
 
   const createPost = async (e) => {
     e.preventDefault()
-    await axios.post("http://localhost:3000/posts", formData );
+    await axios.post("http://localhost:3000/posts", formData, {
+      headers: {
+        accessToken: localStorage.getItem('accessToken')
+      }
+  });
     window.location = "/"
   }
 

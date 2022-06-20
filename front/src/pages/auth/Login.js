@@ -16,13 +16,18 @@ export default function Login() {
   const [toggle, setToggle] = useState(false);
 
   const login = () => {
+    
     axios.post("http://localhost:3000/auth/login", {
       email: email,
       password: password
     }).then((response) => {
-      setAlert(response.data.message);
-      setStatus(response.data.status)
-      setToggle(true);
+      if(!response.data.status){
+        setAlert(response.data.message);
+        setStatus(response.data.status)
+        setToggle(true);
+      } else {
+        localStorage.setItem("accessToken", response.data.token)
+      }
       if(response.data.status) {
         setTimeout(() => {
           navigate('/');
@@ -45,8 +50,7 @@ export default function Login() {
                 <input type="password" className="form-control" id="password" onChange={(e) => {setPassword(e.target.value)}}/>
             </div>
             <div className={"alert " + (toggle ? 'd-block ' : 'd-none ') + (!status ? 'd-block alert-danger ' : 'alert-success')} role="alert" >{alert}</div>
-            <button className='btn btn-primaire' onClick={login}>Log In</button>
-            
+            <button className='btn btn-primaire' onClick={login}>Log In</button>  
         </div>
     </div>
   )

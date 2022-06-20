@@ -2,30 +2,39 @@ const express = require('express');
 const multer = require('../middleware/multer');
 const router = express.Router();
 const { Posts } = require('../models')
+const { validateToken } = require('../middleware/authentication')
 
-
-router.get('/', async (req, res) => {
+router.get('/', validateToken, async (req, res) => {
     const posts = await Posts.findAll()
     res.json(posts)
 })
 
 
-router.post('/', multer,  async (req, res) => {
+router.post('/', validateToken,  multer,  async (req, res) => {
     const post = {
         title: req.body.title,
         postText: req.body.postText,
-        userName: req.body.userName,
+        userId: req.auth.userId,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
     await Posts.create(post);
     res.json(post)
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateToken,  async (req, res) => {
     const id = req.params.id;
     const post = await Posts.findByPk(id);
-    res.json(post);
+    const result =  {
+        ...post,
+        isOwnPost: req.auth.userId === post.userId
+    }
+    res.json(result);
 })
+
+// router.put('/:id', async (req, res) => {
+//     const id = req.params.id;
+//     const post = await Posts.update()
+// })
 
 
 
