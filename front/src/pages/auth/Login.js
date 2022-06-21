@@ -16,7 +16,6 @@ export default function Login() {
   const [toggle, setToggle] = useState(false);
 
   const login = () => {
-    
     axios.post("http://localhost:3000/auth/login", {
       email: email,
       password: password
@@ -30,17 +29,17 @@ export default function Login() {
       }
       if(response.data.status) {
         setTimeout(() => {
-          navigate('/');
-        }, 1000);
+          navigate('/posts');
+        }, 500);
       }
     })
   }
 
   return (
-    <div>
+    <div className='mb-5'>
         <Header/>
-        <div className="container">
-            <h1 className='mb-3'>Log In</h1>
+        <div className="container mt-5">
+            <h1 className='pt-5 mb-3 text-center'>LOG IN</h1>
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email address</label>
                 <input type="email" className="form-control" id="email" placeholder="name@example.com" onChange={(e) => {setEmail(e.target.value)}}/>

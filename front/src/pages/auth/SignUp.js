@@ -29,9 +29,10 @@ export default function SignUp() {
             setStatus(response.data.status)
             setToggle(true);
             if(response.data.status) {
+                localStorage.setItem("accessToken", response.data.token);
                 setTimeout(() => {
-                  navigate('/');
-                }, 1000);
+                  navigate('/posts');
+                }, 500);
             }
         })
     }
@@ -56,7 +57,7 @@ export default function SignUp() {
                     <input required type="password" className="form-control" id="password" onChange={(e) => {setPassword(e.target.value)}}/>
                 </div>
                 <div className={"alert " + (toggle ? 'd-block' : 'd-none ') + (!status ? 'd-block alert-danger' : 'alert-success')} role="alert" >{alert}</div>
-                <button  onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
+                <button onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
             </form>
         </div>
     </div>

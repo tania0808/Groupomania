@@ -25,7 +25,8 @@ router.post('/signup',  async (req, res) => {
                 password: hashedPassword
             };
             await Users.create(user);
-            res.status(200).json({message : "User is created !!!", status: true})
+            const accessToken = sign({userId: user.userId}, "blueseduction");
+            res.status(200).json({message : "User is created !!!", status: true, token: accessToken})
         }
 })
 

@@ -7,8 +7,9 @@ import Header from '../header/Header';
 export default function Home() {
 
   const [listOfPosts, setListOfPosts] = useState([]);
+  
   let navigate = useNavigate();
-
+  
   useEffect(() => {
     axios.get("http://localhost:3000/posts", {
       headers: {
