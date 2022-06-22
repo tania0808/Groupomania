@@ -1,11 +1,11 @@
 const express = require('express');
 const multer = require('../middleware/multer');
 const router = express.Router();
-const { Posts } = require('../models')
+const { Posts, Likes } = require('../models')
 const { validateToken } = require('../middleware/authentication')
 
 router.get('/', validateToken, async (req, res) => {
-    const posts = await Posts.findAll()
+    const posts = await Posts.findAll({include: [Likes]})
     res.json(posts)
 })
 

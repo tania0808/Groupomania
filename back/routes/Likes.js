@@ -17,12 +17,12 @@ router.post("/", validateToken, async (req, res) => {
 
     if(!found) {
         await Likes.create(likes);
-        res.json('Liked the post !!!')
+        res.json({liked: true})
     } else {
         await Likes.destroy({
             where: { UserId: userId, PostId:id }
         })
-        res.json('Unliked the post !')
+        res.json({liked: false})
     }
     
 })
