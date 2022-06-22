@@ -39,7 +39,7 @@ router.post('/login',  async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if(!validPassword) return res.json({message: 'Wrong username and password combination !', status: false});
 
-    const accessToken = sign({userId: user.userId}, "blueseduction");
+    const accessToken = sign({userId: user.userId, id: user.id}, "blueseduction");
 
     res.json({ message: 'YOU LOGGED IN !!!', status: true, token: accessToken})
 })

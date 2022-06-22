@@ -42,8 +42,15 @@ module.exports = (sequelize, DataTypes) => {
                 return this.setDataValue('usersDisliked', JSON.stringify(val));
             }
         }
-
     })
+
+    Posts.associate = (models) => {
+
+        Posts.hasMany(models.Likes, {
+            onDelete: 'cascade',
+        });
+        
+    }
 
     return Posts;
 }

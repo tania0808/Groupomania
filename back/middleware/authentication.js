@@ -9,20 +9,20 @@ const validateToken = (req, res, next) => {
 
     const validToken = verify(accessToken, "blueseduction");
     const userId = validToken.userId;
-
-    req.auth = { userId };
+    const id = validToken.id;
+    
+    console.log(validToken);
+    req.auth = { userId, id };
 
     console.log(req.auth);
 
     try{
-        if(validToken) {
+        if(req.body.userId && req.body.userId !== userId && !validToken) {
+            throw 'User id is not valid !!!'
+        } else {
             next();
         }
-        // if(req.body.userId && req.body.userId !== userId) {
-        //     throw 'User id is not valid !!!'
-        // } else {
-        //     next();
-        // }
+        
     } catch(err) {
         res.json({ message: error});
     }
