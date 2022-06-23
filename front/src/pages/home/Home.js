@@ -3,18 +3,14 @@ import { useEffect, useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import './Home.css'
 import Header from '../header/Header';
-import { faHeart, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 export default function Home() {
 
   const [listOfPosts, setListOfPosts] = useState([]);
-  const [like, setLike] = useState(false);
-
-  const toggleState = () => {
-    setLike(!like)
-  }
+  const [likedPosts, setLikedPosts] = useState([]);
 
   async function likeAPost (postId) {
     await axios.post("http://localhost:3000/like", {
@@ -26,7 +22,7 @@ export default function Home() {
       }
     }).then((response) => {
       setListOfPosts(listOfPosts.map((post) => {
-        console.log(response.data.liked);
+
         if(post.id === postId) {
           if(response.data.liked){
             return {...post,
@@ -40,7 +36,16 @@ export default function Home() {
         } else {
           return post
         }
-      }))
+      }));
+
+      if(!likedPosts.includes(postId)){
+        setLikedPosts([...likedPosts, postId])
+      } else {
+        const newArray = likedPosts.filter((id) => {
+          return id !== postId
+        });
+        setLikedPosts(newArray)
+      }
     })
   }
 
@@ -52,7 +57,10 @@ export default function Home() {
         accessToken: localStorage.getItem('accessToken')
       }
   })
-    .then((response) => setListOfPosts(response.data));
+    .then((response) =>{
+      setListOfPosts(response.data.listOfPosts);
+      setLikedPosts(response.data.likedPosts.map((like) => { return like.PostId}));
+    });
   }, [])
 
   return (
@@ -69,8 +77,8 @@ export default function Home() {
                 <p>{value.postText}</p>
                 <p>{value.createdAt.split('T')[0]}</p>
               </div>
-                <button className='btn fs-2' onClick={() => likeAPost(value.id)}>
-                  {like ? <FontAwesomeIcon icon={faHeartBroken}/> : <FontAwesomeIcon icon={faHeart}/> }           
+                <button className='btn fs-2' onClick={() => {likeAPost(value.id)}}>
+                  <FontAwesomeIcon icon={faHeart} className={likedPosts.includes(value.id) ? 'red' : "black"}/>          
                 </button>
                 <p>{value.Likes.length}</p>
             </div>

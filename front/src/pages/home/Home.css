@@ -3,3 +3,10 @@
     height: 400px;
     object-fit: contain;
 }
+
+.red {
+    color: red;
+}
+.black {
+    color: black;
+}
