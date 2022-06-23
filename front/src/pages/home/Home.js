@@ -12,6 +12,7 @@ export default function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
 
+  
   async function likeAPost (postId) {
     await axios.post("http://localhost:3000/like", {
       id: postId

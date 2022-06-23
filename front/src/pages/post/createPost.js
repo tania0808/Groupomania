@@ -29,7 +29,7 @@ export default function Post() {
         accessToken: localStorage.getItem('accessToken')
       }
   });
-    window.location = "/"
+    window.location = "/posts"
   }
 
 

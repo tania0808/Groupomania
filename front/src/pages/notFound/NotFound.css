@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Fascinate&family=Lato:wght@100;300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,900&display=swap');
+
+.box {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #FFD7D7;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+    color: #FD2D01;
+    font-size: 60px;
+}
+
+.error {
+    font-size: 150px;
+    font-family: 'Fascinate', sans-serif;
+}
+
+button {
+    background-color: #FD2D01;
+}

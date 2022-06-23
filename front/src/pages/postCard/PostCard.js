@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '../button/Button'
 import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios';
 
 export default function PostCard(props) {
     let { id } = useParams();
@@ -9,6 +10,18 @@ export default function PostCard(props) {
     function modifyPost() {
         navigate(`/post/update/${id}`);
     }
+
+
+    const deletePost =  async (e) => {
+        e.preventDefault();
+        axios.delete(`http://localhost:3000/posts/${id}`, {
+            headers: {
+                accessToken: localStorage.getItem('accessToken')
+            },
+        });
+        window.location = "/posts"
+    }
+
     return (
         <div className="card d-flex flex-lg-row flex-sm-column align-items-sm-center align-items-lg-start text-center">
             <img className='rounded-3 postImage col-lg-4 col-sm-12 card-img-end img-fluid p-1' src={props.post.imageUrl} alt="" width={500}/>
@@ -23,7 +36,7 @@ export default function PostCard(props) {
                 {props.user &&
                 <div className="card-modificators">
                     <Button onClick={modifyPost} value={'Modify'} class={"btn btn-success m-4 py-2"}/>
-                    <Button value={'Delete'} class={"btn btn-danger py-2"}/>
+                    <Button onClick={deletePost} value={'Delete'} class={"btn btn-danger py-2"}/>
                 </div>
                 }
             </div>
