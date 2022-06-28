@@ -13,6 +13,7 @@ export default function ModifyPost() {
     const [image, setImage] = useState(undefined);
     const [imageURL, setImageURL] = useState()
 
+    console.log(post.userName);
     // const handleChange = (event) => {
     //     setImage(URL.createObjectURL(event.target.files[0]));
     // }
@@ -28,9 +29,8 @@ export default function ModifyPost() {
     formData.append('imageUrl', image);
     formData.append('title', title);
     formData.append('postText', postText);
-    formData.append('userName', 'tania');
 
-    useEffect(  () => {
+    useEffect(() => {
         async function fetchData() {
             await axios.get(`http://localhost:3000/posts/${id}`, {
                 headers: {
@@ -42,18 +42,21 @@ export default function ModifyPost() {
                 console.log(response.data.dataValues);
             });
         }
-        fetchData()
+        fetchData();
     }, [id])
 
-    const modifyPost = async () => {
-        await axios.get(`http://localhost:3000/posts/${id}`, {
+    const modifyPost = async (e) => {
+        e.preventDefault();
+        await axios.put(`http://localhost:3000/posts/${id}`, formData, {
             headers: {
                 accessToken: localStorage.getItem('accessToken')
             }
         })
         .then((response) => {
             console.log(response);
+            window.location = "/posts"
         });
+
     }
     return (
 
@@ -61,7 +64,7 @@ export default function ModifyPost() {
         <Header/>
         <div className='d-flex flex-column justify-content-center align-items-center'>
             <h1>Modify a post</h1>
-            <form action="" method='POST' className='col-md-8' encType='multipart/form-data' >
+            <form action="" method='POST' className='col-md-8' encType='multipart/form-data' onSubmit={modifyPost} >
                 <div className="form-group mt-5">
                     <label htmlFor="title">Title of your post</label>
                     <input defaultValue={post.title} type='text' className="form-control" id="title" rows="1" required onChange={(e) => setTitle(e.target.value)}></input>

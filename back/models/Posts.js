@@ -16,32 +16,12 @@ module.exports = (sequelize, DataTypes) => {
         imageUrl: {
             type: DataTypes.STRING
         },
-        likes: {
-            type:DataTypes.INTEGER,
-            defaultValue: 0
-        },
-        dislikes: {
-            type:DataTypes.INTEGER,
-            defaultValue: 0
-        },
-        usersLiked: {
-            type:DataTypes.STRING,
-            get: function() {
-                return JSON.parse(this.getDataValue('usersLiked'));
-            }, 
-            set: function(val) {
-                return this.setDataValue('usersLiked', JSON.stringify(val));
-            }
-        },
-        usersDisliked: {
-            type:DataTypes.STRING,
-            get: function() {
-                return JSON.parse(this.getDataValue('usersDisliked'));
-            }, 
-            set: function(val) {
-                return this.setDataValue('usersDisliked', JSON.stringify(val));
-            }
+        
+        userName: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
+        
     })
 
     Posts.associate = (models) => {

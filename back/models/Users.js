@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         userId: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
+        },
+        userImageUrl: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: 'http://localhost:3000/images/profile/profile.jpeg',
         }
     });
 
@@ -25,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'cascade'
         });
     };
+
+    
 
 
 

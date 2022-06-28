@@ -7,6 +7,7 @@ import Header from '../header/Header'
 import './Auth.css'
 
 export default function SignUp() {
+    
     let navigate = useNavigate();
 
     const [userName, setUserName] = useState("");

@@ -1,9 +1,7 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from '../header/Header'
 import axios from 'axios';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../../../node_modules/bootstrap/dist/js/bootstrap.min.js'
 
 
 
@@ -12,23 +10,21 @@ export default function Post() {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
   const [image, setImage] = useState("");
- 
+
   const formData = new FormData();
   formData.append('imageUrl', image);
   formData.append('title', title);
   formData.append('postText', postText);
   formData.append('userName', 'tania');
 
-
-
-
   const createPost = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     await axios.post("http://localhost:3000/posts", formData, {
       headers: {
         accessToken: localStorage.getItem('accessToken')
       }
-  });
+    }).then(response => {
+    })
     window.location = "/posts"
   }
 

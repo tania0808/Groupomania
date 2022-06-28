@@ -4,7 +4,7 @@ import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 
 import {Routes, Route, Navigate} from 'react-router-dom'
 import Home from './pages/home/Home';
-import Post from './pages/post/createPost';
+import Post from './pages/post/CreatePost';
 import GetPost from './pages/post/GetPost';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
