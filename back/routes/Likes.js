@@ -6,9 +6,7 @@ const { validateToken } = require('../middleware/authentication')
 
 router.post("/", validateToken, async (req, res) => {
     const {id } = req.body;
-    const userId = req.auth.id
-    console.log(id);
-    console.log(userId);
+    const userId = req.auth.id;
 
     const likes = { PostId: id, UserId: userId}
 

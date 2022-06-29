@@ -8,7 +8,8 @@ export default function AllPosts() {
 
     const [listOfPosts, setListOfPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
-
+    const [currentUser, setCurrentUser] = useState("");
+    console.log(currentUser);
     useEffect(() => {
         axios.get("http://localhost:3000/posts", {
           headers: {
@@ -18,6 +19,7 @@ export default function AllPosts() {
         .then((response) =>{
           setListOfPosts(response.data.listOfPosts);
           setLikedPosts(response.data.likedPosts.map((like) => { return like.PostId}));
+          setCurrentUser(response.data.currentUser);
         });
       }, [])
 
@@ -26,8 +28,9 @@ export default function AllPosts() {
         <CreatePost/>
         {
         listOfPosts.map((post) => {
+            console.log(post);
           return(
-            <Post key={post.id} post={post} liked={likedPosts.includes(post.id)}/>
+            <Post key={post.id} post={post} liked={likedPosts.includes(post.id)} currentUser={currentUser}/>
           )
         })
       }

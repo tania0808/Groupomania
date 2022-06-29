@@ -8,11 +8,12 @@ const fs = require('fs');
 
 router.get('/', validateToken, async (req, res) => {
     const posts = await Posts.findAll({include: [Likes]});
+    
     if(posts === undefined) {
         res.send('No posts !!!')
     } else {
         const likedPosts = await Likes.findAll({where: { UserId: req.auth.id}})
-        res.json({listOfPosts: posts, likedPosts: likedPosts})
+        res.json({listOfPosts: posts, likedPosts: likedPosts, currentUser: req.auth.userId })
     }
 
 })
