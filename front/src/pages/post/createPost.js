@@ -1,6 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
-import Header from '../header/Header'
+import { useState } from 'react'
 import axios from 'axios';
 
 
@@ -31,8 +30,7 @@ export default function Post() {
 
 
   return (
-    <div className='createPostPage'>
-      <Header/>
+    <div className='createPostPage mb-5'>
       <div className='d-flex flex-column justify-content-center align-items-center'>
         <h1>Create a post</h1>
         <form action="" method='POST' className='col-md-8' onSubmit={createPost} encType='multipart/form-data'>
