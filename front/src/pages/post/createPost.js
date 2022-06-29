@@ -22,7 +22,6 @@ export default function Post() {
   formData.append('imageUrl', image);
   formData.append('title', title);
   formData.append('postText', postText);
-  formData.append('userName', 'tania');
 
   const createPost = async (e) => {
     e.preventDefault();
@@ -53,7 +52,7 @@ export default function Post() {
           {image && <img src={imageURL} width={140} className="mt-3" />}
           <div className="form-group mt-5">
             <label htmlFor="imageUrl">Choose the image if you want</label><br />
-            <input type="file" className="form-control-file" id="imageUrl" onChange={(e) => uploadImageToClient(e)} name="imageUrl"/>
+            <input type="file" className="form-control-file " id="imageUrl" onChange={(e) => uploadImageToClient(e)} name="imageUrl"/>
           </div>
           <button type='submit' className='btn btn-primaire mt-5 text-white fw-bold'>Create post</button>
         </form>

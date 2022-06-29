@@ -4,6 +4,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from 'axios';
 import { useState, useEffect } from 'react'
+import './Post.css'
 
 export default function Post(props) {
     const [post, setPost] = useState({ createdAt: '' });
@@ -39,34 +40,47 @@ export default function Post(props) {
       }
 
   return (
-    <div key={post.id}  className="container d-flex flex-column justify-content-center align-items-center bg-light mb-4">
-              <div className='d-flex flex-row justify-content-between w-100 mt-4'>
-                <p>By tania</p>
-                {props.currentUser === post.userId &&
-                    <div className="dropdown">
-                    <button className="btn btn-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                    </svg>
-                    </button>
-                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a className="dropdown-item" href="#" onClick={() => {navigate(`/post/update/${post.id}`)} }>Modify</a></li>
-                        <li><a className="dropdown-item" href="#">Delete</a></li>
-                    </ul>
-                    </div> 
-                }
-              </div>
-              <div onClick={() => {navigate(`/post/${post.id}`)} }>
-                <img className='postImage' src={post.imageUrl} alt="post"/>
-                <h2>{post.title}</h2>
-                <p>{post.postText}</p>
-                <p>{post.createdAt.split('T')[0]}</p>
-                <p>By {post.userName}</p>
-              </div>
-                <button className='btn fs-2' onClick={() => {likeAPost(post.id)}}>
-                  <FontAwesomeIcon icon={faHeart} className={liked ? 'red' : 'black'}/>          
-                </button>
-                <p>{likes}</p>
+    <div key={post.id}  className="post-box d-flex flex-column justify-content-center align-items-center mb-4 bg-white">
+      <div className={props.currentUser === post.userId ? 'd-flex flex-row justify-content-between align-items-center w-100 p-3' : 'd-flex flex-row justify-content-start w-100 m-3 ps-3'}>
+        <div className='d-flex align-items-center'>
+          <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
+          <div className="userInfo ms-3">
+            <p className='fw-bold'>{post.userName}</p>
+            <span className='fw-light'>Junior React Developper</span>
+          </div>
+
+        </div>
+        {props.currentUser === post.userId &&
+            <div className="dropdown">
+            <button className="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+            </svg>
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a className="dropdown-item" href="#" onClick={() => {navigate(`/post/update/${post.id}`)} }>Modify</a></li>
+                <li><a className="dropdown-item" href="#">Delete</a></li>
+            </ul>
+            </div> 
+        }
+      </div>
+      <div>
+        <img className='postImage' src={post.imageUrl} alt="post"/>
+        <div className="d-flex flex-column">
+          <div className="postText mt-3 ms-2 d-flex justify-content-between">
+            <p className='ps-2'>{post.postText}</p>
+          </div>
+          <div className='d-flex justify-content-between align-items-center px-3'>
+            <div className='d-flex align-items-center'>
+              <button className='btn fs-2' onClick={() => {likeAPost(post.id)}}>
+                <FontAwesomeIcon icon={faHeart} className={liked ? 'red' : 'black'}/>          
+              </button>
+              <span>{likes}</span>
             </div>
+            <span>{post.createdAt.split('T')[0].split('-').reverse().join('-')}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
