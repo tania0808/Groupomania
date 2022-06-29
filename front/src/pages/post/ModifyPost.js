@@ -11,7 +11,7 @@ export default function ModifyPost() {
     const [title, setTitle] = useState("");
     const [postText, setPostText] = useState("");
     const [image, setImage] = useState(undefined);
-    const [imageURL, setImageURL] = useState()
+    const [imageURL, setImageURL] = useState();
 
     console.log(post.userName);
     // const handleChange = (event) => {

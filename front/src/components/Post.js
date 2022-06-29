@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useState, useEffect } from 'react'
 
 export default function Post(props) {
-    console.log(props);
     const [post, setPost] = useState({ createdAt: '' });
     const [liked, setLiked] = useState();
     const [likes, setLikes] = useState(props.post.Likes.length);

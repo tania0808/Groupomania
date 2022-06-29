@@ -28,7 +28,6 @@ export default function AllPosts() {
         <CreatePost/>
         {
         listOfPosts.map((post) => {
-            console.log(post);
           return(
             <Post key={post.id} post={post} liked={likedPosts.includes(post.id)} currentUser={currentUser}/>
           )
