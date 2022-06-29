@@ -7,14 +7,16 @@ import { useState, useEffect } from 'react'
 
 export default function Post(props) {
     console.log(props);
-
-    const [post, setPost] = useState({ createdAt: ""})
-    const [liked, setLiked] = useState(false);
+    const token = localStorage.getItem('accessToken');
+    const [post, setPost] = useState({ createdAt: '' });
+    const [liked, setLiked] = useState();
+    const [likes, setLikes] = useState(props.post.Likes.length);
 
     let navigate = useNavigate();
 
     useEffect(() => {
-        setPost({...props.post, liked: props.liked });
+        setPost(props.post);
+        setLiked(props.liked);
     }, [])
 
     async function likeAPost (postId) {
@@ -26,33 +28,14 @@ export default function Post(props) {
             accessToken: localStorage.getItem('accessToken')
           }
         }).then((response) => {
-            console.log(response);
             setLiked(response.data.liked);
-        //   setListOfPosts(listOfPosts.map((post) => {
-    
-        //     if(post.id === postId) {
-        //       if(response.data.liked){
-        //         return {...post,
-        //           Likes: [...post.Likes, 0]}
-        //       } else {
-        //         const likeArray = [...post.Likes];
-        //         likeArray.pop()
-        //         return {...post,
-        //           Likes: likeArray}
-        //       }
-        //     } else {
-        //       return post
-        //     }
-        //   }));
-    
-        //   if(!likedPosts.includes(postId)){
-        //     setLikedPosts([...likedPosts, postId])
-        //   } else {
-        //     const newArray = likedPosts.filter((id) => {
-        //       return id !== postId
-        //     });
-        //     setLikedPosts(newArray)
-        //   }
+            if(!liked) {
+                setLikes(likes + 1)
+            } else {
+                setLikes(likes - 1)
+            }
+            
+
         })
       }
 
@@ -66,8 +49,9 @@ export default function Post(props) {
                     <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                   </svg>
                   </button>
+                  {}
                   <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a className="dropdown-item" href="#" onClick={() => {navigate(`/post/${post.id}`)} }>Modify</a></li>
+                    <li><a className="dropdown-item" href="#" onClick={() => {navigate(`/post/update/${post.id}`)} }>Modify</a></li>
                     <li><a className="dropdown-item" href="#">Delete</a></li>
                   </ul>
                 </div> 
@@ -80,9 +64,10 @@ export default function Post(props) {
                 <p>By {post.userName}</p>
               </div>
                 <button className='btn fs-2' onClick={() => {likeAPost(post.id)}}>
-                  <FontAwesomeIcon  onClick={() => {likeAPost(post.id)}} icon={faHeart} className={liked ? 'red' : 'black'}/>          
+                  <FontAwesomeIcon icon={faHeart} className={liked ? 'red' : 'black'}/>          
                 </button>
                 {/* <p>{post.Likes.length}</p> */}
+                <p>{likes}</p>
             </div>
   )
 }
