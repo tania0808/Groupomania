@@ -72,10 +72,10 @@ export default function Post(props) {
           </div>
           <div className='d-flex justify-content-between align-items-center px-3'>
             <div className='d-flex align-items-center'>
-              <button className='btn fs-2' onClick={() => {likeAPost(post.id)}}>
+              <button className='btn fs-3' onClick={() => {likeAPost(post.id)}}>
                 <FontAwesomeIcon icon={faHeart} className={liked ? 'red' : 'black'}/>          
               </button>
-              <span>{likes}</span>
+              <span>{likes == 0 ? '' : likes}</span>
             </div>
             <span>{post.createdAt.split('T')[0].split('-').reverse().join('-')}</span>
           </div>
