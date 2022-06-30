@@ -1,32 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { Likes } = require('../models')
-const { validateToken } = require('../middleware/authentication')
+const { validateToken } = require('../middleware/authentication');
+const likeCtrl = require('../controllers/likeCtrl')
 
-
-router.post("/", validateToken, async (req, res) => {
-    const {id } = req.body;
-    const userId = req.auth.id;
-
-    const likes = { PostId: id, UserId: userId}
-
-    const found = await Likes.findOne({ 
-        where: { UserId: userId, PostId:id }})
-
-    if(!found) {
-        await Likes.create(likes);
-        res.json({liked: true})
-    } else {
-        await Likes.destroy({
-            where: { UserId: userId, PostId:id }
-        })
-        res.json({liked: false})
-    }
-    
-})
-
-
-
-
+router.post("/", validateToken, likeCtrl.likePost);
 
 module.exports = router;
