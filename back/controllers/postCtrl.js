@@ -23,31 +23,35 @@ exports.createPost = async (req, res) => {
     }
     if(!req.file) {
         await Posts.create(post);
+        const posts = await Posts.findAll({include: [Likes]});
+        res.json(posts);
     } else {
         post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         await Posts.create(post);
+        const posts = await Posts.findAll({include: [Likes]});
+        res.json(posts)
     }
-    res.json(post)
 };
 
 exports.deletePost =  async(req, res) => {
     const id = req.params.id;
     const post = await Posts.findByPk(id);
-    
     if(!post){
         res.status(404).json('Post was not found!')
-    } else {
-        const filename = post.imageUrl.split('/images/')[1];
-        
-        if(req.auth.userId === post.userId){
-            fs.unlink(`images/${filename}`, () => {
-                Posts.destroy({ where: { id: id }});
-                res.json('Post deleted !');
-            });
-        } else {
-            res.json('Unauthorised request !!!')
-        }
+        return
     }
+    const filename = post.imageUrl.split('/images/')[1];
+    
+    if(req.auth.userId === post.userId){
+        fs.unlink(`images/${filename}`, () => {
+        });
+    } else {
+        res.json('Unauthorised request !!!');
+        return;
+    }
+    await Posts.destroy({ where: { id: id }});
+    const posts =  await Posts.findAll({include: [Likes]});
+    res.json({message:'Post deleted !', posts: posts});
     console.log(post);
 };
 

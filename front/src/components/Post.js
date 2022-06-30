@@ -10,7 +10,7 @@ export default function Post(props) {
     const [post, setPost] = useState({ createdAt: '' });
     const [liked, setLiked] = useState();
     const [likes, setLikes] = useState(props.post.Likes.length);
-
+    
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -37,7 +37,18 @@ export default function Post(props) {
             
 
         })
-      }
+      };
+
+    async function deletePost(postId) {
+      await axios.delete(`http://localhost:3000/posts/${postId}`,
+      {
+        headers: {
+          accessToken: localStorage.getItem('accessToken')
+        }
+      }).then((response) => {
+        props.postListChanger(response.data.posts);
+      })
+    }
 
   return (
     <div key={post.id}  className="post-box d-flex flex-column justify-content-center align-items-center mb-4 bg-white">
@@ -58,7 +69,7 @@ export default function Post(props) {
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a className="dropdown-item" href="#" onClick={() => {navigate(`/post/update/${post.id}`)} }>Modify</a></li>
-                <li><a className="dropdown-item" href="#">Delete</a></li>
+                <li><a className="dropdown-item" href="#" onClick={() => deletePost(post.id)}>Delete</a></li>
             </ul>
             </div> 
         }

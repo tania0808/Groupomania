@@ -8,7 +8,6 @@ export default function ModifyPost() {
     let { id } = useParams();
     const [post, setPost] = useState('');
     
-    const [title, setTitle] = useState("");
     const [postText, setPostText] = useState("");
     const [image, setImage] = useState(undefined);
     const [imageURL, setImageURL] = useState();
@@ -27,7 +26,6 @@ export default function ModifyPost() {
 
     const formData = new FormData();
     formData.append('imageUrl', image);
-    formData.append('title', title);
     formData.append('postText', postText);
 
     useEffect(() => {
@@ -70,9 +68,9 @@ export default function ModifyPost() {
                     <input defaultValue={post.postText}   type='text' className="form-control p-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
                 </div>
                 {image === undefined &&
-                    <img src={post.imageUrl} alt="" width={140} className="mt-3"/>
+                    <img src={post.imageUrl} alt=" " width={140} className="mt-3"/>
                 }
-                {image && <img src={imageURL} width={140} className="mt-3" />}
+                {image && <img src={imageURL} alt="" width={140} className="mt-3" />}
                 
                 <div className="form-group mt-5">
                     <label htmlFor="imageUrl">Choose another image</label><br />

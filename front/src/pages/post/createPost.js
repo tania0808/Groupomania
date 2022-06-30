@@ -1,25 +1,31 @@
 import React from 'react'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import axios from 'axios';
 import './CreatePost.css'
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Post() {
+export default function Post(props) {
 
   const [postText, setPostText] = useState("");
   const [image, setImage] = useState("");
-  const [imageURL, setImageURL] = useState();
+  const [imageURL, setImageURL] = useState("");
 
   const uploadImageToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
         setImage(event.target.files[0]);
         setImageURL(URL.createObjectURL(event.target.files[0]));
     }
-    if (!event.target.files && event.target.files[0]) {
-      return;
-    }
 };
+
+  function clearImage() {
+    setImage('');
+  }
+
+  function clearForm() {
+    setImage('');
+    setPostText('');
+  }
  
 
 
@@ -29,13 +35,15 @@ export default function Post() {
 
   const createPost = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:3000/posts", formData, {
+    await axios.post("http://localhost:3000/posts", formData,  {
       headers: {
         accessToken: localStorage.getItem('accessToken')
       }
     }).then(response => {
+      props.postListChanger(response.data);
+      clearForm();
+      console.log(postText);
     })
-    window.location = "/posts"
   }
 
 
@@ -50,15 +58,16 @@ export default function Post() {
             <span className='fw-light'>Junior React Developper</span>
           </div>
         </div>
-        {image && <img src={imageURL} className="mt-3 w-100" />}
-          <div className="form-group mt-2">
-            <input placeholder="Qu'avez-vous à partager ?" type='text' className="form-control border border-white pb-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
-            <hr className='text-secondary'/>
+        {image && <img src={imageURL} alt="" className="mt-3 w-100" />}
+          <div className="form-group">
+            <label htmlFor="postText"></label>
+            <input type='text' value={postText} placeholder="Qu'avez-vous à partager ?" className="form-control border border-white pb-2" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
+            <hr/>
           </div>
           <div className='d-flex align-items-center'>
             <div className="form-group w-25 imageUpload pb-4">
-              <label htmlFor="imageUrl" className='bg-light p-2 rounded-1 fw-bolder fs-6'><FontAwesomeIcon className='pe-2' icon={faCamera} />Image<FontAwesomeIcon className='ps-1' icon={faXmark}/></label><br />
-              <input type="file" style={{visibility: 'hidden'}} className="form-control-file hidden" id="imageUrl" onChange={(e) => {uploadImageToClient(e)}} name="imageUrl"/>
+              <label htmlFor="imageUrl" className='bg-light p-2 rounded-1 fw-bolder fs-6'><FontAwesomeIcon className='pe-2' icon={faCamera} />Image</label><FontAwesomeIcon className='ps-1' icon={faXmark} onClick={clearImage}/><br />
+              <input type="file" style={{visibility: 'hidden'}} className="form-control-file" id="imageUrl" onChange={(e) => {uploadImageToClient(e)}} name="imageUrl"/>
             </div>
             <button type='submit' className='btn btn-primaire btn-sm text-white fw-bold'>Create post</button>
           </div>

@@ -2,14 +2,14 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import CreatePost from '../pages/post/CreatePost';
-
 import Post from './Post';
+
 export default function AllPosts() {
 
     const [listOfPosts, setListOfPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
     const [currentUser, setCurrentUser] = useState("");
-    console.log(currentUser);
+
     useEffect(() => {
         axios.get("http://localhost:3000/posts", {
           headers: {
@@ -25,12 +25,12 @@ export default function AllPosts() {
 
   return (
     <div className='container d-flex flex-column justify-content-center align-items-center m-auto'>
-      <h1 className='align-self-start'>Fil d'actualité</h1>
-        <CreatePost/>
+      <h1 className='align-self-start ms-5 mb-4 ps-3 fs-5 opacity-75'>Fil d'actualité</h1>
+        <CreatePost postListChanger={setListOfPosts}/>
         {
         listOfPosts.map((post) => {
           return(
-            <Post key={post.id} post={post} liked={likedPosts.includes(post.id)} currentUser={currentUser}/>
+            <Post key={post.id} postListChanger={setListOfPosts} post={post} liked={likedPosts.includes(post.id)} currentUser={currentUser}/>
           )
         })
       }
