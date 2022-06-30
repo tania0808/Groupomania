@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('../middleware/multer');
 const router = express.Router();
-const { Posts, Likes, Users } = require('../models')
+const { Posts, Likes } = require('../models')
 const { validateToken } = require('../middleware/authentication')
 const fs = require('fs');
 
@@ -88,50 +88,31 @@ router.put('/:id', validateToken, async (req, res) => {
             .then(() => res.json('hiii'))
             .catch((err) => console.log(err))
         } else {
-            const filename = post.imageUrl.split('/images/')[1];
-            const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-            
-            if(title) post.title = title;
-            if(postText) post.postText = postText;
-            if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-            fs.unlink(`images/${filename}`, (err) => {
-                post.save() 
-                res.json({post: post, image: imageUrl})  
-            });
+            const post = await Posts.findOne({ where: { id: id}});
+
+            if(post.imageUrl == null) {
+                if(title) post.title = title;
+                if(postText) post.postText = postText;
+                post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                post.save();
+                res.json({post: post, image: post.imageUrl})  
+
+            } else {
+                const filename = post.imageUrl.split('/images/')[1];
+                const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                
+                if(title) post.title = title;
+                if(postText) post.postText = postText;
+                if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                fs.unlink(`images/${filename}`, (err) => {
+                    post.save() 
+                    res.json({post: post, image: imageUrl})  
+                });
+
+            }
+
         }
-    });
-
-
-        // else {
-        //     if(!req.file) {
-        //         if(title) post.title = title;
-        //         if(postText) post.postText = postText;
-        //         const updatePost = await post.save()
-        //         .then(() => res.json(post))
-        //         .catch((err) => console.log(err))
-        //     } 
-        //     if(req.file) {
-                
-        //         const filename = post.imageUrl.split('/images/')[1];
-                
-        //         fs.unlink(`images/${filename}`, (err) => {
-        //             if(title) post.title = title;
-        //             if(postText) post.postText = postText;
-        //             if(imageUrl) post.imageUrl = imageUrl;
-        //             if(err) res.status(404).json('Error !');
-        //             const updatePost = post.save() 
-        //             .then(() => res.json(post))
-        //             .catch((err) => console.log(err))
-        //         });
-        
-        //     }
-        // }
-
-    
-
-    
-
-    
+    });    
 })
 
 
