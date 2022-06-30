@@ -11,6 +11,7 @@
   background-color: #FF2D01 !important; 
   color: white;
   font-weight: 700;
+  height: 40px;
 }
 .btn-primaire:hover, .dropdown-item:hover { 
   background-color: #FFD7D7 !important;
@@ -26,3 +27,5 @@ a {
   color: white;
   text-decoration: none;
 }
+
+

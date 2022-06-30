@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-//import CreatePost from '../pages/post/CreatePost';
+import CreatePost from '../pages/post/CreatePost';
 
 import Post from './Post';
 export default function AllPosts() {
@@ -25,7 +25,8 @@ export default function AllPosts() {
 
   return (
     <div className='container d-flex flex-column justify-content-center align-items-center m-auto'>
-        {/* <CreatePost/> */}
+      <h1 className='align-self-start'>Fil d'actualité</h1>
+        <CreatePost/>
         {
         listOfPosts.map((post) => {
           return(

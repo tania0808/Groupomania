@@ -48,7 +48,6 @@ export default function Post(props) {
             <p className='fw-bold'>{post.userName}</p>
             <span className='fw-light'>Junior React Developper</span>
           </div>
-
         </div>
         {props.currentUser === post.userId &&
             <div className="dropdown">
@@ -65,7 +64,7 @@ export default function Post(props) {
         }
       </div>
       <div>
-        <img className='postImage' src={post.imageUrl} alt="post"/>
+        {post.imageUrl && <img className='postImage' src={post.imageUrl} alt="post"/>}
         <div className="d-flex flex-column">
           <div className="postText mt-3 ms-2 d-flex justify-content-between">
             <p className='ps-2'>{post.postText}</p>

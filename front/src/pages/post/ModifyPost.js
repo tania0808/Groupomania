@@ -64,7 +64,7 @@ export default function ModifyPost() {
         <Header/>
         <div className='d-flex flex-column justify-content-center align-items-center'>
             <h1>Modify a post</h1>
-            <form action="" method='POST' className='col-md-8' encType='multipart/form-data' onSubmit={modifyPost} >
+            <form action="" method='POST' className='col-md-6 col-sm-8' encType='multipart/form-data' onSubmit={modifyPost} >
                 <div className="form-group mt-5">
                     <label htmlFor="title">Title of your post</label>
                     <input defaultValue={post.title} type='text' className="form-control" id="title" rows="1" required onChange={(e) => setTitle(e.target.value)}></input>
