@@ -22,7 +22,6 @@ router.get('/', validateToken, async (req, res) => {
 router.post('/', validateToken, multer,  async (req, res) => {
     
     const post = {
-        title: req.body.title,
         postText: req.body.postText,
         userId: req.auth.userId,
         userName: req.auth.userName
@@ -82,7 +81,6 @@ router.put('/:id', validateToken, async (req, res) => {
         const { title, postText, imageUrl} = req.body;
         if(!req.file){
             const post = await Posts.findOne({ where: { id: id}});
-            if(title) post.title = title;
             if(postText) post.postText = postText;
             await post.save()
             .then(() => res.json('hiii'))
@@ -91,7 +89,6 @@ router.put('/:id', validateToken, async (req, res) => {
             const post = await Posts.findOne({ where: { id: id}});
 
             if(post.imageUrl == null) {
-                if(title) post.title = title;
                 if(postText) post.postText = postText;
                 post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 post.save();
@@ -101,7 +98,6 @@ router.put('/:id', validateToken, async (req, res) => {
                 const filename = post.imageUrl.split('/images/')[1];
                 const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
                 
-                if(title) post.title = title;
                 if(postText) post.postText = postText;
                 if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
                 fs.unlink(`images/${filename}`, (err) => {

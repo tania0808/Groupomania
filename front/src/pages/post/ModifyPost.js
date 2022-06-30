@@ -66,14 +66,9 @@ export default function ModifyPost() {
             <h1>Modify a post</h1>
             <form action="" method='POST' className='col-md-6 col-sm-8' encType='multipart/form-data' onSubmit={modifyPost} >
                 <div className="form-group mt-5">
-                    <label htmlFor="title">Title of your post</label>
-                    <input defaultValue={post.title} type='text' className="form-control" id="title" rows="1" required onChange={(e) => setTitle(e.target.value)}></input>
-                </div>
-                <div className="form-group mt-5">
                     <label htmlFor="postText">Share your thoughts</label>
                     <input defaultValue={post.postText}   type='text' className="form-control p-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
                 </div>
-                {/* <button type='submit' className='d-block btn btn-primaire mt-2 text-white fw-bold mb-2'>Add image</button> */}
                 {image === undefined &&
                     <img src={post.imageUrl} alt="" width={140} className="mt-3"/>
                 }
