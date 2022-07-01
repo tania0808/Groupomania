@@ -4,6 +4,8 @@ import axios from 'axios';
 import './CreatePost.css'
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PostHeader from '../../components/PostHeader';
+import Button from '../button/Button'
 
 export default function Post(props) {
 
@@ -42,34 +44,33 @@ export default function Post(props) {
     }).then(response => {
       props.postListChanger(response.data);
       clearForm();
-      console.log(postText);
     })
   }
 
 
 
   return (
-      <div className='createPostPage mb-5 bg-white d-flex flex-column justify-content-center align-items-center pb-3'>
-        <form action="" method='POST' className='col-md-10' onSubmit={createPost} encType='multipart/form-data'>
-        <div className='d-flex align-items-center mt-3'>
-          <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
-          <div className="userInfo ms-3">
-            <p className='fw-bold'>Tania</p>
-            <span className='fw-light'>Junior React Developper</span>
+      <div className='form-container d-flex flex-column justify-content-center align-items-center pb-3 m-3'>
+        <form action="" method='POST' className='createPostPage bg-white ps-3 pe-3 ' onSubmit={createPost} encType='multipart/form-data'>
+          <div className='d-flex align-items-center mt-3 justify-content-start'>
+            <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
+            <PostHeader userName={props.userName}/>
           </div>
-        </div>
-        {image && <img src={imageURL} alt="" className="mt-3 w-100" />}
+          {image && <img src={imageURL} alt="" className="mt-3 w-100" />}
           <div className="form-group">
             <label htmlFor="postText"></label>
             <input type='text' value={postText} placeholder="Qu'avez-vous à partager ?" className="form-control border border-white pb-2" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
             <hr/>
           </div>
-          <div className='d-flex align-items-center'>
-            <div className="form-group w-25 imageUpload pb-4">
-              <label htmlFor="imageUrl" className='bg-light p-2 rounded-1 fw-bolder fs-6'><FontAwesomeIcon className='pe-2' icon={faCamera} />Image</label><FontAwesomeIcon className='ps-1' icon={faXmark} onClick={clearImage}/><br />
+          <div className='d-flex align-items-center justify-content-between mb-3'>
+            <div className="form-group imageUpload bg-light d-flex pe-3 align-items-center justify-content-between">
+              <label htmlFor="imageUrl" className='inputFileLabel align-items-center p-2 rounded-1 fw-bolder fs-6 d-flex'>
+                <FontAwesomeIcon className='pe-2' icon={faCamera} />Image
+              </label>
               <input type="file" style={{visibility: 'hidden'}} className="form-control-file" id="imageUrl" onChange={(e) => {uploadImageToClient(e)}} name="imageUrl"/>
+              <FontAwesomeIcon className='p-1 resetImage' icon={faXmark} onClick={clearImage}/><br />
             </div>
-            <button type='submit' className='btn btn-primaire btn-sm text-white fw-bold'>Create post</button>
+            <Button type={'submit'} value={'Create post'} class={"btn btn-primaire m-4 py-2"}/>
           </div>
         </form>
       </div>

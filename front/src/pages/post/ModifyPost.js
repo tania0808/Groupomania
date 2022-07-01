@@ -12,11 +12,6 @@ export default function ModifyPost() {
     const [image, setImage] = useState(undefined);
     const [imageURL, setImageURL] = useState();
 
-    console.log(post.userName);
-    // const handleChange = (event) => {
-    //     setImage(URL.createObjectURL(event.target.files[0]));
-    // }
-
     const uploadImageToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             setImage(event.target.files[0]);
@@ -37,7 +32,6 @@ export default function ModifyPost() {
             })
             .then((response) => {
                 setPost(response.data.dataValues);
-                console.log(response.data.dataValues);
             });
         }
         fetchData();
@@ -67,11 +61,10 @@ export default function ModifyPost() {
                     <label htmlFor="postText">Share your thoughts</label>
                     <input defaultValue={post.postText}   type='text' className="form-control p-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
                 </div>
-                {image === undefined &&
+                {post.imageUrl !== null &&
                     <img src={post.imageUrl} alt=" " width={140} className="mt-3"/>
                 }
                 {image && <img src={imageURL} alt="" width={140} className="mt-3" />}
-                
                 <div className="form-group mt-5">
                     <label htmlFor="imageUrl">Choose another image</label><br />
                     <input className="form-control" type="file" id="imageUrl" onChange={uploadImageToClient} name="imageUrl"></input>

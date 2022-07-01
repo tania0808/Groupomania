@@ -1,5 +1,6 @@
 const { Posts, Likes } = require('../models')
 const fs = require('fs');
+const multer = require('../middleware/multer');
 
 
 exports.getAllPosts = async (req, res) => {
@@ -9,10 +10,21 @@ exports.getAllPosts = async (req, res) => {
         res.send('No posts !!!')
     } else {
         const likedPosts = await Likes.findAll({where: { UserId: req.auth.id}})
-        res.json({listOfPosts: posts, likedPosts: likedPosts, currentUser: req.auth.userId })
+        res.json({listOfPosts: posts, likedPosts: likedPosts, currentUser: req.auth.userId, userName: req.auth.userName })
     }
 
 };
+
+exports.getOnePost = async (req, res) => {
+    const id = req.params.id;
+    const post = await Posts.findByPk(id);
+
+    const result =  {
+        ...post,
+        isOwnPost: req.auth.userId === post.userId
+    }
+    res.json(result);
+}
 
 exports.createPost = async (req, res) => {
     
@@ -40,11 +52,13 @@ exports.deletePost =  async(req, res) => {
         res.status(404).json('Post was not found!')
         return
     }
-    const filename = post.imageUrl.split('/images/')[1];
     
     if(req.auth.userId === post.userId){
-        fs.unlink(`images/${filename}`, () => {
-        });
+        if(post.imageUrl !== null) {
+            const filename = post.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => {
+            });
+        }
     } else {
         res.json('Unauthorised request !!!');
         return;

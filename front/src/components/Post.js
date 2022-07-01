@@ -1,64 +1,61 @@
-import React from 'react'
-import {useNavigate} from 'react-router-dom'
+import  { React, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios';
+
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from 'axios';
-import { useState, useEffect } from 'react'
+
+import PostHeader from './PostHeader';
 import './Post.css'
 
+
 export default function Post(props) {
-    const [post, setPost] = useState({ createdAt: '' });
-    const [liked, setLiked] = useState();
-    const [likes, setLikes] = useState(props.post.Likes.length);
-    
-    let navigate = useNavigate();
+  const [post, setPost] = useState({ createdAt: '' });
+  const [liked, setLiked] = useState();
+  const [likes, setLikes] = useState(props.post.Likes.length);
 
-    useEffect(() => {
-        setPost(props.post);
-        setLiked(props.liked);
-    }, [])
+  useEffect(() => {
+      setPost(props.post);
+      setLiked(props.liked);
+  }, [])
 
-    async function likeAPost (postId) {
-        await axios.post("http://localhost:3000/like", {
-          id: postId
-        },
-        {
-          headers: {
-            accessToken: localStorage.getItem('accessToken')
-          }
-        }).then((response) => {
-            console.log(response);
-            setLiked(response.data.liked);
-            if(!liked) {
-                setLikes(likes + 1)
-            } else {
-                setLikes(likes - 1)
-            }
-            
-
-        })
-      };
-
-    async function deletePost(postId) {
-      await axios.delete(`http://localhost:3000/posts/${postId}`,
-      {
-        headers: {
-          accessToken: localStorage.getItem('accessToken')
+  async function likeAPost (postId) {
+    await axios.post("http://localhost:3000/like", {
+      id: postId
+    },
+    {
+      headers: {
+        accessToken: localStorage.getItem('accessToken')
+      }
+    })
+    .then((response) => {
+        setLiked(response.data.liked);
+        if(!liked) {
+            setLikes(likes + 1)
+        } else {
+            setLikes(likes - 1)
         }
-      }).then((response) => {
-        props.postListChanger(response.data.posts);
-      })
-    }
+    })
+  };
+
+  async function deletePost(postId) {
+    await axios.delete(`http://localhost:3000/posts/${postId}`,
+    {
+      headers: {
+        accessToken: localStorage.getItem('accessToken')
+      }
+    })
+    .then((response) => {
+      props.postListChanger(response.data.posts);
+    })
+  }
 
   return (
     <div key={post.id}  className="post-box d-flex flex-column justify-content-center align-items-center mb-4 bg-white">
       <div className={props.currentUser === post.userId ? 'd-flex flex-row justify-content-between align-items-center w-100 p-3' : 'd-flex flex-row justify-content-start w-100 m-3 ps-3'}>
         <div className='d-flex align-items-center'>
           <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
-          <div className="userInfo ms-3">
-            <p className='fw-bold'>{post.userName}</p>
-            <span className='fw-light'>Junior React Developper</span>
-          </div>
+          <PostHeader userName={post.userName}/>
         </div>
         {props.currentUser === post.userId &&
             <div className="dropdown">
@@ -68,13 +65,17 @@ export default function Post(props) {
             </svg>
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a className="dropdown-item" href="#" onClick={() => {navigate(`/post/update/${post.id}`)} }>Modify</a></li>
+                <li>
+                <Link className="dropdown-item"  to={`/post/update/${post.id}`}>
+                  Modify
+                </Link>
+                </li>
                 <li><a className="dropdown-item" href="#" onClick={() => deletePost(post.id)}>Delete</a></li>
             </ul>
             </div> 
         }
       </div>
-      <div>
+      <div className='w-100'>
         {post.imageUrl && <img className='postImage' src={post.imageUrl} alt="post"/>}
         <div className="d-flex flex-column">
           <div className="postText mt-3 ms-2 d-flex justify-content-between">
