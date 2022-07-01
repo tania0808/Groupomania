@@ -1,5 +1,5 @@
 import {React} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function Dropdown() {
     let navigate = useNavigate();
@@ -10,7 +10,9 @@ export default function Dropdown() {
     }
   return (
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><button className="dropdown-item">Profile</button></li>
+            <li>
+                <Link className='dropdown-item' to={'/auth/profile'}>Profile</Link>
+            </li>
             <li><button onClick={() => logOut()} type='button' className="dropdown-item">Log out</button></li>
         </ul>
   )

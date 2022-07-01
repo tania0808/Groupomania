@@ -39,3 +39,11 @@ exports.userLogIn = async (req, res) => {
 
     res.json({ message: 'YOU LOGGED IN !!!', status: true, token: accessToken})
 };
+
+
+exports.getUser = async (req, res) => {
+    const userId = req.auth.userId;
+    const user = await Users.findOne({ where: { userId: userId }});
+    console.log(user);
+    res.json(user);
+}
