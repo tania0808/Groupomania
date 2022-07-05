@@ -7,4 +7,6 @@ router.post('/signup', userCtrl.userSignUp);
 router.post('/login', userCtrl.userLogIn);
 router.get('/profile', validateToken, userCtrl.getUser);
 
+router.put('/profile', validateToken, userCtrl.modifyUser);
+
 module.exports = router;

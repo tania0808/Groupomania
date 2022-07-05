@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        userId: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-        },
         userImageUrl: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -28,12 +24,10 @@ module.exports = (sequelize, DataTypes) => {
 
         Users.hasMany(models.Likes, {
             onDelete: 'cascade'
-        });
+        }),
+
+        Users.hasMany(models.Posts)
     };
-
     
-
-
-
     return Users;
 }

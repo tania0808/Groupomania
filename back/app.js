@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-app.use(express.json());
 
 app.use(cors());
 
 app.use('/images', express.static('./images'));
-  
+
+app.use(express.json());
+
 const db = require('./models');
 
 // ROUTERS
@@ -19,6 +20,7 @@ app.use('/auth', userRouter);
 
 const likesRouter = require('./routes/Likes');
 app.use('/like', likesRouter);
+
 
 db.sequelize.sync().then(() => {
     app.listen(3000, () => {

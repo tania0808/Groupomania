@@ -1,7 +1,7 @@
 const { Likes } = require('../models');
 
 exports.likePost = async (req, res) => {
-    const {id } = req.body;
+    const { id } = req.body;
     const userId = req.auth.id;
 
     const likes = { PostId: id, UserId: userId}
@@ -14,7 +14,7 @@ exports.likePost = async (req, res) => {
         res.json({liked: true})
     } else {
         await Likes.destroy({
-            where: { UserId: userId, PostId:id }
+            where: { UserId: userId, PostId:id } // TODO: refactor this
         })
         res.json({liked: false})
     }  

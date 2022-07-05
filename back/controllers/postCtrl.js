@@ -1,16 +1,20 @@
-const { Posts, Likes } = require('../models')
+const { Posts, Likes, Users } = require('../models')
 const fs = require('fs');
 const multer = require('../middleware/multer');
 
 
 exports.getAllPosts = async (req, res) => {
-    const posts = await Posts.findAll({include: [Likes]});
+    const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]}); // TODO: paginate results
+    const user = await Users.findOne({ where: {id: req.auth.id}});
+
+    console.log(posts);
     
     if(posts === undefined) {
-        res.send('No posts !!!')
+        res.json({listOfPosts: null, likedPosts: null, currentUser: req.auth.id, userName: req.auth.userName }) // TODO: always return an object with same properties as the object below
+        return
     } else {
-        const likedPosts = await Likes.findAll({where: { UserId: req.auth.id}})
-        res.json({listOfPosts: posts, likedPosts: likedPosts, currentUser: req.auth.userId, userName: req.auth.userName })
+        const likedPosts = await Likes.findAll({where: { UserId: req.auth.id}});
+        res.json({listOfPosts: posts, likedPosts: likedPosts, currentUser: req.auth.id, userName: user.userName })
     }
 
 };
@@ -21,7 +25,7 @@ exports.getOnePost = async (req, res) => {
 
     const result =  {
         ...post,
-        isOwnPost: req.auth.userId === post.userId
+        isOwnPost: req.auth.id === post.UserId
     }
     res.json(result);
 }
@@ -30,17 +34,16 @@ exports.createPost = async (req, res) => {
     
     const post = {
         postText: req.body.postText,
-        userId: req.auth.userId,
-        userName: req.auth.userName
+        UserId: req.auth.id
     }
     if(!req.file) {
         await Posts.create(post);
-        const posts = await Posts.findAll({include: [Likes]});
+        const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
         res.json(posts);
     } else {
         post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         await Posts.create(post);
-        const posts = await Posts.findAll({include: [Likes]});
+        const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
         res.json(posts)
     }
 };
@@ -53,7 +56,7 @@ exports.deletePost =  async(req, res) => {
         return
     }
     
-    if(req.auth.userId === post.userId){
+    if(req.auth.id === post.UserId){
         if(post.imageUrl !== null) {
             const filename = post.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
@@ -64,9 +67,8 @@ exports.deletePost =  async(req, res) => {
         return;
     }
     await Posts.destroy({ where: { id: id }});
-    const posts =  await Posts.findAll({include: [Likes]});
+    const posts =  await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
     res.json({message:'Post deleted !', posts: posts});
-    console.log(post);
 };
 
 exports.updatePost = async (req, res) => {
@@ -75,21 +77,21 @@ exports.updatePost = async (req, res) => {
     if(!post) {
         res.status(404).json('The post is not found !!!')
         return;
-    } else if(req.auth.userId !== post.userId) {
+    } else if(req.auth.id !== post.UserId) {
         res.json('Unauthorized request !');
     }
     multer(req, res, async err => {
-        const { title, postText, imageUrl} = req.body;
+        const { postText } = req.body;
+        const post = await Posts.findOne({ where: { id: id}}); // TODO: refacto
         if(!req.file){
-            const post = await Posts.findOne({ where: { id: id}});
+            const post = await Posts.findOne({ where: { id: id}}); // TODO: refacto
             if(postText) post.postText = postText;
             await post.save()
             .then(() => res.json('hiii'))
             .catch((err) => console.log(err))
         } else {
-            const post = await Posts.findOne({ where: { id: id}});
-
-            if(post.imageUrl == null) {
+            console.log(post);
+            if(post.imageUrl == null || post.imageUrl === undefined) {
                 if(postText) post.postText = postText;
                 post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 post.save();
@@ -107,7 +109,6 @@ exports.updatePost = async (req, res) => {
                 });
 
             }
-
         }
     });    
 };

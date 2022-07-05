@@ -16,6 +16,7 @@ export default function AllPosts() {
         accessToken: localStorage.getItem('accessToken')
       }
     }).then((response) =>{
+      console.log(response.data.listOfPosts);
       setListOfPosts(response.data.listOfPosts);
       setLikedPosts(response.data.likedPosts.map((like) => { return like.PostId}));
       setCurrentUser(response.data.currentUser);
