@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const extension = MIME_TYPES[file.mimetype];
         if (extension !== 'png' && extension !== 'jpg' && extension !== 'jpeg') {
-            return cb(new Error('Only images are allowed'));
+            return cb(new Error('Only png, jpg and jpeg images are allowed'));
         }
         cb(null, Date.now() + '.' + extension);
     }
