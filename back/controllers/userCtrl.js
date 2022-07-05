@@ -23,7 +23,7 @@ exports.userSignUp = async (req, res) => {
         await Users.create(user);
 
         const userCreated = await Users.findOne({ where: { email: user.email }});
-        const accessToken = sign({ id: userCreated.id, isAdmin: userCreated.isAdmin }, "blueseduction");
+        const accessToken = sign({ id: userCreated.id, isAdmin: userCreated.isAdmin }, process.env.TOKEN_SECRET_KEY);
         res.status(200).json({
             message : "User is created !!!", 
             status: true, 
@@ -47,40 +47,27 @@ exports.userLogIn = async (req, res) => {
     else {
         const validPassword = await bcrypt.compare(password, user.password);
         if(!validPassword) return res.json({message: 'Wrong username and password combination !', status: false});
-        const accessToken = sign({ id: user.id, isAdmin: user.isAdmin }, "blueseduction");
+        const accessToken = sign({ id: user.id, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET_KEY);
         res.json({ message: 'YOU LOGGED IN !!!', status: true, token: accessToken, user: JSON.stringify({ id: user.id, userName: user.userName, isAdmin: user.isAdmin }) })
     } 
 
 };
 
-
 exports.getUser = async (req, res) => {
     const id = req.auth.id;
     const user = await Users.findOne({ where: { id: id }});
     res.json(user);
-}
-
+};
 
 exports.modifyUser = async (req, res) => {
     const id = req.auth.id;
     const userName = req.body.userName;
     const email = req.body.email;
 
-    
-    // await Users.upsert(({
-    //     id: id,
-    //     userName: userName,
-    //     email: email
-    // },
-    // {include: [
-    //     { model: Posts}
-    // ]}))
-    
     let user = await Users.findOne({ where: { id: id }}, {include: [
         { model: Posts}
     ]});
     
-
     user.set({
         userName: userName,
         email: email
@@ -91,33 +78,4 @@ exports.modifyUser = async (req, res) => {
     await user.save();
 
    res.send(user);
-}
-
-// const result = await Users.update({
-//     userName: userName,
-//     email: email
-//     }, 
-//     {
-//     where: { userId: user }
-// });
-
-// res.json(result)
-
-// const user = await Users.findOne({ where: { userId: userId }});
-//     if(req.auth.userId !== user.userId) {
-//         res.json('Unauthorized request !');
-//     } else {
-//         const { userName, email} = req.body;
-//         await Users.findOne({ where: { userId: userId }})
-//         .then(user => {
-//             const values = {
-//                 userName: userName, 
-//                 email: email
-//             }
-//             user.update(values).then(updatedUser => {
-//                 console.log(updatedUser);
-//                 res.json(updatedUser)
-//             })
-//         })
-//         .catch(err => res.json(err))
-//     }
+};

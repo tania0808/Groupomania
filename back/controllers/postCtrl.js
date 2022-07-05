@@ -1,6 +1,7 @@
 const { Posts, Likes, Users } = require('../models')
 const fs = require('fs');
 const multer = require('../middleware/multer');
+require('dotenv').config();
 
 
 exports.getAllPosts = async (req, res) => {
