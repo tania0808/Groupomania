@@ -23,7 +23,6 @@ export default function Profile() {
     }
 
     useEffect(() => {
-        async function getUser() {
             axios.get(`http://localhost:3000/auth/profile`, {
             headers: {
                 accessToken: localStorage.getItem('accessToken')
@@ -34,18 +33,19 @@ export default function Profile() {
                 setUser(response.data);
                 setUserName(response.data.userName);
                 setUserEmail(response.data.email);
+                let loggedInUser = JSON.parse(localStorage.getItem('user'));
+                console.log(loggedInUser);
+                // localStorage.setItem('user', JSON.stringify(loggedInUser));
             });
-        }
-
-        getUser();
-
     }, [])
 
-    const formData = new FormData();
-    formData.append('userName', userName);
-    formData.append('email', userEmail);
-
+    
     const modifyUser = async (e) => {
+
+        const formData = new FormData();
+        formData.append('userName', userName);
+        formData.append('email', userEmail);
+        
         e.preventDefault();
         await axios.put(`http://localhost:3000/auth/profile`, {userName: userName, email: userEmail}, {
             headers: {
@@ -53,7 +53,10 @@ export default function Profile() {
             }
         })
         .then((response) => {
-            console.log(response);
+            console.log(response.data.userName);
+            let loggedInUser = JSON.parse(localStorage.getItem('user'));
+            loggedInUser.userName = response.data.userName
+            localStorage.setItem('user', JSON.stringify(loggedInUser));
             window.location = "/auth/profile"
         });
 

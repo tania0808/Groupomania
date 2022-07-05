@@ -21,26 +21,34 @@ exports.userSignUp = async (req, res) => {
             password: hashedPassword
         };
         await Users.create(user);
+
         const userCreated = await Users.findOne({ where: { email: user.email }});
-        const accessToken = sign({ id: userCreated.id, userName: user.userName }, "blueseduction");
-        res.status(200).json({message : "User is created !!!", status: true, token: accessToken, user: userCreated})
+        const accessToken = sign({ id: userCreated.id, isAdmin: userCreated.isAdmin }, "blueseduction");
+        res.status(200).json({
+            message : "User is created !!!", 
+            status: true, 
+            token: accessToken, 
+            user: JSON.stringify({ 
+                id: userCreated.id, 
+                userName: userCreated.userName, 
+                isAdmin: userCreated.isAdmin 
+            })
+        })
     }
 };
 
 exports.userLogIn = async (req, res) => {
     const { email, password } = req.body;
-
     const user = await Users.findOne({ where: { email: email }});
+
     if(!user) {
         res.json({message : "User doesn't exist !!!", status: false});
     }
-     else {
-         const validPassword = await bcrypt.compare(password, user.password);
-         if(!validPassword) return res.json({message: 'Wrong username and password combination !', status: false});
-     
-         const accessToken = sign({ id: user.id, userName: user.userName }, "blueseduction");
-     
-         res.json({ message: 'YOU LOGGED IN !!!', status: true, token: accessToken})
+    else {
+        const validPassword = await bcrypt.compare(password, user.password);
+        if(!validPassword) return res.json({message: 'Wrong username and password combination !', status: false});
+        const accessToken = sign({ id: user.id, isAdmin: user.isAdmin }, "blueseduction");
+        res.json({ message: 'YOU LOGGED IN !!!', status: true, token: accessToken, user: JSON.stringify({ id: user.id, userName: user.userName, isAdmin: user.isAdmin }) })
     } 
 
 };

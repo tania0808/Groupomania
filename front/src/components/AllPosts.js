@@ -8,7 +8,7 @@ export default function AllPosts() {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState("");
-  const [userName, setUsername] = useState('');
+  
 
   useEffect(() => {
     axios.get("http://localhost:3000/posts", {
@@ -16,18 +16,16 @@ export default function AllPosts() {
         accessToken: localStorage.getItem('accessToken')
       }
     }).then((response) =>{
-      console.log(response.data.listOfPosts);
       setListOfPosts(response.data.listOfPosts);
       setLikedPosts(response.data.likedPosts.map((like) => { return like.PostId}));
-      setCurrentUser(response.data.currentUser);
-      setUsername(response.data.userName);
+      setCurrentUser(JSON.parse(localStorage.getItem('user')));
       });
     }, [])
 
   return (
     <div className='container d-flex flex-column justify-content-center align-items-center m-auto'>
       <h1 className='align-self-start ms-5 mb-4 ps-3 fs-5 opacity-75 w-50 ms-auto me-auto'>Fil d'actualité</h1>
-      <CreatePost postListChanger={setListOfPosts} userName={userName}/>
+      <CreatePost postListChanger={setListOfPosts} currentUser={currentUser}/>
       { listOfPosts.map((post) => {
           return(
             <Post 

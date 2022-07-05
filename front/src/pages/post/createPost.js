@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PostHeader from '../../components/PostHeader';
 import Button from '../button/Button'
 
-export default function Post(props) {
+export default function CreatePost(props) {
 
   const [postText, setPostText] = useState("");
   const [image, setImage] = useState("");
@@ -54,7 +54,7 @@ export default function Post(props) {
         <form action="" method='POST' className='createPostPage bg-white ps-3 pe-3 ' onSubmit={createPost} encType='multipart/form-data'>
           <div className='d-flex align-items-center mt-3 justify-content-start'>
             <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
-            <PostHeader userName={props.userName}/>
+            <PostHeader userName={props.currentUser.userName}/>
           </div>
           {image && <img src={imageURL} alt="" className="mt-3 w-100" />}
           <div className="form-group">

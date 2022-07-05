@@ -52,12 +52,12 @@ export default function Post(props) {
 
   return (
     <div key={post.id}  className="post-box d-flex flex-column justify-content-center align-items-center mb-4 bg-white">
-      <div className={props.currentUser === post.UserId ? 'd-flex flex-row justify-content-between align-items-center w-100 p-3' : 'd-flex flex-row justify-content-start w-100 m-3 ps-3'}>
+      <div className={props.currentUser.id === post.UserId  || props.currentUser.isAdmin ? 'd-flex flex-row justify-content-between align-items-center w-100 p-3' : 'd-flex flex-row justify-content-start w-100 m-3 ps-3'}>
         <div className='d-flex align-items-center'>
           <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
           <PostHeader userName={post.User.userName}/>
         </div>
-        {props.currentUser === post.UserId &&
+        {(props.currentUser.id === post.UserId || props.currentUser.isAdmin) &&
             <div className="dropdown">
             <button className="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">

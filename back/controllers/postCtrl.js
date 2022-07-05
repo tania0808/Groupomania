@@ -4,18 +4,15 @@ const multer = require('../middleware/multer');
 
 
 exports.getAllPosts = async (req, res) => {
-    const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]}); // TODO: paginate results
-    const user = await Users.findOne({ where: {id: req.auth.id}});
 
-    console.log(posts);
-    
+    const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]}); // TODO: paginate results
+
     if(posts === undefined) {
-        res.json({listOfPosts: null, likedPosts: null, currentUser: req.auth.id, userName: req.auth.userName }) // TODO: always return an object with same properties as the object below
+        res.json({listOfPosts: null, likedPosts: null }) // TODO: always return an object with same properties as the object below
         return
-    } else {
-        const likedPosts = await Likes.findAll({where: { UserId: req.auth.id}});
-        res.json({listOfPosts: posts, likedPosts: likedPosts, currentUser: req.auth.id, userName: user.userName })
     }
+    const likedPosts = await Likes.findAll({where: { UserId: req.auth.id }});
+    res.json({listOfPosts: posts, likedPosts: likedPosts, id: req.auth.id })
 
 };
 
@@ -25,27 +22,24 @@ exports.getOnePost = async (req, res) => {
 
     const result =  {
         ...post,
-        isOwnPost: req.auth.id === post.UserId
+        isOwnPost: req.auth.id === post.UserId || req.auth.isAdmin
     }
     res.json(result);
 }
 
 exports.createPost = async (req, res) => {
-    
     const post = {
         postText: req.body.postText,
         UserId: req.auth.id
     }
-    if(!req.file) {
-        await Posts.create(post);
-        const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
-        res.json(posts);
-    } else {
+
+    if(req.file) {
         post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        await Posts.create(post);
-        const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
-        res.json(posts)
     }
+
+    await Posts.create(post);
+    const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
+    res.json(posts)
 };
 
 exports.deletePost =  async(req, res) => {
@@ -56,7 +50,7 @@ exports.deletePost =  async(req, res) => {
         return
     }
     
-    if(req.auth.id === post.UserId){
+    if(req.auth.id === post.UserId || req.auth.isAdmin){
         if(post.imageUrl !== null) {
             const filename = post.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
@@ -80,35 +74,35 @@ exports.updatePost = async (req, res) => {
     } else if(req.auth.id !== post.UserId) {
         res.json('Unauthorized request !');
     }
+
     multer(req, res, async err => {
         const { postText } = req.body;
-        const post = await Posts.findOne({ where: { id: id}}); // TODO: refacto
+        const post = await Posts.findOne({ where: { id: id}});
+        
         if(!req.file){
-            const post = await Posts.findOne({ where: { id: id}}); // TODO: refacto
             if(postText) post.postText = postText;
-            await post.save()
-            .then(() => res.json('hiii'))
-            .catch((err) => console.log(err))
-        } else {
-            console.log(post);
-            if(post.imageUrl == null || post.imageUrl === undefined) {
-                if(postText) post.postText = postText;
-                post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-                post.save();
-                res.json({post: post, image: post.imageUrl})  
+            await post.save();
+            res.json('Post modified !!!');
+            return
+        }
 
-            } else {
-                const filename = post.imageUrl.split('/images/')[1];
-                const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                
+        const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+
+        if(post.imageUrl !== null) {
+            const filename = post.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, (err) => {
                 if(postText) post.postText = postText;
                 if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                fs.unlink(`images/${filename}`, (err) => {
-                    post.save() 
-                    res.json({post: post, image: imageUrl})  
-                });
-
-            }
+                post.save();
+                res.json({post: post, image: imageUrl}); 
+            });
+            return;
         }
+
+        if(postText) post.postText = postText;
+        if(imageUrl) post.imageUrl = imageUrl;
+        post.save();
+        
+        res.json({post: post, image: imageUrl}); 
     });    
 };

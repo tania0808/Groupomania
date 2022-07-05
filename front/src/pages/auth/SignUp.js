@@ -31,6 +31,7 @@ export default function SignUp() {
             setToggle(true);
             if(response.data.status) {
                 localStorage.setItem("accessToken", response.data.token);
+                localStorage.setItem('user', response.data.user);
                 setTimeout(() => {
                   navigate('/posts');
                 }, 500);

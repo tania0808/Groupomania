@@ -25,7 +25,8 @@ export default function Login() {
         setStatus(response.data.status)
         setToggle(true);
       } else {
-        localStorage.setItem("accessToken", response.data.token)
+        localStorage.setItem("accessToken", response.data.token);
+        localStorage.setItem('user', response.data.user);
       }
       if(response.data.status) {
         setTimeout(() => {
