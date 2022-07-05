@@ -100,6 +100,7 @@ exports.updatePost = async (req, res) => {
                 if(postText) post.postText = postText;
                 if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
                 post.save();
+                res.json({post: post, image: imageUrl}); 
             });
             return;
         }
