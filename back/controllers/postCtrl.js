@@ -1,20 +1,19 @@
 const { Posts, Likes, Users } = require('../models')
-const fs = require('fs');
 const multer = require('../middleware/multer');
+const fs = require('fs');
 require('dotenv').config();
 
 
 exports.getAllPosts = async (req, res) => {
-
-    const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName']}] }); // TODO: paginate results
+    const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName']}] });
 
     if(posts === undefined) {
-        res.json({listOfPosts: null, likedPosts: null }) // TODO: always return an object with same properties as the object below
-        return
+        res.json({ listOfPosts: null, likedPosts: null, id: req.auth.id });
+        return;
     }
-    const likedPosts = await Likes.findAll({where: { UserId: req.auth.id }});
-    res.json({listOfPosts: posts, likedPosts: likedPosts, id: req.auth.id })
 
+    const likedPosts = await Likes.findAll({ where: { UserId: req.auth.id } });
+    res.json({ listOfPosts: posts, likedPosts: likedPosts, id: req.auth.id });
 };
 
 exports.getOnePost = async (req, res) => {
@@ -24,7 +23,8 @@ exports.getOnePost = async (req, res) => {
     const result =  {
         ...post,
         isOwnPost: req.auth.id === post.UserId || req.auth.isAdmin
-    }
+    };
+
     res.json(result);
 }
 
@@ -32,23 +32,24 @@ exports.createPost = async (req, res) => {
     const post = {
         postText: req.body.postText,
         UserId: req.auth.id
-    }
+    };
 
     if(req.file) {
         post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
 
     await Posts.create(post);
-    const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
-    res.json(posts)
+    const posts = await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName'] }] });
+    res.json(posts);
 };
 
 exports.deletePost =  async(req, res) => {
     const id = req.params.id;
     const post = await Posts.findByPk(id);
+
     if(!post){
-        res.status(404).json('Post was not found!')
-        return
+        res.status(404).json('Post was not found!');
+        return;
     }
     
     if(req.auth.id === post.UserId || req.auth.isAdmin){
@@ -61,30 +62,33 @@ exports.deletePost =  async(req, res) => {
         res.json('Unauthorised request !!!');
         return;
     }
+
     await Posts.destroy({ where: { id: id }});
-    const posts =  await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]});
-    res.json({message:'Post deleted !', posts: posts});
+    const posts =  await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName'] } ]});
+    res.json({ message:'Post is deleted !', posts: posts });
 };
 
 exports.updatePost = async (req, res) => {
     const id = req.params.id;
-    const post = await Posts.findOne({ where: { id: id}});
+    const post = await Posts.findOne({ where: { id: id } });
+
     if(!post) {
         res.status(404).json('The post is not found !!!')
         return;
-    } else if(req.auth.id !== post.UserId) {
+    } 
+    
+    else if(req.auth.id !== post.UserId) {
         res.json('Unauthorized request !');
     }
 
-    multer(req, res, async err => {
+    multer(req, res, async () => {
         const { postText } = req.body;
         const post = await Posts.findOne({ where: { id: id}});
         
         if(!req.file){
             if(postText) post.postText = postText;
             await post.save();
-            res.json('Post modified !!!');
-            return
+            return;
         }
 
         const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
@@ -95,7 +99,6 @@ exports.updatePost = async (req, res) => {
                 if(postText) post.postText = postText;
                 if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
                 post.save();
-                res.json({post: post, image: imageUrl}); 
             });
             return;
         }
@@ -103,7 +106,6 @@ exports.updatePost = async (req, res) => {
         if(postText) post.postText = postText;
         if(imageUrl) post.imageUrl = imageUrl;
         post.save();
-        
         res.json({post: post, image: imageUrl}); 
     });    
 };
