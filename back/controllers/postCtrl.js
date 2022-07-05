@@ -6,7 +6,7 @@ require('dotenv').config();
 
 exports.getAllPosts = async (req, res) => {
 
-    const posts = await Posts.findAll({include: [Likes, {model: Users, attributes: ['userName']}]}); // TODO: paginate results
+    const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName']}] }); // TODO: paginate results
 
     if(posts === undefined) {
         res.json({listOfPosts: null, likedPosts: null }) // TODO: always return an object with same properties as the object below
