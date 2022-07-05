@@ -1,15 +1,17 @@
-import  { React, useEffect, useState } from 'react'
+import  { React, useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { LocalContext } from '../Context/LocalContext';
 import PostHeader from './PostHeader';
 import './Post.css'
 
 
 export default function Post(props) {
+  const { localStorageData } = useContext(LocalContext);
+
   const [post, setPost] = useState({ createdAt: '', User: { userName: '' }});
   const [liked, setLiked] = useState();
   const [likes, setLikes] = useState(props.post.Likes.length);
@@ -25,7 +27,7 @@ export default function Post(props) {
     },
     {
       headers: {
-        accessToken: localStorage.getItem('accessToken')
+        accessToken: localStorageData
       }
     })
     .then((response) => {
@@ -42,7 +44,7 @@ export default function Post(props) {
     await axios.delete(`http://localhost:3000/posts/${postId}`,
     {
       headers: {
-        accessToken: localStorage.getItem('accessToken')
+        accessToken: localStorageData
       }
     })
     .then((response) => {

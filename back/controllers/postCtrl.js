@@ -88,6 +88,7 @@ exports.updatePost = async (req, res) => {
         if(!req.file){
             if(postText) post.postText = postText;
             await post.save();
+            res.json({post: post }); 
             return;
         }
 

@@ -1,8 +1,7 @@
 import {React, useState} from 'react'
-import Header from '../header/Header'
-import './Auth.css'
-import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios';
+import Header from '../../components/header/Header';
 
 
 export default function Login() {

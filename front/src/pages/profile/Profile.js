@@ -1,15 +1,11 @@
-import React from 'react';
-import Header from '../header/Header';
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Button from '../button/Button';
+import Header from '../../components/header/Header';
+import Button from '../../components/Button';
 
 export default function Profile() {
 
     const [user, setUser] = useState({});
-    const [userName, setUserName] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-
     const [isModif, setModif] = useState(true);
     const [password, setPassword] = useState(false);
     
@@ -23,40 +19,30 @@ export default function Profile() {
     }
 
     useEffect(() => {
-            axios.get(`http://localhost:3000/auth/profile`, {
-            headers: {
-                accessToken: localStorage.getItem('accessToken')
-            }
-            })
-            .then((response) => {
-                console.log(response.data);
-                setUser(response.data);
-                setUserName(response.data.userName);
-                setUserEmail(response.data.email);
-                let loggedInUser = JSON.parse(localStorage.getItem('user'));
-                console.log(loggedInUser);
-                // localStorage.setItem('user', JSON.stringify(loggedInUser));
-            });
-    }, [])
-
+        axios.get(`http://localhost:3000/auth/profile`, {
+        headers: {
+            accessToken: localStorage.getItem('accessToken')
+        }
+        })
+        .then((response) => {
+            setUser(response.data);
+        });
+    }, []);
     
     const modifyUser = async (e) => {
 
-        const formData = new FormData();
-        formData.append('userName', userName);
-        formData.append('email', userEmail);
         
         e.preventDefault();
-        await axios.put(`http://localhost:3000/auth/profile`, {userName: userName, email: userEmail}, {
+        await axios.put(`http://localhost:3000/auth/profile`, { userName: user.userName, email: user.email} , {
             headers: {
                 accessToken: localStorage.getItem('accessToken')
             }
         })
         .then((response) => {
-            console.log(response.data.userName);
             let loggedInUser = JSON.parse(localStorage.getItem('user'));
             loggedInUser.userName = response.data.userName
             localStorage.setItem('user', JSON.stringify(loggedInUser));
+            
             window.location = "/auth/profile"
         });
 
@@ -93,8 +79,7 @@ export default function Profile() {
                         type='text' 
                         className="form-control" 
                         id="userName" required
-                        onChange={(e) => setUserName(e.target.value)}
-                        />
+                        onChange={(e) => user.userName = e.target.value } />
                     </div>
                     <div className="form-group mt-3">
                         <label htmlFor="email">Set new email</label>
@@ -104,7 +89,7 @@ export default function Profile() {
                         className="form-control" 
                         id="email"
                         required
-                        onChange={(e) => setUserEmail(e.target.value)}/>
+                        onChange={(e) => user.email = e.target.value }/>
                     </div>
                     <Button type={'submit'} class={"btn btn-primaire mt-3 text-white fw-bold mb-4"} value={"Modify profile"}/>
                     <Button onClick={toggleProfile} type={'submit'} class={"btn btn-primaire mt-3 ms-3 text-white fw-bold mb-4"} value={"Come back"}/>

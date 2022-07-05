@@ -1,8 +1,8 @@
 import React from 'react'
-import logo from '../../assets/logos/icon-left-font.svg'
-import './Header.css'
 import { Link } from 'react-router-dom'
-import Dropdown from '../button/Dropdown'
+import Dropdown from '../Dropdown';
+import './Header.css'
+import logo from '../../assets/logos/icon-left-font.svg'
 
 export default function Header() {
     const token = localStorage.getItem('accessToken')

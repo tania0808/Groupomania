@@ -6,7 +6,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.color-red {
+  color: #FF2D01;
+}
 .btn-primaire { 
   background-color: #FF2D01 !important; 
   color: white;
@@ -26,6 +28,10 @@
 a {
   color: white;
   text-decoration: none;
+}
+
+.red {
+  color: red;
 }
 
 

@@ -1,14 +1,17 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import axios from 'axios';
 import './CreatePost.css'
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PostHeader from '../../components/PostHeader';
-import Button from '../button/Button'
+import PostHeader from '../PostHeader';
+import Button from '../Button'
+import { LocalContext } from '../../Context/LocalContext';
+
 
 export default function CreatePost(props) {
-
+  
+  const { localStorageData } = useContext(LocalContext);
   const [postText, setPostText] = useState("");
   const [image, setImage] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -39,7 +42,7 @@ export default function CreatePost(props) {
     e.preventDefault();
     await axios.post("http://localhost:3000/posts", formData,  {
       headers: {
-        accessToken: localStorage.getItem('accessToken')
+        accessToken: localStorageData
       }
     }).then(response => {
       props.postListChanger(response.data);

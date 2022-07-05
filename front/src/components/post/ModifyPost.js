@@ -1,17 +1,20 @@
-import {React, useState, useEffect } from 'react'
+import {React, useState, useEffect, useContext } from 'react'
 import Header from '../header/Header'
 import {useParams} from 'react-router-dom'
 import axios from 'axios';
+import { LocalContext } from '../../Context/LocalContext';
+
 
 export default function ModifyPost() {
-      
+    
     let { id } = useParams();
     const [post, setPost] = useState('');
     
     const [postText, setPostText] = useState("");
     const [image, setImage] = useState(undefined);
     const [imageURL, setImageURL] = useState();
-
+    const { localStorageData } = useContext(LocalContext);
+    
     const uploadImageToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             setImage(event.target.files[0]);
@@ -27,7 +30,7 @@ export default function ModifyPost() {
         async function fetchData() {
             await axios.get(`http://localhost:3000/posts/${id}`, {
                 headers: {
-                    accessToken: localStorage.getItem('accessToken')
+                    accessToken: localStorageData
                 }
             })
             .then((response) => {
@@ -41,7 +44,7 @@ export default function ModifyPost() {
         e.preventDefault();
         await axios.put(`http://localhost:3000/posts/${id}`, formData, {
             headers: {
-                accessToken: localStorage.getItem('accessToken')
+                accessToken: localStorageData
             }
         })
         .then((response) => {

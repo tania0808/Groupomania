@@ -21,7 +21,7 @@ app.use('/auth', userRouter);
 const likesRouter = require('./routes/Likes');
 app.use('/like', likesRouter);
 
-//{ alter: true }
+//{ alter: true } pour actualiser la base de donnée si le modèle change
 
 db.sequelize.sync().then(() => {
     app.listen(3000, () => {

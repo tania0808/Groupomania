@@ -4,10 +4,10 @@ import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 
 import {Routes, Route, Navigate} from 'react-router-dom'
 import Home from './pages/home/Home';
-import Post from './pages/post/CreatePost';
+//import Post from './pages/post/CreatePost';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
-import ModifyPost from './pages/post/ModifyPost';
+import ModifyPost from './components/post/ModifyPost'
 import NotFound from './pages/notFound/NotFound';
 import Profile from './pages/profile/Profile';
 
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/posts" element={<Home/>} />
         <Route path="/" element={<Login/>} />
-        <Route path="/post/create" element={<Post/>} />
+        {/* <Route path="/post/create" element={<Post/>} /> */}
         <Route path="/post/update/:id" element={<ModifyPost/>} />
         <Route path="/auth/login" element={<Login/>} />
         <Route path="/auth/signup" element={<SignUp/>} />
