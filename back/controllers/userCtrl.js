@@ -9,7 +9,7 @@ exports.userSignUp = async (req, res) => {
     
     const emailExists = await Users.findOne({ where: { email: req.body.email }});
     
-    if(emailExists){
+    if(emailExists){ 
         res.json({message : "User already exists !!!", status: false});
     } else {
         const salt = await bcrypt.genSalt(10);
