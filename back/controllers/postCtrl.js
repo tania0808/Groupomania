@@ -35,7 +35,7 @@ exports.createPost = async (req, res) => {
     };
 
     if(req.file) {
-        post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        post.imageUrl = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`
     }
 
     await Posts.create(post);
@@ -54,8 +54,8 @@ exports.deletePost =  async(req, res) => {
     
     if(req.auth.id === post.UserId || req.auth.isAdmin){
         if(post.imageUrl !== null) {
-            const filename = post.imageUrl.split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {
+            const filename = post.imageUrl.split('/images/post/')[1];
+            fs.unlink(`images/post/${filename}`, () => {
             });
         }
     } else {
@@ -81,7 +81,7 @@ exports.updatePost = async (req, res) => {
         res.json('Unauthorized request !');
     }
 
-    multer(req, res, async () => {
+    multer.savePostImage(req, res, async () => {
         const { postText } = req.body;
         const post = await Posts.findOne({ where: { id: id}});
         
@@ -92,13 +92,13 @@ exports.updatePost = async (req, res) => {
             return;
         }
 
-        const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+        const imageUrl = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
 
         if(post.imageUrl !== null) {
-            const filename = post.imageUrl.split('/images/')[1];
-            fs.unlink(`images/${filename}`, (err) => {
+            const filename = post.imageUrl.split('/images/post/')[1];
+            fs.unlink(`images/post/${filename}`, (err) => {
                 if(postText) post.postText = postText;
-                if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
                 post.save();
                 res.json({post: post, image: imageUrl}); 
             });

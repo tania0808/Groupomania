@@ -5,7 +5,8 @@ const cors = require('cors');
 
 app.use(cors());
 
-app.use('/images', express.static('./images'));
+app.use('/images/post', express.static('./images/post'));
+app.use('/images/profile', express.static('./images/profile'));
 
 app.use(express.json());
 

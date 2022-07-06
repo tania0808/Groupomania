@@ -31,7 +31,6 @@ export default function Profile() {
     
     const modifyUser = async (e) => {
 
-        
         e.preventDefault();
         await axios.put(`http://localhost:3000/auth/profile`, { userName: user.userName, email: user.email} , {
             headers: {

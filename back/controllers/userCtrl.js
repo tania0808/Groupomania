@@ -1,5 +1,7 @@
 const { Users, Posts } = require('../models')
 const bcrypt = require('bcrypt');
+const multer = require('../middleware/multer');
+const fs = require('fs');
 
 const { sign } = require('jsonwebtoken');
 
@@ -60,18 +62,57 @@ exports.getUser = async (req, res) => {
 
 exports.modifyUser = async (req, res) => {
     const id = req.auth.id;
-    const { userName, email } = req.body;
-
-    let user = await Users.findOne(
-        { where: { id: id } }, 
-        { include: [{ model: Posts }]}
-    );
     
-    user.set(
-        { userName: userName, email: email }, 
-        { include: [ { model: Posts.userName }]}
-    );
+    if(req.auth.id !== id) {
+        res.json('Unauthorized request !');
+    }
+    
+    
+    
+    multer.saveProfileImage( req, res, async () => {
+        const { userName, email } = req.body;
+        
+        let user = await Users.findOne(
+            { where: { id: id } }, 
+            { include: [{ model: Posts }]}
+        );
 
-    await user.save();
-    res.send(user);
+        if(!req.file) {
+            user.set(
+                { userName: userName, email: email }
+            );
+            await user.save();
+            res.send(user);
+            return;
+        } else {
+
+            const userImageUrl = `${req.protocol}://${req.get('host')}/images/profile/${req.file.filename}`;
+            
+            if(user.userImageUrl !== 'http://localhost:3000/images/profile/profile.jpeg') {
+                
+                const filename = user.userImageUrl.split('/images/profile/')[1];
+                    
+                fs.unlink(`images/profile/${filename}`, (err) => {
+                    if(userName) user.userName = userName;
+                    if( email ) user.email = email;
+                    if(userImageUrl) user.userImageUrl = userImageUrl;
+                    user.save();
+                    res.json({user: user, image: userImageUrl}); 
+                });
+                return;
+            }
+
+            if(userName) user.userName = userName;
+                    if( email ) user.email = email;
+                    if(userImageUrl) user.userImageUrl = userImageUrl;
+                    user.save();
+                    res.json({user: user, image: userImageUrl
+            }); 
+        }
+
+    })
+    
+
+
+
 };
