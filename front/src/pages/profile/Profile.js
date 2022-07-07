@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+
 import Header from '../../components/header/Header';
-import Button from '../../components/Button';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
+import UserInfo from '../../components/UserInfo';
+import UpdateProfile from '../../components/UpdateProfile';
+import { LocalContext } from '../../Context/LocalContext';
+
 
 export default function Profile() {
+
+    const { localStorageData } = useContext(LocalContext);
 
     const [user, setUser] = useState({});
     const [isModif, setModif] = useState(true);
     const [password, setPassword] = useState(false);
     
-    const [email, setEmail] = useState('');
-    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState(user.userName);
     const [image, setImage] = useState(undefined);
     const [imageURL, setImageURL] = useState();
     
@@ -23,12 +27,15 @@ export default function Profile() {
             setImageURL(URL.createObjectURL(event.target.files[0]));
         }
     };
-
-    const formData = new FormData();
-    formData.append('userImageUrl', image);
-    formData.append('userName', userName);
-    formData.append('email', email);
     
+    const getUserName = e => {
+        setUserName(e.target.value)
+    }
+
+    const getEmail = e => {
+        setEmail(e.target.value)
+    }
+
     function clearImage() {
         setImage('');
     }
@@ -44,20 +51,26 @@ export default function Profile() {
     useEffect(() => {
         axios.get(`http://localhost:3000/auth/profile`, {
             headers: {
-                accessToken: localStorage.getItem('accessToken')
+                accessToken: localStorageData
             }
         })
         .then((response) => {
             setUser(response.data);
+            setEmail(response.data.email);
+            setUserName(response.data.userName);
         });
     }, []);
 
-    //{ userName: user.userName, email: user.email, userImageUrl: image}
+    const formData = new FormData();
+    formData.append('userImageUrl', image);
+    formData.append('userName', userName);
+    formData.append('email', email);
+
     const modifyUser = async (e) => {
         e.preventDefault();
         await axios.put(`http://localhost:3000/auth/profile`, formData, {
             headers: {
-                accessToken: localStorage.getItem('accessToken')
+                accessToken: localStorageData
             }
         })
         .then((response) => {
@@ -72,66 +85,27 @@ export default function Profile() {
     }
 
     return (
-        <div>
+        <div className='bg-light vh-100'>
             <Header/>
-            <div className="container bg-light d-flex flex-column align-items-center justify-content-center rounded-2">
-
+            <div className="container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">
                 {isModif &&
-                <div className='w-100'>
-                    <div className='d-flex flex-column align-items-center'>
-                        <img src={user.userImageUrl} className="avatar rounded-circle mt-3" alt="user image" width={100} height={100} style={{objectFit: 'cover'}} />
-                        <h1 className='fs-4 mt-4'>{user.userName}</h1>
-                    </div>
-
-                    <div className="info-user flex-start w-75 mt-5 ms-5 mb-5">
-                        <span className='fs-6'>User name</span>
-                        <p className='opacity-75 mt-1'>{user.userName}</p>
-                        <span className='fs-6'>Email</span>
-                        <p className='opacity-75 mt-1'>{user.email}</p>
-                        <div className='d-flex flex-column w-100 justify-content-start align-items-start'>
-                            <Button onClick={toggleProfile} class={"btn btn-primaire text-center py-3 d-flex align-items-center justify-content-center flex-center fs-6"} value={"Update profil"}/>
-                            <Button onClick={() => alert('Change password')} class={"btn btn-primaire text-center d-flex mt-2"} value={"Change password"}/>
-                        </div>
-                    </div>
-                </div>
+                    <UserInfo 
+                        user={user} 
+                        toggleProfile={toggleProfile}
+                    />
                 }
-                {!isModif &&
-                <form action="" method='POST' className='col-md-6 col-sm-10 w-75 flex-start' encType='multipart/form-data' onSubmit={modifyUser}>
-                    {!image 
-                        ? <img src={user.userImageUrl} alt="" className="mt-3 rounded-circle" width={100} height={100}/> 
-                        : <img src={imageURL} className="rounded-circle mt-3" alt="user image" width={100} height={100}  style={{objectFit: 'cover'}}/>
-                    }
-                    <h1 className='fs-4 mt-4'>{user.userName}</h1>
-                    
-                    <div className="form-group imageUpload bg-light d-flex pe-3 align-items-center justify-content-between">
-                        <label htmlFor="userImageUrl" className='inputFileLabel align-items-center p-2 rounded-1 fw-bolder fs-6 d-flex'>
-                            <FontAwesomeIcon className='pe-2' icon={faCamera} />Image
-                        </label>
-                        <input type="file" style={{visibility: 'hidden'}} className="form-control-file" id="userImageUrl" onChange={uploadImageToClient} name="userImageUrl"/>
-                        <FontAwesomeIcon className='p-1 resetImage' icon={faXmark} onClick={clearImage}/><br />
-                    </div>
 
-                    <div className="form-group mt-3">
-                        <label htmlFor="userName">Set new user name</label>
-                        <input 
-                        defaultValue={user.userName}
-                        type='text' 
-                        className="form-control" 
-                        id="userName" required
-                        onChange={(e) => setUserName(e.target.value) } />
-                    </div>
-                    <div className="form-group mt-3">
-                        <label htmlFor="email">Set new email</label>
-                        <input 
-                        defaultValue={user.email}
-                        type='text' 
-                        className="form-control" 
-                        id="email"
-                        onChange={(e) => setEmail(e.target.value)}/>
-                    </div>
-                    <Button type={'submit'} class={"btn btn-primaire mt-3 text-white fw-bold mb-4"} value={"Modify profile"}/>
-                    <Button onClick={toggleProfile} type={'submit'} class={"btn btn-primaire mt-3 ms-3 text-white fw-bold mb-4"} value={"Come back"}/>
-                </form>
+                {!isModif &&
+                    <UpdateProfile 
+                        modifyUser={modifyUser} 
+                        image={image} 
+                        user={user} 
+                        imageUrl={imageURL} 
+                        uploadImageToClient={uploadImageToClient}
+                        clearImage={clearImage}
+                        getUserName={getUserName}
+                        getEmail={getEmail}
+                    />
                 }
             </div>
         </div>

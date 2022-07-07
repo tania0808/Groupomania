@@ -65,7 +65,7 @@ exports.deletePost =  async(req, res) => {
     }
 
     await Posts.destroy({ where: { id: id }});
-    const posts =  await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName'] } ]});
+    const posts =  await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName', 'userImageUrl'] } ]});
     res.json({ message:'Post is deleted !', posts: posts });
 };
 
