@@ -3,9 +3,10 @@ const multer = require('../middleware/multer');
 const fs = require('fs');
 require('dotenv').config();
 
+console.log(process.env)
 
 exports.getAllPosts = async (req, res) => {
-    const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName']}] });
+    const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName', 'userImageUrl']}] });
 
     if(posts === undefined) {
         res.json({ listOfPosts: null, likedPosts: null, id: req.auth.id });
@@ -39,7 +40,7 @@ exports.createPost = async (req, res) => {
     }
 
     await Posts.create(post);
-    const posts = await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName'] }] });
+    const posts = await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName', 'userImageUrl'] }] });
     res.json(posts);
 };
 

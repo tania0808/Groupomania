@@ -10,8 +10,8 @@ import { LocalContext } from '../../Context/LocalContext';
 
 
 export default function CreatePost(props) {
-  
-  const { localStorageData } = useContext(LocalContext);
+
+  const { localStorageData, localStorageUser } = useContext(LocalContext);
   const [postText, setPostText] = useState("");
   const [image, setImage] = useState("");
   const [imageURL, setImageURL] = useState("");
@@ -21,7 +21,7 @@ export default function CreatePost(props) {
         setImage(event.target.files[0]);
         setImageURL(URL.createObjectURL(event.target.files[0]));
     }
-};
+  };
 
   function clearImage() {
     setImage('');
@@ -56,8 +56,7 @@ export default function CreatePost(props) {
       <div className='form-container d-flex flex-column justify-content-center align-items-center pb-3 m-3'>
         <form action="" method='POST' className='createPostPage bg-white ps-3 pe-3 ' onSubmit={createPost} encType='multipart/form-data'>
           <div className='d-flex align-items-center mt-3 justify-content-start'>
-            <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
-            <PostHeader userName={props.currentUser.userName}/>
+            <PostHeader userName={props.currentUser.userName} avatar={props.currentUser.userImageUrl}/>
           </div>
           {image && <img src={imageURL} alt="" className="mt-3 w-100" />}
           <div className="form-group">

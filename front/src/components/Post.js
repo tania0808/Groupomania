@@ -56,8 +56,7 @@ export default function Post(props) {
     <div key={post.id}  className="post-box d-flex flex-column justify-content-center align-items-center mb-4 bg-white">
       <div className={props.currentUser.id === post.UserId  || props.currentUser.isAdmin ? 'd-flex flex-row justify-content-between align-items-center w-100 p-3' : 'd-flex flex-row justify-content-start w-100 m-3 ps-3'}>
         <div className='d-flex align-items-center'>
-          <img className='userImage' src="https://annu-recherche.inspe-lille-hdf.fr/img/avatar_defaut.png" alt="" />
-          <PostHeader userName={props.currentUser.id === post.UserId ? props.currentUser.userName : post.User.userName}/>
+          <PostHeader avatar={props.post.User.userImageUrl} userName={props.currentUser.id === post.UserId ? props.currentUser.userName : post.User.userName}/>
         </div>
         {(props.currentUser.id === post.UserId || props.currentUser.isAdmin) &&
             <div className="dropdown">
