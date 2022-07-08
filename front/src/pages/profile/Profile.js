@@ -6,7 +6,6 @@ import UserInfo from '../../components/UserInfo';
 import UpdateProfile from '../../components/UpdateProfile';
 import { LocalContext } from '../../Context/LocalContext';
 
-
 export default function Profile() {
 
     const { localStorageData } = useContext(LocalContext);
@@ -18,15 +17,7 @@ export default function Profile() {
     const [email, setEmail] = useState("");
     const [userName, setUserName] = useState(user.userName);
     const [image, setImage] = useState(undefined);
-    const [imageURL, setImageURL] = useState();
     
-    const uploadImageToClient = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            setImage(event.target.files[0]);
-            user.userImageURL = event.target.files[0].name;
-            setImageURL(URL.createObjectURL(event.target.files[0]));
-        }
-    };
     
     const getUserName = e => {
         setUserName(e.target.value)
@@ -79,7 +70,7 @@ export default function Profile() {
             loggedInUser.userImageUrl = response.data.user.userImageUrl;
             localStorage.setItem('user', JSON.stringify(loggedInUser));
             
-            window.location = "/auth/profile"
+            //window.location = "/auth/profile"
         });
 
     }
@@ -92,6 +83,8 @@ export default function Profile() {
                     <UserInfo 
                         user={user} 
                         toggleProfile={toggleProfile}
+                        togglePassword={togglePassword}
+                        password={password}
                     />
                 }
 
@@ -100,13 +93,13 @@ export default function Profile() {
                         modifyUser={modifyUser} 
                         image={image} 
                         user={user} 
-                        imageUrl={imageURL} 
-                        uploadImageToClient={uploadImageToClient}
                         clearImage={clearImage}
                         getUserName={getUserName}
                         getEmail={getEmail}
+                        setImage={setImage}
                     />
                 }
+
             </div>
         </div>
     )

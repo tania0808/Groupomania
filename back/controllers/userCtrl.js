@@ -7,6 +7,7 @@ const { sign } = require('jsonwebtoken');
 
 exports.userSignUp = async (req, res) => {
     if(req.body === undefined) return res.json('Empty data !!!')
+    
     const emailExists = await Users.findOne({ where: { email: req.body.email } });
     
     if(emailExists){ 
@@ -66,7 +67,7 @@ exports.userLogIn = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     const id = req.auth.id;
-    const user = await Users.findOne({ where: { id: id }, attributes: ['userName', 'userImageUrl', 'id', 'email'] });
+    const user = await Users.findOne({ where: { id: id }, attributes: ['userName', 'userImageUrl', 'id', 'email']});
     res.json(user);
 };
 
@@ -81,9 +82,11 @@ exports.modifyUser = async (req, res) => {
         const { userName, email } = req.body;
         
         let user = await Users.findOne(
-            { where: { id: id } }, 
+            { where: { id: id },
+            attributes: {exclude: ['password']} }, 
             { include: [{ model: Posts }]}
         );
+
 
         if(!req.file) {
             user.set(
@@ -120,7 +123,14 @@ exports.modifyUser = async (req, res) => {
 
     })
     
-
-
-
 };
+
+
+exports.updatePassword = async (req, res) => {
+    const id = req.auth.id;
+    
+    if(req.auth.id !== id) {
+        res.json('Unauthorized request !');
+    }
+}
+
