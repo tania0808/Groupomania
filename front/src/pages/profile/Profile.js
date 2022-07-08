@@ -69,10 +69,10 @@ export default function Profile() {
             loggedInUser.userName = response.data.user.userName;
             loggedInUser.userImageUrl = response.data.user.userImageUrl;
             localStorage.setItem('user', JSON.stringify(loggedInUser));
-            
-            //window.location = "/auth/profile"
+            user.userName = userName;
+            user.email = email;
+            toggleProfile();
         });
-
     }
 
     return (
@@ -91,12 +91,14 @@ export default function Profile() {
                 {!isModif &&
                     <UpdateProfile 
                         modifyUser={modifyUser} 
+                        toggleProfile={toggleProfile}
                         image={image} 
                         user={user} 
                         clearImage={clearImage}
                         getUserName={getUserName}
                         getEmail={getEmail}
                         setImage={setImage}
+                        togglePassword={togglePassword}
                     />
                 }
 

@@ -6,7 +6,6 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LocalContext } from '../Context/LocalContext';
 import PostHeader from './PostHeader';
-import './Post.css'
 
 
 export default function Post(props) {

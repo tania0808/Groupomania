@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Button from '../../components/Button'
 import './NotFound.css'
 
 export default function NotFound() {
@@ -12,7 +11,7 @@ export default function NotFound() {
       <span>PAGE NOT</span>
       <span>FOUND</span>
       <Link to="/posts">
-          <Button value='GO HOME' class='btn btn-primaire text-red'/>
+        <button className={"btn btn-primaire text-red"}>GO HOME</button>
       </Link>
     </div>
   )

@@ -1,12 +1,9 @@
 import React, { useState }  from 'react'
-import Button from './Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function UpdateProfile(props) {
-
     const [imageURL, setImageURL] = useState();
-    console.log(imageURL);
 
     const uploadImageToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -34,7 +31,7 @@ export default function UpdateProfile(props) {
                     } */}
                 </div>
             </div>
-            <form action="" method='PUT' className='col-md-6 col-sm-10 w-75 flex-center mt-5' encType='multipart/form-data' onSubmit={props.modifyUser}>
+            <form action="" method='PUT' className='col-md-6 col-sm-10 w-75 flex-center mt-5' encType='multipart/form-data'>
                 <div className="form-group mt-3">
                     <label htmlFor="userName">Set new user name</label>
                     <input 
@@ -53,8 +50,8 @@ export default function UpdateProfile(props) {
                     id="email"
                     onChange={props.getEmail}/>
                 </div>
-                <Button type={'submit'} class={"btn btn-primaire mt-3 text-white fw-bold mb-4"} value={"Modify profile"}/>
-                <Button onClick={props.toggleProfile} type={'submit'} class={"btn btn-primaire mt-3 ms-3 text-white fw-bold mb-4"} value={"Come back"}/>
+                <button onClick={props.modifyUser} className={"btn btn-primaire mt-3 text-white fw-bold mb-4"}>Modify profile</button>
+                <button onClick={props.toggleProfile}  className={"btn btn-primaire mt-3 ms-3 text-white fw-bold mb-4"}>Come back</button>
             </form>
       </div>
   )

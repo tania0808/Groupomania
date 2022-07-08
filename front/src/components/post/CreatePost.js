@@ -1,11 +1,9 @@
 import React from 'react'
 import { useState, useContext } from 'react'
 import axios from 'axios';
-import './CreatePost.css'
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PostHeader from '../PostHeader';
-import Button from '../Button'
 import { LocalContext } from '../../Context/LocalContext';
 
 
@@ -72,7 +70,7 @@ export default function CreatePost(props) {
               <input type="file" style={{visibility: 'hidden'}} className="form-control-file" id="imageUrl" onChange={(e) => {uploadImageToClient(e)}} name="imageUrl"/>
               <FontAwesomeIcon className='p-1 resetImage' icon={faXmark} onClick={clearImage}/><br />
             </div>
-            <Button type={'submit'} value={'Create post'} class={"btn btn-primaire m-4 py-2"}/>
+            <button type={'submit'} className={"btn btn-primaire m-4 py-2"}>Create post</button>
           </div>
         </form>
       </div>
