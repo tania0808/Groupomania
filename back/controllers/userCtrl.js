@@ -11,7 +11,7 @@ exports.userSignUp = async (req, res) => {
     const emailExists = await Users.findOne({ where: { email: req.body.email } });
     
     if(emailExists){ 
-        res.status(400).json({ message : "Wrong username and password combination !", status: false });
+        res.json({ message : "Wrong username and password combination !", status: false }).status(400);
     } 
     else {
         const salt = await bcrypt.genSalt(10);
@@ -46,11 +46,11 @@ exports.userLogIn = async (req, res) => {
     const user = await Users.findOne({ where: { email: email } });
 
     if(!user) {
-        res.status(400).json({message : "Wrong username and password combination !", status: false});
+        res.json({message : "Wrong username and password combination !", status: false});
     }
     else {
         const validPassword = await bcrypt.compare(password, user.password);
-        if(!validPassword) return res.status(400).json({message: 'Wrong username and password combination !', status: false});
+        if(!validPassword) return res.json({message: 'Wrong username and password combination !', status: false});
         const accessToken = sign({ id: user.id, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET_KEY);
         res.status(200).json({ 
             status: true, 
@@ -128,9 +128,24 @@ exports.modifyUser = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
     const id = req.auth.id;
-    
-    if(req.auth.id !== id) {
+    const user = await Users.findOne({ where: { id: id }, attributes: ['id', 'password']});
+
+    if(id != user.id) {
         res.status(401).json('Unauthorized request !');
+        return;
     }
+
+    const { password, confirmPassword } = req.body;
+
+    if(password !== confirmPassword) {
+        res.status(400).json("Those passwords didn't match. Please try again");
+        return;
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(201).json('Password updated !'); 
 }
 

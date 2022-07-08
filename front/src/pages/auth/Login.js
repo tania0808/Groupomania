@@ -1,5 +1,5 @@
-import {React, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import { React, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import Header from '../../components/header/Header';
 
@@ -19,18 +19,14 @@ export default function Login() {
       email: email,
       password: password
     }).then((response) => {
-      if(!response.data.status){
+      console.log(response);
         setAlert(response.data.message);
         setStatus(response.data.status)
         setToggle(true);
-      } else {
+      if(response.data.status) {
         localStorage.setItem("accessToken", response.data.token);
         localStorage.setItem('user', response.data.user);
-      }
-      if(response.data.status) {
-        setTimeout(() => {
-          navigate('/posts');
-        }, 500);
+        navigate('/posts');
       }
     })
   }
@@ -48,7 +44,7 @@ export default function Login() {
                 <label htmlFor="password" className="form-label">Password</label>
                 <input type="password" className="form-control" id="password" onChange={(e) => {setPassword(e.target.value)}}/>
             </div>
-            <div className={"alert " + (toggle ? 'd-block ' : 'd-none ') + (!status ? 'd-block alert-danger ' : 'alert-success')} role="alert" >{alert}</div>
+            <div className={"alert " + (toggle ? 'd-block ' : 'd-none ') + (!status ? 'd-block alert-danger ' : '')} role="alert" >{alert}</div>
             <button className='btn btn-primaire' onClick={login}>Log In</button>  
         </div>
     </div>

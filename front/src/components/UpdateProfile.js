@@ -1,8 +1,9 @@
 import React, { useState }  from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 export default function UpdateProfile(props) {
+    
     const [imageURL, setImageURL] = useState();
 
     const uploadImageToClient = (event) => {

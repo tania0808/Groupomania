@@ -9,4 +9,6 @@ router.get('/profile', validateToken, userCtrl.getUser);
 
 router.put('/profile', validateToken, userCtrl.modifyUser);
 
+router.put('/profile/password', validateToken, userCtrl.updatePassword);
+
 module.exports = router;

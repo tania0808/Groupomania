@@ -35,7 +35,7 @@ export default function Profile() {
         setModif(!isModif);
     }
     
-    function togglePassword() {
+    function togglePassword(e) {
         setPassword(!password);
     }
     
@@ -72,6 +72,7 @@ export default function Profile() {
             user.userName = userName;
             user.email = email;
             toggleProfile();
+            togglePassword();
         });
     }
 

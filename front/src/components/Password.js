@@ -17,7 +17,7 @@ export default function Password(props) {
         id={props.id}/>
         <FontAwesomeIcon icon={faEye} 
         className="position-absolute top-50 end-0 pe-3" 
-        onClick={togglePassword}/>
+        onClick={props.togglePassword}/>
     </div>
   )
 }
