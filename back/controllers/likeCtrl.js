@@ -13,9 +13,9 @@ exports.likePost = async (req, res) => {
 
     if(!found) {
         await Likes.create(likes);
-        res.json({ liked: true });
+        res.status(200).json({ liked: true });
         return;
     } 
     await Likes.destroy({ where: likes });
-    res.json({ liked: false });
+    res.status(200).json({ liked: false });
 };

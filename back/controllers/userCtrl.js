@@ -6,12 +6,12 @@ const fs = require('fs');
 const { sign } = require('jsonwebtoken');
 
 exports.userSignUp = async (req, res) => {
-    if(req.body === undefined) return res.json('Empty data !!!')
+    if(req.body === undefined) return res.status(400).json('Empty data !!!')
     
     const emailExists = await Users.findOne({ where: { email: req.body.email } });
     
     if(emailExists){ 
-        res.json({ message : "Wrong username and password combination !", status: false });
+        res.status(400).json({ message : "Wrong username and password combination !", status: false });
     } 
     else {
         const salt = await bcrypt.genSalt(10);
@@ -46,13 +46,13 @@ exports.userLogIn = async (req, res) => {
     const user = await Users.findOne({ where: { email: email } });
 
     if(!user) {
-        res.json({message : "Wrong username and password combination !", status: false});
+        res.status(400).json({message : "Wrong username and password combination !", status: false});
     }
     else {
         const validPassword = await bcrypt.compare(password, user.password);
-        if(!validPassword) return res.json({message: 'Wrong username and password combination !', status: false});
+        if(!validPassword) return res.status(400).json({message: 'Wrong username and password combination !', status: false});
         const accessToken = sign({ id: user.id, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET_KEY);
-        res.json({ 
+        res.status(200).json({ 
             status: true, 
             token: accessToken, 
             user: JSON.stringify({ 
@@ -68,14 +68,14 @@ exports.userLogIn = async (req, res) => {
 exports.getUser = async (req, res) => {
     const id = req.auth.id;
     const user = await Users.findOne({ where: { id: id }, attributes: ['userName', 'userImageUrl', 'id', 'email']});
-    res.json(user);
+    res.status(200).json(user);
 };
 
 exports.modifyUser = async (req, res) => {
     const id = req.auth.id;
     
     if(req.auth.id !== id) {
-        res.json('Unauthorized request !');
+        res.status(401).json('Unauthorized request !');
     }
     
     multer.saveProfileImage( req, res, async () => {
@@ -93,7 +93,7 @@ exports.modifyUser = async (req, res) => {
                 { userName: userName, email: email }
             );
             await user.save();
-            res.send({user: user});
+            res.status(201).send({user: user});
             return;
         } else {
 
@@ -108,7 +108,7 @@ exports.modifyUser = async (req, res) => {
                     if( email ) user.email = email;
                     if( userImageUrl ) user.userImageUrl = userImageUrl;
                     user.save();
-                    res.json({user: user, image: userImageUrl}); 
+                    res.status(201).json({user: user, image: userImageUrl}); 
                 });
                 return;
             }
@@ -117,7 +117,7 @@ exports.modifyUser = async (req, res) => {
             if( email ) user.email = email;
             user.userImageUrl = userImageUrl;
             user.save();
-            res.json({user: user, image: userImageUrl
+            res.status(201).json({user: user, image: userImageUrl
             }); 
         }
 
@@ -130,7 +130,7 @@ exports.updatePassword = async (req, res) => {
     const id = req.auth.id;
     
     if(req.auth.id !== id) {
-        res.json('Unauthorized request !');
+        res.status(401).json('Unauthorized request !');
     }
 }
 
