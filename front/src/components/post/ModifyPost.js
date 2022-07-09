@@ -8,7 +8,9 @@ import Header from '../header/Header'
 export default function ModifyPost() {
     let { id } = useParams();
     const [post, setPost] = useState('');
+    
     const [postText, setPostText] = useState('');
+    
     const [image, setImage] = useState(undefined);
     const [imageURL, setImageURL] = useState();
     const { localStorageData } = useContext(LocalContext);

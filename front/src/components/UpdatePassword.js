@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react'
-import Password from './Password'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import Header from './header/Header';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { LocalContext } from '../Context/LocalContext';
 
 export default function UpdatePassword(props) {
-  
+  const navigate = useNavigate();
   const { localStorageData } = useContext(LocalContext);
   const [userPassword, setUserPassword] = useState('');
   const [confirmPassword, setConfirmedPassword] = useState('');
@@ -44,6 +44,10 @@ const getConfirmedPassword = e => {
   }
 
   return (
+    <div className='bg-light vh-100'>
+            <Header/>
+            <div className="container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">
+                
       <div className='w-100 ps-4 d-flex' >
         <form action="" method='PUT' className='col-md-6 col-sm-8 w-50 flex-start mt-5' encType='multipart/form-data' onSubmit={updatePassword}>
             <h1 className='fs-3 fw-bolder opacity-75'>Change your password</h1>
@@ -76,7 +80,7 @@ const getConfirmedPassword = e => {
             <Password id={'password-confirm'} value={'Confirm New Password'} onChange={(e) => console.log(e.target.value)}/> */}
 
             <button className={"btn btn-primaire mt-3 text-white fw-bold mb-4 w-100"}>Update password</button>
-            <button onClick={props.togglePassword}  className={"btn btn-primaire text-white fw-bold mb-4 w-100"}>Come back</button>
+            <button onClick={() => navigate('/auth/profile')}  className={"btn btn-primaire text-white fw-bold mb-4 w-100"}>Come back</button>
         </form>
         <div className='passwordInfo w-50 ps-5 pe-5 mt-auto mb-4 mx-auto'>
             <h2 className='fs-5'>Password must contain:</h2>
@@ -86,6 +90,8 @@ const getConfirmedPassword = e => {
                 <li className="list-group-item border-0">At least 8 characters</li>
             </ul>
         </div>
+      </div>
+      </div>
       </div>
   )
 }

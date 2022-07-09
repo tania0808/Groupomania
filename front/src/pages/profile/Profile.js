@@ -42,14 +42,15 @@ export default function Profile() {
     useEffect(() => {
         axios.get(`http://localhost:3000/auth/profile`, {
             headers: {
-                accessToken: localStorageData
+                accessToken: localStorage.getItem('accessToken')
             }
         })
         .then((response) => {
             setUser(response.data);
             setEmail(response.data.email);
             setUserName(response.data.userName);
-            setAvatar(response.data.userImageUrl)
+            setAvatar(response.data.userImageUrl);
+            setModif(true);
         });
     }, []);
 
@@ -81,29 +82,28 @@ export default function Profile() {
         <div className='bg-light vh-100'>
             <Header/>
             <div className="container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">
-                {isModif &&
-                    <UserInfo 
-                        user={user} 
-                        avatar={avatar}
-                        toggleProfile={toggleProfile}
-                        togglePassword={togglePassword}
-                        password={changePassword}
-                    />
-                }
+                <UserInfo 
+                    user={user} 
+                    avatar={avatar}
+                    //toggleProfile={toggleProfile}
+                    //togglePassword={togglePassword}
+                    password={changePassword}
+                />
 
-                {!isModif &&
+                {/* {!isModif &&
                     <UpdateProfile 
                         modifyUser={modifyUser} 
-                        toggleProfile={toggleProfile}
+                        //toggleProfile={toggleProfile}
                         avatar={avatar} 
+                        image={image}
                         user={user} 
                         clearImage={clearImage}
                         getUserName={getUserName}
                         getEmail={getEmail}
                         setImage={setImage}
-                        togglePassword={togglePassword}
+                        //togglePassword={togglePassword}
                     />
-                }
+                } */}
 
             </div>
         </div>
