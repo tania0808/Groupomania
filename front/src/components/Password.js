@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 export default function Password(props) {
+  console.log(props);
     const [passwordShown, setPasswordShown] = useState(false);
 
     const togglePassword = () => {
@@ -16,8 +17,10 @@ export default function Password(props) {
         className="form-control col-sm-6" 
         id={props.id}/>
         <FontAwesomeIcon icon={faEye} 
-        className="position-absolute top-50 end-0 pe-3" 
-        onClick={props.togglePassword}/>
+        onClick={togglePassword}
+        onChange={(e) => props.onChange(e.target.value)}
+        className="position-absolute top-50 end-0 pe-3"
+        />
     </div>
   )
 }

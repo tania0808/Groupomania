@@ -1,10 +1,13 @@
-import { React, useState } from 'react'
+import { React, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import Header from '../../components/header/Header';
+import { LocalContext } from '../../Context/LocalContext';
+
 
 
 export default function Login() {
+  const { setLocalStorageData } = useContext(LocalContext);
   
   let navigate = useNavigate();
 
@@ -26,6 +29,7 @@ export default function Login() {
       if(response.data.status) {
         localStorage.setItem("accessToken", response.data.token);
         localStorage.setItem('user', response.data.user);
+        setLocalStorageData(response.data.token);
         navigate('/posts');
       }
     })

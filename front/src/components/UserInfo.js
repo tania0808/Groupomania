@@ -21,7 +21,7 @@ export default function UserInfo(props) {
     }
 
     {props.password &&
-        <UpdatePassword  togglePassword={props.togglePassword} />
+        <UpdatePassword  togglePassword={props.togglePassword}  />
     }
     </div>
   )

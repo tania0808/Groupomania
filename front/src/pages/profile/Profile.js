@@ -7,15 +7,15 @@ import UpdateProfile from '../../components/UpdateProfile';
 import { LocalContext } from '../../Context/LocalContext';
 
 export default function Profile() {
-
     const { localStorageData } = useContext(LocalContext);
 
     const [user, setUser] = useState({});
+    const [avatar, setAvatar] = useState('');
     const [isModif, setModif] = useState(true);
-    const [password, setPassword] = useState(false);
+    const [changePassword, setChangePassword] = useState(false);
     
     const [email, setEmail] = useState("");
-    const [userName, setUserName] = useState(user.userName);
+    const [userName, setUserName] = useState('');
     const [image, setImage] = useState(undefined);
     
     
@@ -35,8 +35,8 @@ export default function Profile() {
         setModif(!isModif);
     }
     
-    function togglePassword(e) {
-        setPassword(!password);
+    function togglePassword() {
+        setChangePassword(!changePassword);
     }
     
     useEffect(() => {
@@ -49,6 +49,7 @@ export default function Profile() {
             setUser(response.data);
             setEmail(response.data.email);
             setUserName(response.data.userName);
+            setAvatar(response.data.userImageUrl)
         });
     }, []);
 
@@ -72,9 +73,9 @@ export default function Profile() {
             user.userName = userName;
             user.email = email;
             toggleProfile();
-            togglePassword();
         });
     }
+
 
     return (
         <div className='bg-light vh-100'>
@@ -83,9 +84,10 @@ export default function Profile() {
                 {isModif &&
                     <UserInfo 
                         user={user} 
+                        avatar={avatar}
                         toggleProfile={toggleProfile}
                         togglePassword={togglePassword}
-                        password={password}
+                        password={changePassword}
                     />
                 }
 
@@ -93,7 +95,7 @@ export default function Profile() {
                     <UpdateProfile 
                         modifyUser={modifyUser} 
                         toggleProfile={toggleProfile}
-                        image={image} 
+                        avatar={avatar} 
                         user={user} 
                         clearImage={clearImage}
                         getUserName={getUserName}

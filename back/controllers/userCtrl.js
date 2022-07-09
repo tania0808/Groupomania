@@ -149,3 +149,19 @@ exports.updatePassword = async (req, res) => {
     res.status(201).json('Password updated !'); 
 }
 
+
+exports.deleteUserAccount = async (req, res) => {
+    const id = req.auth.id;
+    const user = await Users.findOne({ where: { id: id }});
+
+    if(user.userImageUrl !== null && user.userImageUrl !== 'http://localhost:3000/images/profile/profile.jpeg') {
+        const filename = user.userImageUrl.split('/images/profile/')[1];
+        fs.unlink(`images/profile/${filename}`, () => {
+        });
+    }
+
+    await Posts.destroy( { where: { UserId: [id]}});
+    await Users.destroy({ where: { id: id }});
+    res.status(200).json({ message:'Account is deleted !' });
+
+}

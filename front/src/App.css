@@ -81,7 +81,7 @@ a {
 }
 
 .red {
-  color: red;
+  color: #FF2D01;
 }
 
 .avatar {
@@ -159,15 +159,16 @@ a {
 }
 
 .form-control:focus {
-  border: 0px solid;
-  border-color: transparent;
-  outline: 0px transparent;
-  box-shadow:  0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px transparent;
+  border: 0px solid transparent !important;
+  border-color: transparent !important;
+  outline: 0px transparent !important;
+  box-shadow:  0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px transparent !important;
 }
 
-input {
+input:focus {
   color: transparent;
   background-color : transparent; 
+  border: 1px solid transparent !important;
 }
 
 input:-webkit-autofill,
@@ -175,6 +176,7 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active{
   box-shadow: 0 0 0 40px white inset !important;
+  border: 1px solid transparent !important;
 }
 
 .imageUpload {
@@ -199,4 +201,35 @@ input:-webkit-autofill:active{
 .btn:focus,.btn:active {
   outline: none !important;
   box-shadow: none !important;
+}
+
+
+.popup-box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  position: absolute;
+  top: 12%;
+  background-color: white;
+  width: 50%;
+  height: 50%;
+  z-index: 9;
+  border: 3px solid #FF2D01;
+}
+
+.x-mark {
+  font-size: 80px;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #FF2D01;
+  border-radius: 50%;
+  text-align: center;
 }

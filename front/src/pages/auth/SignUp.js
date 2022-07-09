@@ -1,11 +1,11 @@
-import {React, useState} from 'react';
+import {React, useState, useContext } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import Header from '../../components/header/Header';
-
-
+import { LocalContext } from '../../Context/LocalContext';
 
 export default function SignUp() {
+    const { setLocalStorageData } = useContext(LocalContext);
     
     let navigate = useNavigate();
 
@@ -31,6 +31,8 @@ export default function SignUp() {
             if(response.data.status) {
                 localStorage.setItem("accessToken", response.data.token);
                 localStorage.setItem('user', response.data.user);
+                setLocalStorageData(response.data.token);
+
                 setTimeout(() => {
                   navigate('/posts');
                 }, 500);

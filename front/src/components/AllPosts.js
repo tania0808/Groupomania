@@ -7,22 +7,22 @@ import Post from './Post';
 import { LocalContext } from '../Context/LocalContext';
 
 export default function AllPosts() {
+  const { localStorageData } = useContext(LocalContext);
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')));
-  const { localStorageData } = useContext(LocalContext);
   
   useEffect(() => {
     axios.get("http://localhost:3000/posts", {
       headers: {
-        accessToken: localStorageData
+        accessToken: localStorage.getItem('accessToken')
       }
     }).then((response) =>{
       setListOfPosts(response.data.listOfPosts);
       setLikedPosts(response.data.likedPosts.map((like) => { return like.PostId}));
       setCurrentUser(JSON.parse(localStorage.getItem('user')));
       });
-    }, [])
+    }, [localStorageData])
 
   return (
       <div className='container d-flex flex-column justify-content-center align-items-center m-auto'>
