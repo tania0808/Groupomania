@@ -123,7 +123,7 @@ export default function UpdateProfile(props) {
                         id="email"
                         onChange={(e) => setEmail(e.target.value)}/>
 
-                    <a href="#" type='button' onClick={togglePopup}>Delete the account</a>
+                    <a href="#" type='button' onClick={togglePopup} style={{color: 'red'}}>Delete the account</a>
                     </div>
                     <button type='submit' className={"btn btn-primaire mt-3 text-white fw-bold mb-4"}>Modify profile</button>
                     <button onClick={() => navigate('/auth/profile')}  className={"btn btn-primaire mt-3 ms-3 text-white fw-bold mb-4"}>Come back</button>

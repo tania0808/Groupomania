@@ -2,9 +2,8 @@ import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './header/Header';
+import ShowHidePassword from './ShowHidePassword';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { LocalContext } from '../Context/LocalContext';
 
 export default function UpdatePassword(props) {
@@ -12,14 +11,13 @@ export default function UpdatePassword(props) {
   const { localStorageData } = useContext(LocalContext);
   const [userPassword, setUserPassword] = useState('');
   const [confirmPassword, setConfirmedPassword] = useState('');
+  const [error, setError] = useState('');
   
   const getPassword = e => {
-    console.log(e.target.value);
     setUserPassword(e.target.value)
 }
 
 const getConfirmedPassword = e => {
-    console.log(e.target.value);
     setConfirmedPassword(e.target.value)
 }
   const formData = new FormData();
@@ -33,14 +31,19 @@ const getConfirmedPassword = e => {
     }
 
   const updatePassword = async (e) => {
+    e.preventDefault();
     await axios.put(`http://localhost:3000/auth/profile/password`, { password: userPassword, confirmPassword: confirmPassword}, {
         headers: {
             accessToken: localStorageData
         }
     })
     .then((response) => {
-        props.togglePassword();
-    });
+      console.log(response);
+      navigate('/auth/profile');
+    })
+    .catch(err => {
+      setError(err.response.data)
+    })
   }
 
   return (
@@ -48,43 +51,19 @@ const getConfirmedPassword = e => {
             <Header/>
             <div className="container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">
                 
-      <div className='w-100 ps-4 d-flex' >
-        <form action="" method='PUT' className='col-md-6 col-sm-8 w-50 flex-start mt-5' encType='multipart/form-data' onSubmit={updatePassword}>
+      <div className='w-100 d-flex flex-column-reverse align-items-center flex-md-row' >
+        <form action="" method='PUT' className='col-10 col-sm-8 col-md-6 flex-start mt-5 ms-md-2' encType='multipart/form-data' onSubmit={updatePassword}>
             <h1 className='fs-3 fw-bolder opacity-75'>Change your password</h1>
-            <div className="form-group mt-3 position-relative">
-              <label htmlFor={'password'}>New Password</label>
-              <input 
-              type={passwordShown ? 'text' : 'password'} 
-              className="form-control col-sm-6" 
-              onChange={getPassword}
-              id={'password'}/>
-              <FontAwesomeIcon icon={faEye} 
-              onClick={togglePassword}
-              className="position-absolute top-50 end-0 pe-3"
-                />
-            </div>
+            <ShowHidePassword name={'password'} getPassword={getPassword} />
+            <ShowHidePassword name={'passwordConfirm'} getPassword={getConfirmedPassword} />
+            <div className={"alert mt-3 p-2 " + (error ? 'd-block ' : 'd-none ') + (error ? 'd-block alert-danger' : '')} role="alert" >{error}</div>
 
-            <div className="form-group mt-3 position-relative">
-              <label htmlFor={'passwordConfirm'}>Confirm New Password</label>
-              <input 
-              type={passwordShown ? 'text' : 'password'} 
-              className="form-control col-sm-6" 
-              onChange={getConfirmedPassword}
-              id={'passwordConfirm'}/>
-              <FontAwesomeIcon icon={faEye} 
-              onClick={(e) => togglePassword(e)}
-              className="position-absolute top-50 end-0 pe-3"
-                />
-            </div>
-            {/* <Password id={'password'} value={'New Password'} onChange={setUserPassword}/>
-            <Password id={'password-confirm'} value={'Confirm New Password'} onChange={(e) => console.log(e.target.value)}/> */}
-
-            <button className={"btn btn-primaire mt-3 text-white fw-bold mb-4 w-100"}>Update password</button>
+            <button onSubmit={updatePassword} className={"btn btn-primaire mt-1 text-white fw-bold mb-4 w-100"}>Update password</button>
             <button onClick={() => navigate('/auth/profile')}  className={"btn btn-primaire text-white fw-bold mb-4 w-100"}>Come back</button>
         </form>
-        <div className='passwordInfo w-50 ps-5 pe-5 mt-auto mb-4 mx-auto'>
+        <div className='passwordInfo w-50 ps-3 pt-3 ps-sm-5 pe-sm-5 mb-4 d-flex flex-column w-100'>
             <h2 className='fs-5'>Password must contain:</h2>
-            <ul className="list-group list-group-flush">
+            <ul className="list-group list-group-flush flex-row">
                 <li className="list-group-item border-0">At least one uppper-case letter (A-Z)</li>
                 <li className="list-group-item border-0">At least 1 number(0-9)</li>
                 <li className="list-group-item border-0">At least 8 characters</li>
