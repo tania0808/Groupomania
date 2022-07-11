@@ -12,7 +12,6 @@ export default function AllPosts() {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  console.log(currentUser);
   
   useEffect(() => {
     axios.get("http://localhost:3000/posts", {

@@ -1,8 +1,10 @@
-import {React, useState, useContext } from 'react';
+import { React, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { LocalContext } from '../../Context/LocalContext';
+import PasswordValidator from '../../components/PasswordValidator';
 
 export default function SignUp() {
     const { setLocalStorageData } = useContext(LocalContext);
@@ -14,11 +16,11 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const [alert, setAlert] = useState('');
     const [status, setStatus] = useState(''); 
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(false);    
 
     const createUser = async (e) => {
-        e.preventDefault()
-        
+        e.preventDefault();
+
         await axios.post("http://localhost:3000/auth/signup", { 
             userName: userName,
             email: email,
@@ -39,7 +41,6 @@ export default function SignUp() {
             }
         })
     }
-
    
   return (
     <div className='mb-5'>
@@ -59,6 +60,7 @@ export default function SignUp() {
                     <label htmlFor="password" className="form-label">Password</label>
                     <input required type="password" className="form-control" id="password" onChange={(e) => {setPassword(e.target.value)}}/>
                 </div>
+
                 <div className={"alert " + (toggle ? 'd-block' : 'd-none ') + (!status ? 'd-block alert-danger' : 'alert-success')} role="alert" >{alert}</div>
                 <button onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
             </form>

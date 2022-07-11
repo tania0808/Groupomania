@@ -18,25 +18,8 @@ export default function Profile() {
     const [userName, setUserName] = useState('');
     const [image, setImage] = useState(undefined);
     
-    
-    const getUserName = e => {
-        setUserName(e.target.value)
-    }
-
-    const getEmail = e => {
-        setEmail(e.target.value)
-    }
-
-    function clearImage() {
-        setImage('');
-    }
-    
     function toggleProfile() {
         setModif(!isModif);
-    }
-    
-    function togglePassword() {
-        setChangePassword(!changePassword);
     }
     
     useEffect(() => {
@@ -59,25 +42,6 @@ export default function Profile() {
     formData.append('userName', userName);
     formData.append('email', email);
 
-    const modifyUser = async (e) => {
-        e.preventDefault();
-        await axios.put(`http://localhost:3000/auth/profile`, formData, {
-            headers: {
-                accessToken: localStorageData
-            }
-        })
-        .then((response) => {
-            let loggedInUser = JSON.parse(localStorage.getItem('user'));
-            loggedInUser.userName = response.data.user.userName;
-            loggedInUser.userImageUrl = response.data.user.userImageUrl;
-            localStorage.setItem('user', JSON.stringify(loggedInUser));
-            user.userName = userName;
-            user.email = email;
-            toggleProfile();
-        });
-    }
-
-
     return (
         <div className='bg-light vh-100'>
             <Header/>
@@ -85,26 +49,8 @@ export default function Profile() {
                 <UserInfo 
                     user={user} 
                     avatar={avatar}
-                    //toggleProfile={toggleProfile}
-                    //togglePassword={togglePassword}
                     password={changePassword}
                 />
-
-                {/* {!isModif &&
-                    <UpdateProfile 
-                        modifyUser={modifyUser} 
-                        //toggleProfile={toggleProfile}
-                        avatar={avatar} 
-                        image={image}
-                        user={user} 
-                        clearImage={clearImage}
-                        getUserName={getUserName}
-                        getEmail={getEmail}
-                        setImage={setImage}
-                        //togglePassword={togglePassword}
-                    />
-                } */}
-
             </div>
         </div>
     )

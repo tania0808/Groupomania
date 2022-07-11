@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
 import axios from 'axios';
 
-import UpdatePassword from './UpdatePassword'
-import { useNavigate } from 'react-router-dom'
-export default function UserInfo(props) {
+export default function UserInfo() {
     let navigate = useNavigate();
     const [user, setUser] = useState({}); 
-    console.log(user);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/auth/profile`, {
@@ -16,10 +16,6 @@ export default function UserInfo(props) {
         })
         .then((response) => {
             setUser(response.data);
-            // setEmail(response.data.email);
-            // setUserName(response.data.userName);
-            // setAvatar(response.data.userImageUrl);
-            // setModif(true);
         });
     }, []);
 
