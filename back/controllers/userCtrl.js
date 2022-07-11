@@ -59,7 +59,8 @@ exports.userLogIn = async (req, res) => {
                 id: user.id, 
                 userName: user.userName, 
                 isAdmin: user.isAdmin, 
-                userImageUrl: user.userImageUrl 
+                userImageUrl: user.userImageUrl,
+                userPosition: user.userPosition
             }) 
         })
     }
@@ -67,7 +68,7 @@ exports.userLogIn = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     const id = req.auth.id;
-    const user = await Users.findOne({ where: { id: id }, attributes: ['userName', 'userImageUrl', 'id', 'email']});
+    const user = await Users.findOne({ where: { id: id }, attributes: ['userName', 'userImageUrl', 'id', 'email', 'userPosition']});
     res.status(200).json(user);
 };
 
@@ -79,7 +80,7 @@ exports.modifyUser = async (req, res) => {
     }
     
     multer.saveProfileImage( req, res, async () => {
-        const { userName, email } = req.body;
+        const { userName, email, userPosition } = req.body;
         
         let user = await Users.findOne(
             { where: { id: id },
@@ -90,7 +91,7 @@ exports.modifyUser = async (req, res) => {
 
         if(!req.file) {
             user.set(
-                { userName: userName, email: email }
+                { userName: userName, email: email, userPosition: userPosition }
             );
             await user.save();
             res.status(201).send({user: user});
@@ -106,6 +107,7 @@ exports.modifyUser = async (req, res) => {
                 fs.unlink(`images/profile/${filename}`, (err) => {
                     if(userName) user.userName = userName;
                     if( email ) user.email = email;
+                    if( userPosition ) user.userPosition = userPosition;
                     if( userImageUrl ) user.userImageUrl = userImageUrl;
                     user.save();
                     res.status(201).json({user: user, image: userImageUrl}); 
@@ -115,6 +117,7 @@ exports.modifyUser = async (req, res) => {
 
             if(userName) user.userName = userName;
             if( email ) user.email = email;
+            if( userPosition ) user.userPosition = userPosition;
             user.userImageUrl = userImageUrl;
             user.save();
             res.status(201).json({user: user, image: userImageUrl

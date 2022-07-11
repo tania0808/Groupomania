@@ -18,6 +18,7 @@ export default function UpdateProfile(props) {
     
     const [email, setEmail] = useState('');
     const [userName, setUserName] = useState('');
+    const [userPosition, setUserPosition] = useState('');
 
     
     function togglePopup () {
@@ -36,6 +37,7 @@ export default function UpdateProfile(props) {
     formData.append('userImageUrl', image);
     formData.append('userName', userName);
     formData.append('email', email);
+    formData.append('userPosition', userPosition);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/auth/profile`, {
@@ -47,6 +49,7 @@ export default function UpdateProfile(props) {
             setUser(response.data);
             setEmail(response.data.email);
             setUserName(response.data.userName);
+            setUserPosition(response.data.userPosition)
         });
     }, []);
 
@@ -61,6 +64,7 @@ export default function UpdateProfile(props) {
             let loggedInUser = JSON.parse(localStorage.getItem('user'));
             loggedInUser.userName = response.data.user.userName;
             loggedInUser.userImageUrl = response.data.user.userImageUrl;
+            loggedInUser.userPosition = response.data.user.userPosition;
             localStorage.setItem('user', JSON.stringify(loggedInUser));
             navigate('/auth/profile');
         });
@@ -96,10 +100,7 @@ export default function UpdateProfile(props) {
                             <FontAwesomeIcon icon={faCamera} />
                         </label>
                         <input type="file" style={{visibility: 'hidden'}} className="form-control-file" id="userImageUrl" onChange={uploadImageToClient} name="userImageUrl"/>
-                        
-                        {/* {imageURL &&
-                            <FontAwesomeIcon className='resetImage' icon={faXmark} onClick={props.clearImage}/>
-                        } */}
+                       
                     </div>
                 </div>
                 <form action="" method='PUT' className='col-md-6 col-sm-10 w-75 flex-center mt-5' encType='multipart/form-data' onSubmit={modifyUser}>
@@ -112,6 +113,16 @@ export default function UpdateProfile(props) {
                         className="form-control" 
                         id="userName"
                         onChange={(e) => setUserName(e.target.value)} />
+                    </div>
+                    <div className="form-group mt-3">
+                        <label htmlFor="userPosition">Set your position</label>
+                        <input 
+                        required
+                        defaultValue={userPosition}
+                        type='text' 
+                        className="form-control" 
+                        id="userPosition"
+                        onChange={(e) => setUserPosition(e.target.value)} />
                     </div>
                     <div className="form-group mt-3">
                         <label htmlFor="email">Set new email</label>

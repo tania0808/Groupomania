@@ -18,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             defaultValue: 'http://localhost:3000/images/profile/profile.jpeg',
         },
+        userPosition: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: '',
+        },
         isAdmin: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

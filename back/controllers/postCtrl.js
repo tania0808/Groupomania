@@ -6,7 +6,7 @@ require('dotenv').config();
 console.log(process.env)
 
 exports.getAllPosts = async (req, res) => {
-    const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName', 'userImageUrl']}] });
+    const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName', 'userImageUrl', 'userPosition']}] });
 
     if(posts === undefined) {
         res.status(400).json({ listOfPosts: null, likedPosts: null, id: req.auth.id });

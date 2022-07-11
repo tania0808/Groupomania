@@ -6,7 +6,7 @@ export default function PostHeader(props) {
         <img className='userImage' src={props.avatar} alt="" />
         <div className='ms-3'>
           <p className='fw-bold'>{props.userName}</p>
-          <span className='fw-light'>Junior React Developper</span>
+          <span className='fw-light'>{props.userPosition}</span>
         </div>
     </div>
   )
