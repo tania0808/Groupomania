@@ -2,6 +2,11 @@ import React, { createContext, useState, useEffect} from 'react';
 
 export const LocalContext = createContext();
 
+/**
+ * Context with local storage
+ * @param {*} props 
+ * @returns 
+ */
 const LocalContextProvider = props => {
 
     const [localStorageData, setLocalStorageData] = useState('');

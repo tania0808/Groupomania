@@ -22,12 +22,11 @@ function App() {
           <Routes>
             <Route path="/posts" element={<Home/>} />
             <Route path="/" element={<Login/>} />
-            {/* <Route path="/post/create" element={<Post/>} /> */}
             <Route path="/post/update/:id" element={<ModifyPost/>} />
             <Route path="/auth/login" element={<Login/>} />
             <Route path="/auth/signup" element={<SignUp/>} />
             {/* /redirect ne sert à rien */}
-            <Route path='/redirect' element={<Navigate to="/auth/login"/>}/>
+            {/* <Route path='/redirect' element={<Navigate to="/auth/login"/>}/> */}
             <Route path='/auth/profile' element={<Profile/>}/>
             <Route path='/auth/profile/update' element={<UpdateProfile/>}/>
             <Route path='/auth/profile/password/update' element={<UpdatePassword/>}/>

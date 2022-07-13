@@ -7,7 +7,11 @@ import ShowHidePassword from './ShowHidePassword';
 
 import { LocalContext } from '../Context/LocalContext';
 
-export default function UpdatePassword(props) {
+/**
+ * Component to update a passsword
+ * @returns {String} HTML for updating a password
+ */
+export default function UpdatePassword() {
   const navigate = useNavigate();
 
   const { localStorageData } = useContext(LocalContext);
@@ -15,10 +19,17 @@ export default function UpdatePassword(props) {
   const [confirmPassword, setConfirmedPassword] = useState('');
   const [error, setError] = useState('');
   
+  /**
+   * get password from the input
+   * @param {Event} e 
+   */
   const getPassword = e => {
     setUserPassword(e.target.value)
   } 
-
+  /**
+   * get confirmation of password from the input
+   * @param {Event} e 
+   */
   const getConfirmedPassword = e => {
       setConfirmedPassword(e.target.value)
   }
@@ -27,6 +38,10 @@ export default function UpdatePassword(props) {
     formData.append('password', userPassword);
     formData.append('passwordConfirm', confirmPassword);
 
+    /**
+     * Updates a password when clicking on update after password insertion
+     * @param {Event} e 
+     */
   const updatePassword = async (e) => {
     e.preventDefault();
     await axios.put(`http://localhost:3000/auth/profile/password`, { password: userPassword, confirmPassword: confirmPassword}, {

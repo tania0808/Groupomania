@@ -1,5 +1,4 @@
 import  { React, useEffect, useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +8,11 @@ import { LocalContext } from '../Context/LocalContext';
 import PostHeader from './PostHeader';
 import PostDropDown from './PostDropDown';
 
+/**
+ * Post component
+ * @param {*} props 
+ * @returns HTML of Post with post header, image and text
+ */
 export default function Post(props) {
   const { localStorageData } = useContext(LocalContext);
   const [post, setPost] = useState({ createdAt: '', User: { userName: ''}});
@@ -23,6 +27,10 @@ export default function Post(props) {
     setLiked(props.liked);
   }, []);
     
+  /**
+   * Like or unlike the post when clicking on the heart
+   * @param {Number} postId 
+   */
   async function likeAPost (postId) {
     await axios.post("http://localhost:3000/like", {
       id: postId
@@ -42,6 +50,10 @@ export default function Post(props) {
     })
   };
     
+  /**
+   * Deletes a post when opening a dropdown menu and clicking on Delete
+   * @param {Number} postId 
+   */
   async function deletePost(postId) {
     await axios.delete(`http://localhost:3000/posts/${postId}`,
     {

@@ -2,6 +2,10 @@ import {React} from 'react';
 
 import { useNavigate, Link } from 'react-router-dom';
 
+/**
+ * Component which includes profile dropdown menu
+ * @returns profile dropdown with profile and logout links
+ */
 export default function Dropdown() {
     let navigate = useNavigate();
 
