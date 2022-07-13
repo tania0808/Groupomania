@@ -184,8 +184,13 @@ exports.updatePassword = async (req, res) => {
 
 
 /**
+<<<<<<< HEAD
  * Deletes user acount
  * @returns {String} result of deletion
+=======
+ * Supprime un compte utilisateur
+ * @returns {String} résultat de la suppression
+>>>>>>> 38921d5a35389838d6676a2b7215a043694f3f19
  */
 exports.deleteUserAccount = async (req, res) => {
     const id = req.auth.id;
