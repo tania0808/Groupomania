@@ -7,12 +7,16 @@ import { useNavigate } from 'react-router-dom'
 import { LocalContext } from '../Context/LocalContext';
 import Header from './header/Header';
 
+/**
+ * Updates user information
+ * @returns {String} HTML form to update user information
+ */
 export default function UpdateProfile() {
     let navigate = useNavigate();
 
     const { localStorageData } = useContext(LocalContext);
 
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({});
     const [image, setImage] = useState(undefined);
     const [userName, setUserName] = useState('');
     const [userPosition, setUserPosition] = useState('');
@@ -21,10 +25,17 @@ export default function UpdateProfile() {
 
     const [popup, setPopup] = useState(false);
     
+    /**
+     * Open popup window when clicking on delete button
+     */
     function togglePopup () {
         setPopup(!popup);
     }
 
+    /**
+     * Do a preview of uploaded image
+     * @param {Event} event click on select image button
+     */
     const uploadImageToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             setImage(event.target.files[0]);
@@ -53,6 +64,10 @@ export default function UpdateProfile() {
         });
     }, []);
 
+    /**
+     * 
+     * @param {Event} e click on the button Update profile
+     */
     const modifyUser = async (e) => {
         e.preventDefault();
         await axios.put(`http://localhost:3000/auth/profile`, formData, {
@@ -70,6 +85,9 @@ export default function UpdateProfile() {
         });
     }
 
+    /**
+     * Delete user account
+     */
     async function deleteAccount() {
         await axios.delete(`http://localhost:3000/auth/profile`,
         {
@@ -82,7 +100,7 @@ export default function UpdateProfile() {
           localStorage.clear();
           navigate('/auth/login', { replace: true });
         })
-      }
+    }
 
   return (
     <div className='bg-light vh-100'>
@@ -135,7 +153,7 @@ export default function UpdateProfile() {
                             />
                             <a href="#" type='button' onClick={togglePopup} style={{color: 'red'}}>Delete the account</a>
                         </div>
-                        <button type='submit' className={"btn btn-primaire mt-3 text-white fw-bold mb-4"}>Modify profile</button>
+                        <button type='submit' className={"btn btn-primaire mt-3 text-white fw-bold mb-4"}>Update profile</button>
                         <button onClick={() => navigate('/auth/profile')}  className={"btn btn-primaire mt-3 ms-3 text-white fw-bold mb-4"}>Come back</button>
                     </form>
                 </div>

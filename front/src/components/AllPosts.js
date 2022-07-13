@@ -5,10 +5,12 @@ import CreatePost from './post/CreatePost';
 import { LocalContext } from '../Context/LocalContext';
 import Post from './Post';
 
-
+/**
+ * Component to display all the posts
+ * @returns {String} HTML of the posts
+ */
 export default function AllPosts() {
-  const { localStorageData } = useContext(LocalContext);
-
+  
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
@@ -23,7 +25,7 @@ export default function AllPosts() {
         setLikedPosts(response.data.likedPosts.map((like) => { return like.PostId}));
         setCurrentUser(JSON.parse(localStorage.getItem('user')));
       });
-    }, [localStorageData])
+    }, []);
 
   return (
     <div className='container d-flex flex-column justify-content-center align-items-center m-auto'>

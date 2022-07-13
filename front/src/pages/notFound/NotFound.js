@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 
 import './NotFound.css';
 
+/**
+ * NotFound page
+ * @returns {String} HTML of NotFound page
+ */
 export default function NotFound() {
   return (
     <div className='box vh-100 wv-100 d-flex flex-column align-items-center justify-content-center color-red'>

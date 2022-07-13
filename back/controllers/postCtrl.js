@@ -5,6 +5,10 @@ require('dotenv').config();
 
 console.log(process.env)
 
+/**
+ * Get a list of all posts and list of liked posts from database
+ * @returns {Object} listOfPosts, likedPosts, user id
+ */
 exports.getAllPosts = async (req, res) => {
     const posts = await Posts.findAll({ include: [Likes, {model: Users, attributes: ['userName', 'userImageUrl', 'userPosition']}] });
 
@@ -16,7 +20,10 @@ exports.getAllPosts = async (req, res) => {
     const likedPosts = await Likes.findAll({ where: { UserId: req.auth.id } });
     res.status(200).json({ listOfPosts: posts, likedPosts: likedPosts, id: req.auth.id });
 };
-
+/**
+ * Get information of specific post
+ * @returns {Object} post data
+ */
 exports.getOnePost = async (req, res) => {
     const id = req.params.id;
     const post = await Posts.findByPk(id);
@@ -29,6 +36,11 @@ exports.getOnePost = async (req, res) => {
     res.status(200).json(result);
 }
 
+
+/**
+ * Create post
+ * @returns {Array} All posst after creating one post
+ */
 exports.createPost = async (req, res) => {
     const post = {
         postText: req.body.postText,
@@ -40,10 +52,15 @@ exports.createPost = async (req, res) => {
     }
 
     await Posts.create(post);
+
     const posts = await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName', 'userImageUrl'] }] });
     res.status(201).json(posts);
 };
 
+/**
+ * Delete a specific post
+ * @returns {Array} List of all posts after deleting a pecific post
+ */
 exports.deletePost =  async(req, res) => {
     const id = req.params.id;
     const post = await Posts.findByPk(id);
@@ -65,10 +82,15 @@ exports.deletePost =  async(req, res) => {
     }
 
     await Posts.destroy({ where: { id: id }});
+
     const posts =  await Posts.findAll({ include: [Likes, { model: Users, attributes: ['userName', 'userImageUrl'] } ]});
     res.status(200).json({ message:'Post is deleted !', posts: posts });
 };
 
+/**
+ * Update a post
+ * @returns updated post and url of the image
+ */
 exports.updatePost = async (req, res) => {
     const id = req.params.id;
     const post = await Posts.findOne({ where: { id: id } });

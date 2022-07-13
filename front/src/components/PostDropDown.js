@@ -1,6 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+/**
+ * Dropdown component with update and delete post buttons
+ * @param {Number} props.id
+ * @param {Function} props.deletePost
+ * @returns HTML of dropdown menu
+ */
 export default function PostDropDown(props) {
     const { id, deletePost } = props;
     

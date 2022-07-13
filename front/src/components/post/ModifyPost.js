@@ -6,7 +6,10 @@ import axios from 'axios';
 import { LocalContext } from '../../Context/LocalContext';
 import Header from '../header/Header'
 
-
+/**
+ * Component to update a post
+ * @returns {String} HTML form with post details
+ */
 export default function ModifyPost() {
     let { id } = useParams();
     const { localStorageData } = useContext(LocalContext);
@@ -31,7 +34,7 @@ export default function ModifyPost() {
     useEffect(() => {
             axios.get(`http://localhost:3000/posts/${id}`, {
                 headers: {
-                    accessToken: localStorageData
+                    accessToken: localStorage.getItem('accessToken')
                 }
             })
             .then((response) => {
@@ -39,6 +42,10 @@ export default function ModifyPost() {
             });
     }, [id])
 
+    /**
+     * Update the post
+     * @param {Event} e click on the button Update the post
+     */
     const modifyPost = async (e) => {
         e.preventDefault();
         await axios.put(`http://localhost:3000/posts/${id}`, formData, {
@@ -61,12 +68,13 @@ export default function ModifyPost() {
                         <label htmlFor="postText">Share your thoughts</label>
                         <input defaultValue={post.postText}   type='text' className="form-control p-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
                     </div>
-                    {post.imageUrl !== null && !image ? <img src={post.imageUrl} alt=" " width={140} className="mt-3"/> :  <img src={imageURL} alt="" width={140} className="mt-3" />}
+                    {post.imageUrl !== null && image ? <img src={post.imageUrl} alt=" " width={140} className="mt-3"/> 
+                    :  <img src={imageURL} alt="" width={140} className="mt-3" />}
                     <div className="form-group mt-5">
                         <label htmlFor="imageUrl">Choose another image</label><br />
                         <input className="form-control" type="file" id="imageUrl" onChange={uploadImageToClient} name="imageUrl"></input>
                     </div>
-                    <button type='submit' className='btn btn-primaire mt-5 text-white fw-bold'>Modify post</button>
+                    <button type='submit' className='btn btn-primaire mt-5 text-white fw-bold'>Update the post</button>
                 </form>
             </div>
         </>

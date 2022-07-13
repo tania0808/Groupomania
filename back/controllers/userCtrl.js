@@ -4,10 +4,26 @@ const multer = require('../middleware/multer');
 const fs = require('fs');
 
 const { sign } = require('jsonwebtoken');
+const { signInValidation, passwordValidation } = require('../middleware/validation');
 
+/**
+ * Creating user account, log into it
+ * @returns {Object} message, status, token, user data
+ */
 exports.userSignUp = async (req, res) => {
     if(req.body === undefined) return res.status(400).json('Empty data !!!')
     
+    const { error, value } = signInValidation(req.body);
+    const isValidPassword = passwordValidation(req.body.password);
+    if(!isValidPassword) {
+        return res.json({ message: "The string should have a minimum length of 6 characters, a minimum of 1 uppercase letter, a minimum of 2 digits, should not have spaces"});
+    }
+
+    if(error){
+        res.json({ message: error.details[0].message });
+        return;
+    }
+
     const emailExists = await Users.findOne({ where: { email: req.body.email } });
     
     if(emailExists){ 
@@ -41,6 +57,10 @@ exports.userSignUp = async (req, res) => {
     }
 };
 
+/**
+ * Log into user account
+ * @returns {Object} status, token, user data
+ */
 exports.userLogIn = async (req, res) => {
     const { email, password } = req.body;
     const user = await Users.findOne({ where: { email: email } });
@@ -66,29 +86,36 @@ exports.userLogIn = async (req, res) => {
     }
 };
 
+/**
+ * Gets user information from database
+ * @returns {Object} user
+ */
 exports.getUser = async (req, res) => {
     const id = req.auth.id;
     const user = await Users.findOne({ where: { id: id }, attributes: ['userName', 'userImageUrl', 'id', 'email', 'userPosition']});
     res.status(200).json(user);
 };
 
+/**
+ * Updates user information
+ * @returns {Object} user , user image url
+ */
 exports.modifyUser = async (req, res) => {
     const id = req.auth.id;
     
-    if(req.auth.id !== id) {
+    let user = await Users.findOne(
+        { where: { id: id },
+        attributes: {exclude: ['password']} }, 
+        { include: [{ model: Posts }]}
+    );
+
+    if(id !== user.id) {
         res.status(401).json('Unauthorized request !');
     }
     
     multer.saveProfileImage( req, res, async () => {
         const { userName, email, userPosition } = req.body;
         
-        let user = await Users.findOne(
-            { where: { id: id },
-            attributes: {exclude: ['password']} }, 
-            { include: [{ model: Posts }]}
-        );
-
-
         if(!req.file) {
             user.set(
                 { userName: userName, email: email, userPosition: userPosition }
@@ -128,7 +155,10 @@ exports.modifyUser = async (req, res) => {
     
 };
 
-
+/**
+ * Updates user password
+ * @returns {String} result of password updating
+ */
 exports.updatePassword = async (req, res) => {
     const id = req.auth.id;
     const user = await Users.findOne({ where: { id: id }, attributes: ['id', 'password']});
@@ -153,9 +183,17 @@ exports.updatePassword = async (req, res) => {
 }
 
 
+/**
+ * Deletes user acount
+ * @returns {String} result of deletion
+ */
 exports.deleteUserAccount = async (req, res) => {
     const id = req.auth.id;
     const user = await Users.findOne({ where: { id: id }});
+
+    if(id != user.id) {
+        return res.status(401).json('Unauthorized request !');
+    }
 
     if(user.userImageUrl !== null && user.userImageUrl !== 'http://localhost:3000/images/profile/profile.jpeg') {
         const filename = user.userImageUrl.split('/images/profile/')[1];
@@ -163,8 +201,6 @@ exports.deleteUserAccount = async (req, res) => {
         });
     }
 
-    await Posts.destroy( { where: { UserId: [id]}});
     await Users.destroy({ where: { id: id }});
     res.status(200).json({ message:'Account is deleted !' });
-
 }

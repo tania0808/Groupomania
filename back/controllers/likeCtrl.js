@@ -1,5 +1,9 @@
 const { Likes } = require('../models');
 
+/**
+ * Like a user's post
+ * @returns {Object} liked: true or false
+ */
 exports.likePost = async (req, res) => {
     const { id } = req.body;
     const userId = req.auth.id;

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     Posts.associate = (models) => {
         Posts.hasMany(models.Likes, {
             onDelete: 'cascade',
-        }),
+        })
 
         Posts.belongsTo(models.Users)
     }

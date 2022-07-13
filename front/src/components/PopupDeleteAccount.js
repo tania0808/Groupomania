@@ -3,6 +3,12 @@ import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * Popup window with a confirmation to delete account or come back to the previous page
+ * @param {Function} handlePopup 
+ * @param {Function} deleteAccount 
+ * @returns HTML popup window
+ */
 export default function PopupDeleteAccount(props) {
   const { handlePopup, deleteAccount } = props;
 

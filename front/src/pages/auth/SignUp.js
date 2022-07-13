@@ -6,6 +6,10 @@ import Header from '../../components/header/Header';
 import { LocalContext } from '../../Context/LocalContext';
 import PasswordValidator from '../../components/PasswordValidator';
 
+/**
+ * Sign up form component
+ * @returns  HTML of Sign up form
+ */
 export default function SignUp() {
     const { setLocalStorageData } = useContext(LocalContext);
     
@@ -16,8 +20,53 @@ export default function SignUp() {
     const [password, setPassword] = useState("");
     const [alert, setAlert] = useState('');
     const [status, setStatus] = useState(''); 
-    const [toggle, setToggle] = useState(false);    
+    const [toggle, setToggle] = useState(false);
 
+    const [pwdRequisite, setPwdRequisite] = useState(false);
+
+    const [checks, setChecks] = useState({
+        capsLetterCheck: false,
+        numberCheck: false,
+        pwdLengthCheck: false,
+        specialCharCheck: false
+    });
+    
+    /**
+     * Open password strength checks
+     */
+    const handleOnFocus = () => {
+        setPwdRequisite(true);
+    }
+
+    /**
+     * Close password strength checks
+     */
+    const handleOnBlur = () => {
+        setPwdRequisite(false);
+    }
+
+    /**
+     * Setting checks points to true or false
+     * @param {Event} e on entering a password
+     */
+    const handleOnKeyUp = (e) => {
+        const { value } = e.target;
+        const capsLetterCheck = /[A-Z]/.test(value);
+        const numberCheck = /[0-9]/.test(value);
+        const pwdLengthCheck = value.length > 8;
+        const specialCharCheck = /[^A-Za-z0-9]/.test(value);
+        setChecks({
+            capsLetterCheck,
+            numberCheck,
+            pwdLengthCheck,
+            specialCharCheck
+        })
+    }
+
+    /**
+     * Create a user and login
+     * @param {Event} e click on Sign in button
+     */
     const createUser = async (e) => {
         e.preventDefault();
 
@@ -58,11 +107,27 @@ export default function SignUp() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
-                    <input required type="password" className="form-control" id="password" onChange={(e) => {setPassword(e.target.value)}}/>
+                    <input required 
+                    type="password" 
+                    className="form-control" 
+                    id="password" 
+                    onChange={(e) => setPassword(e.target.value)}
+                    onFocus={handleOnFocus}
+                    onBlur={handleOnBlur}
+                    onKeyUp={handleOnKeyUp}
+                    />
                 </div>
-
+                { pwdRequisite ? 
+                <PasswordValidator
+                    checks={checks}
+                    capsLetterFlag={ checks.capsLetterCheck ? true : false }
+                    numberFlag={ checks.numberCheck ? true : false}
+                    pwdLengthFlag={ checks.pwdLengthCheck ? true : false }
+                    specialCharFlag={ checks.specialCharCheck ? true : false }
+                /> 
+                : null }
                 <div className={"alert " + (toggle ? 'd-block' : 'd-none ') + (!status ? 'd-block alert-danger' : 'alert-success')} role="alert" >{alert}</div>
-                <button onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
+                <button disabled={!email || !userName || !checks.capsLetterCheck || !checks.numberCheck || !checks.pwdLengthCheck || !checks.specialCharCheck }  onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
             </form>
         </div>
     </div>

@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios';
+import { LocalContext } from '../Context/LocalContext';
 
+
+
+/**
+ * Component to display user information
+ * @returns HTML of user information
+ */
 export default function UserInfo() {
+    const { localStorageData } = useContext(LocalContext);
     let navigate = useNavigate();
     const [user, setUser] = useState({}); 
 
     useEffect(() => {
         axios.get(`http://localhost:3000/auth/profile`, {
             headers: {
-                accessToken: localStorage.getItem('accessToken')
+                accessToken: localStorageData
             }
         })
         .then((response) => {
             setUser(response.data);
         });
-    }, []);
+    }, [localStorageData]);
 
   return (
     <div className='w-100'>

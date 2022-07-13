@@ -4,11 +4,16 @@ import { Link } from 'react-router-dom'
 import Dropdown from '../Dropdown';
 import logo from '../../assets/logos/icon-left-font.svg'
 
+
+/**
+ * A component ot display a header of application
+ * @returns {String} HTML of header
+ */
 export default function Header() {
     const token = localStorage.getItem('accessToken');
   return (
     <div className='header-container d-flex bg-white mb-5 justify-content-center align-items-center'>
-        <header className='d-flex justify-content-between align-items-center bg-white'>
+        <header className='d-flex justify-content-between align-items-center bg-white col-6 col-xs-8 col-md-8 col-lg-8'>
             <Link to={token ? '/posts' : '/auth/login'} className="image-container">
                 <img className='logo' src={logo} alt="logo groupomania" />
             </Link>
