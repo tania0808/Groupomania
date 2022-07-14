@@ -4,7 +4,7 @@ import axios from 'axios';
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { LocalContext } from '../Context/LocalContext';
+import { LocalContext } from '../../context/LocalContext';
 import PostHeader from './PostHeader';
 import PostDropDown from './PostDropDown';
 
@@ -13,7 +13,7 @@ import PostDropDown from './PostDropDown';
  * @param {*} props 
  * @returns HTML of Post with post header, image and text
  */
-export default function Post(props) {
+export default function Post(props) {  
   const { localStorageData } = useContext(LocalContext);
   const [post, setPost] = useState({ createdAt: '', User: { userName: ''}});
   const { id, UserId, imageUrl, postText, createdAt } = post;

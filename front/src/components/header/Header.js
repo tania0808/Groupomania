@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import Dropdown from '../Dropdown';
+import Dropdown from './HeaderDropdown';
 import logo from '../../assets/logos/icon-left-font.svg'
 
 

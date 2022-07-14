@@ -2,10 +2,10 @@ import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import Header from './header/Header';
+import Header from '../header/Header';
 import ShowHidePassword from './ShowHidePassword';
 
-import { LocalContext } from '../Context/LocalContext';
+import { LocalContext } from '../../context/LocalContext';
 
 /**
  * Component to update a passsword

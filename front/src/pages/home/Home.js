@@ -1,6 +1,6 @@
 import Header from '../../components/header/Header';
-import AllPosts from '../../components/AllPosts';
-import LocalContextProvider from '../../Context/LocalContext';
+import AllPosts from '../../components/post/AllPosts';
+import LocalContextProvider from '../../context/LocalContext';
 
 /**
  * Home page

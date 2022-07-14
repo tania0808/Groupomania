@@ -4,8 +4,8 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import PopupDeleteAccount from './PopupDeleteAccount';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
-import { LocalContext } from '../Context/LocalContext';
-import Header from './header/Header';
+import { LocalContext } from '../../context/LocalContext';
+import Header from '../header/Header';
 
 /**
  * Updates user information

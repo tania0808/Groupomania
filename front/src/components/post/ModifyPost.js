@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import axios from 'axios';
 
-import { LocalContext } from '../../Context/LocalContext';
+import { LocalContext } from '../../context/LocalContext';
 import Header from '../header/Header'
 
 /**

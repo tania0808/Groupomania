@@ -2,17 +2,16 @@ import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 
-import {Routes, Route, Navigate} from 'react-router-dom'
+import {Routes, Route } from 'react-router-dom'
 import Home from './pages/home/Home';
-//import Post from './pages/post/CreatePost';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import ModifyPost from './components/post/ModifyPost'
 import NotFound from './pages/notFound/NotFound';
 import Profile from './pages/profile/Profile';
-import LocalContextProvider from './Context/LocalContext';
-import UpdateProfile from './components/UpdateProfile';
-import UpdatePassword from './components/UpdatePassword';
+import LocalContextProvider from './context/LocalContext';
+import UpdateProfile from './components/account/UpdateProfile'
+import UpdatePassword from './components/account/UpdatePassword';
 
 function App() {
 

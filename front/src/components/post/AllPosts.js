@@ -1,8 +1,7 @@
-import  { React, useEffect, useState, useContext } from 'react'
+import  { React, useEffect, useState } from 'react'
 import axios from 'axios';
 
-import CreatePost from './post/CreatePost';
-import { LocalContext } from '../Context/LocalContext';
+import CreatePost from './CreatePost';
 import Post from './Post';
 
 /**

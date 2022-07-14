@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
 import Header from '../../components/header/Header';
-import UserInfo from '../../components/UserInfo';
+import UserInfo from '../../components/account/UserInfo';
 
 /**
  * Profile page 

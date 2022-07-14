@@ -4,8 +4,8 @@ import axios from 'axios';
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 
-import { LocalContext } from '../../Context/LocalContext';
-import PostHeader from '../PostHeader';
+import { LocalContext } from '../../context/LocalContext';
+import PostHeader from './PostHeader'
 
 
 export default function CreatePost(props) {

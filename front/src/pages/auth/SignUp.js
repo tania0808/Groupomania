@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import Header from '../../components/header/Header';
-import { LocalContext } from '../../Context/LocalContext';
-import PasswordValidator from '../../components/PasswordValidator';
+import { LocalContext } from '../../context/LocalContext';
+import PasswordValidator from '../../components/account/PasswordValidator';
 
 /**
  * Sign up form component

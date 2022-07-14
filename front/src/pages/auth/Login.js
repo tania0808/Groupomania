@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 import Header from '../../components/header/Header';
-import { LocalContext } from '../../Context/LocalContext';
+import { LocalContext } from '../../context/LocalContext';
 
 /**
  * Login form component
