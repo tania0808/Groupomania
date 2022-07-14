@@ -16,7 +16,8 @@ exports.userSignUp = async (req, res) => {
     const { error, value } = signInValidation(req.body);
     const isValidPassword = passwordValidation(req.body.password);
     if(!isValidPassword) {
-        return res.json({ message: "The string should have a minimum length of 6 characters, a minimum of 1 uppercase letter, a minimum of 2 digits, should not have spaces"});
+        //return res.json({ message: "The password should have a minimum length of 6 characters, a minimum of 1 uppercase letter, a minimum of 2 digits, should not have spaces"});
+        return res.status(400).json(isValidPassword);
     }
 
     if(error){
@@ -133,9 +134,9 @@ exports.modifyUser = async (req, res) => {
                     
                 fs.unlink(`images/profile/${filename}`, (err) => {
                     if(userName) user.userName = userName;
-                    if( email ) user.email = email;
-                    if( userPosition ) user.userPosition = userPosition;
-                    if( userImageUrl ) user.userImageUrl = userImageUrl;
+                    if(email) user.email = email;
+                    if(userPosition) user.userPosition = userPosition;
+                    if(userImageUrl) user.userImageUrl = userImageUrl;
                     user.save();
                     res.status(201).json({user: user, image: userImageUrl}); 
                 });
@@ -143,16 +144,14 @@ exports.modifyUser = async (req, res) => {
             }
 
             if(userName) user.userName = userName;
-            if( email ) user.email = email;
-            if( userPosition ) user.userPosition = userPosition;
+            if(email) user.email = email;
+            if(userPosition) user.userPosition = userPosition;
             user.userImageUrl = userImageUrl;
             user.save();
             res.status(201).json({user: user, image: userImageUrl
             }); 
         }
-
     })
-    
 };
 
 /**
@@ -184,13 +183,8 @@ exports.updatePassword = async (req, res) => {
 
 
 /**
-<<<<<<< HEAD
  * Deletes user acount
  * @returns {String} result of deletion
-=======
- * Supprime un compte utilisateur
- * @returns {String} résultat de la suppression
->>>>>>> 38921d5a35389838d6676a2b7215a043694f3f19
  */
 exports.deleteUserAccount = async (req, res) => {
     const id = req.auth.id;

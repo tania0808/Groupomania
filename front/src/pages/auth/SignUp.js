@@ -127,7 +127,7 @@ export default function SignUp() {
                 /> 
                 : null }
                 <div className={"alert " + (toggle ? 'd-block' : 'd-none ') + (!status ? 'd-block alert-danger' : 'alert-success')} role="alert" >{alert}</div>
-                <button disabled={!email || !userName || !checks.capsLetterCheck || !checks.numberCheck || !checks.pwdLengthCheck || !checks.specialCharCheck }  onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
+                <button disabled={!email || !userName || !checks.capsLetterCheck || !checks.numberCheck || !checks.pwdLengthCheck || !checks.specialCharCheck } onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
             </form>
         </div>
     </div>

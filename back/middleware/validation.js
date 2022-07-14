@@ -34,7 +34,7 @@ const passwordValidation = data => {
     .has().digits(1)                                // Must have at least 1 digit
     .has().not().spaces()                           // Should not have spaces
     .has().symbols(1)                               // Must have at least 1 symbol
-    return schema.validate(data);
+    return schema.validate(data, { details: true});
 }
 
 module.exports.signInValidation = signInValidation;

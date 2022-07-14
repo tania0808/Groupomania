@@ -119,7 +119,7 @@ exports.updatePost = async (req, res) => {
 
         if(post.imageUrl !== null) {
             const filename = post.imageUrl.split('/images/post/')[1];
-            fs.unlink(`images/post/${filename}`, (err) => {
+            fs.unlink(`images/post/${filename}`, () => {
                 if(postText) post.postText = postText;
                 if(imageUrl) post.imageUrl = `${req.protocol}://${req.get('host')}/images/post/${req.file.filename}`;
                 post.save();
