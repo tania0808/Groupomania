@@ -38,7 +38,7 @@ export default function CreatePost(props) {
 
   const createPost = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:3000/posts", formData,  {
+    await axios.post(`${process.env.REACT_APP_API_ROOT}/posts`, formData,  {
       headers: {
         accessToken: localStorageData
       }

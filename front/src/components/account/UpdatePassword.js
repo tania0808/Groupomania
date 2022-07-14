@@ -44,7 +44,7 @@ export default function UpdatePassword() {
      */
   const updatePassword = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:3000/auth/profile/password`, { password: userPassword, confirmPassword: confirmPassword}, {
+    await axios.put(`${process.env.REACT_APP_API_ROOT}/auth/profile/password`, { password: userPassword, confirmPassword: confirmPassword}, {
       headers: {
           accessToken: localStorageData
       }

@@ -70,7 +70,7 @@ export default function SignUp() {
     const createUser = async (e) => {
         e.preventDefault();
 
-        await axios.post("http://localhost:3000/auth/signup", { 
+        await axios.post(`${process.env.REACT_APP_API_ROOT}/auth/signup`, { 
             userName: userName,
             email: email,
             password: password

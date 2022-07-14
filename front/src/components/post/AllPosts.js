@@ -15,7 +15,7 @@ export default function AllPosts() {
   const [currentUser, setCurrentUser] = useState({});
   
   useEffect(() => {
-    axios.get("http://localhost:3000/posts", {
+    axios.get(`${process.env.REACT_APP_API_ROOT}/posts`, {
       headers: {
         accessToken: localStorage.getItem('accessToken')
       }

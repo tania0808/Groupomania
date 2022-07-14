@@ -51,7 +51,7 @@ export default function UpdateProfile() {
     formData.append('userPosition', userPosition);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/auth/profile`, {
+        axios.get(`${process.env.REACT_APP_API_ROOT}/auth/profile`, {
             headers: {
                 accessToken: localStorage.getItem('accessToken')
             }
@@ -70,7 +70,7 @@ export default function UpdateProfile() {
      */
     const modifyUser = async (e) => {
         e.preventDefault();
-        await axios.put(`http://localhost:3000/auth/profile`, formData, {
+        await axios.put(`${process.env.REACT_APP_API_ROOT}/auth/profile`, formData, {
             headers: {
                 accessToken: localStorageData
             }
@@ -89,7 +89,7 @@ export default function UpdateProfile() {
      * Delete user account
      */
     async function deleteAccount() {
-        await axios.delete(`http://localhost:3000/auth/profile`,
+        await axios.delete(`${process.env.REACT_APP_API_ROOT}/auth/profile`,
         {
           headers: {
             accessToken: localStorageData

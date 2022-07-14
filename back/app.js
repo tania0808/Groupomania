@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const helmet = require("helmet");
-app.use(helmet());
-
+app.use(helmet({
+    crossOriginResourcePolicy: false,
+}));
 
 app.use(cors());
 

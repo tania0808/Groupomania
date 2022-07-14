@@ -12,7 +12,6 @@ import { LocalContext } from '../../context/LocalContext';
  */
 export default function Login() {
   const { setLocalStorageData } = useContext(LocalContext);
-  
   let navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -25,7 +24,7 @@ export default function Login() {
    * Login when submitting all data by clicking on log in button
    */
   const login = () => {
-    axios.post("http://localhost:3000/auth/login", {
+    axios.post(`${process.env.REACT_APP_API_ROOT}/auth/login`, {
       email: email,
       password: password
     }).then((response) => {

@@ -32,7 +32,7 @@ export default function Post(props) {
    * @param {Number} postId 
    */
   async function likeAPost (postId) {
-    await axios.post("http://localhost:3000/like", {
+    await axios.post(`${process.env.REACT_APP_API_ROOT}/like`, {
       id: postId
     },
     {
@@ -55,7 +55,7 @@ export default function Post(props) {
    * @param {Number} postId 
    */
   async function deletePost(postId) {
-    await axios.delete(`http://localhost:3000/posts/${postId}`,
+    await axios.delete(`${process.env.REACT_APP_API_ROOT}/posts/${postId}`,
     {
       headers: {
         accessToken: localStorageData

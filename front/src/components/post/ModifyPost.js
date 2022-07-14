@@ -32,7 +32,7 @@ export default function ModifyPost() {
     formData.append('postText', postText);
 
     useEffect(() => {
-            axios.get(`http://localhost:3000/posts/${id}`, {
+            axios.get(`${process.env.REACT_APP_API_ROOT}/posts/${id}`, {
                 headers: {
                     accessToken: localStorage.getItem('accessToken')
                 }
@@ -48,7 +48,7 @@ export default function ModifyPost() {
      */
     const modifyPost = async (e) => {
         e.preventDefault();
-        await axios.put(`http://localhost:3000/posts/${id}`, formData, {
+        await axios.put(`${process.env.REACT_APP_API_ROOT}/posts/${id}`, formData, {
             headers: {
                 accessToken: localStorageData
             }

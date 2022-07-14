@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { LocalContext } from '../../context/LocalContext';
 
-
-
 /**
  * Component to display user information
  * @returns HTML of user information
@@ -17,7 +15,7 @@ export default function UserInfo() {
     const [user, setUser] = useState({}); 
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/auth/profile`, {
+        axios.get(`${process.env.REACT_APP_API_ROOT}/auth/profile`, {
             headers: {
                 accessToken: localStorageData
             }
