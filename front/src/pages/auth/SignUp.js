@@ -18,10 +18,8 @@ export default function SignUp() {
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [alert, setAlert] = useState('');
-    const [status, setStatus] = useState(''); 
-    const [toggle, setToggle] = useState(false);
-
+    const [errorMessage, setErrorMessage] = useState('');
+ 
     const [pwdRequisite, setPwdRequisite] = useState(false);
 
     const [checks, setChecks] = useState({
@@ -76,17 +74,13 @@ export default function SignUp() {
             password: password
         })
         .then((response) =>{
-            setAlert(response.data.message);
-            setStatus(response.data.status)
-            setToggle(true);
             if(response.data.status) {
                 localStorage.setItem("accessToken", response.data.token);
                 localStorage.setItem('user', response.data.user);
                 setLocalStorageData(response.data.token);
-
-                setTimeout(() => {
-                  navigate('/posts');
-                }, 500);
+                navigate('/posts');
+            } else {
+                setErrorMessage(response.data.message);
             }
         })
     }
@@ -126,7 +120,11 @@ export default function SignUp() {
                     specialCharFlag={ checks.specialCharCheck ? true : false }
                 /> 
                 : null }
-                <div className={"alert " + (toggle ? 'd-block' : 'd-none ') + (!status ? 'd-block alert-danger' : 'alert-success')} role="alert" >{alert}</div>
+
+                { errorMessage ?
+                <div className={"alert alert-danger"} >{errorMessage}</div>
+                : null
+                }
                 <button disabled={!email || !userName || !checks.capsLetterCheck || !checks.numberCheck || !checks.pwdLengthCheck || !checks.specialCharCheck } onSubmit={createUser} type='submit' className='btn btn-primaire'>Sign Up</button>
             </form>
         </div>

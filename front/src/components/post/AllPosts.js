@@ -28,7 +28,7 @@ export default function AllPosts() {
 
   return (
     <div className='container d-flex flex-column justify-content-center align-items-center m-auto'>
-      <h1 className='align-self-start ms-5 mb-4 ps-3 fs-5 opacity-75 w-50 ms-auto me-auto'>Fil d'actualité</h1>
+      <h1 className='align-self-start ms-5 mb-4 ps-3 fs-5 opacity-75 w-50 me-auto'>Fil d'actualité</h1>
       <CreatePost postListChanger={setListOfPosts} currentUser={currentUser}/>
       { listOfPosts.reverse().map((post) => {
         return(

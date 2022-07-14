@@ -9,7 +9,7 @@ import LocalContextProvider from '../../context/LocalContext';
 export default function Home() {
   return (
     <LocalContextProvider >
-      <div className='bg-light '>
+      <div className='bg-light vh-100'>
         <Header/>
         <AllPosts/>
       </div>

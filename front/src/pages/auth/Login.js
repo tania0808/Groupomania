@@ -16,10 +16,7 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [alert, setAlert] = useState('');
-  const [status, setStatus] = useState(''); 
-  const [toggle, setToggle] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('');
   /**
    * Login when submitting all data by clicking on log in button
    */
@@ -28,18 +25,13 @@ export default function Login() {
       email: email,
       password: password
     }).then((response) => {
-      console.log(response);
-        setAlert(response.data.message);
-        setStatus(response.data.status)
-        setToggle(true);
-
       if(response.data.status) {
         localStorage.setItem("accessToken", response.data.token);
         localStorage.setItem('user', response.data.user);
         setLocalStorageData(response.data.token);
-        setTimeout(() => {
-          navigate('/posts');
-        }, 500);
+        navigate('/posts');
+      } else {
+        setErrorMessage(response.data.message);
       }
     })
   }
@@ -57,8 +49,9 @@ export default function Login() {
               <label htmlFor="password" className="form-label">Password</label>
               <input type="password" className="form-control" id="password" onChange={(e) => {setPassword(e.target.value)}}/>
           </div>
-          <div className={"alert " + (toggle ? 'd-block ' : 'd-none ') + (!status ? 'd-block alert-danger ' : '')} role="alert" >{alert} </div>
-          <button className='btn btn-primaire' onClick={login}>Log In</button>  
+          { errorMessage ?
+          <p className="p-3 mb-2 alert-danger rounded">{errorMessage}</p> : null}
+          <button className='btn btn-primaire d-block' onClick={login}>Log In</button>  
         </div>
     </div>
   )

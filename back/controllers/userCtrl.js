@@ -13,8 +13,9 @@ const { signInValidation, passwordValidation } = require('../middleware/validati
 exports.userSignUp = async (req, res) => {
     if(req.body === undefined) return res.status(400).json('Empty data !!!')
     
-    const { error, value } = signInValidation(req.body);
+    const { error  } = signInValidation(req.body);
     const isValidPassword = passwordValidation(req.body.password);
+    
     if(!isValidPassword) {
         //return res.json({ message: "The password should have a minimum length of 6 characters, a minimum of 1 uppercase letter, a minimum of 2 digits, should not have spaces"});
         return res.status(400).json(isValidPassword);
