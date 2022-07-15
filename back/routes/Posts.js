@@ -1,30 +1,13 @@
 const express = require('express');
 const multer = require('../middleware/multer');
 const router = express.Router();
-const { Posts } = require('../models')
+const { validateToken } = require('../middleware/authentication')
+const postCtrl = require('../controllers/postCtrl');
 
-
-router.get('/', async (req, res) => {
-    const posts = await Posts.findAll()
-    res.json(posts)
-})
-
-
-router.post('/', multer,  async (req, res) => {
-    const post = {
-        title: req.body.title,
-        postText: req.body.postText,
-        userName: req.body.userName,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    }
-    console.log(req.file);
-    await Posts.create(post);
-    console.log(post);
-    //res.json(post)
-    res.json(req.file)
-})
-
-
-
+router.get('/', validateToken, postCtrl.getAllPosts);
+router.get('/:id', validateToken, postCtrl.getOnePost);
+router.post('/', validateToken, multer.savePostImage, postCtrl.createPost);
+router.delete('/:id', validateToken, postCtrl.deletePost);
+router.put('/:id', validateToken, postCtrl.updatePost);
 
 module.exports = router;

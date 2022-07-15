@@ -1,17 +1,73 @@
 @import url('https://fonts.googleapis.com/css2?family=Fascinate&family=Lato:wght@100;300;400;700;900&display=swap');
 
 body {
+  width: 100vw;
+}
+/* HEADER */
+header {
+  max-width: 100%;
+  width: 600px;
+  height: 65px;
+}
+.header-container {
+  height: 65px;
+}
+
+.image-container {
+  height: 100%;
+  width: 20%;
+  min-width: 200px;
+}
+
+.logo {
+  width: 100%;
+  height: 65px;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.btn-primaire { 
+  background-color: #FF2D01 !important; 
+  color: white !important;
+  font-weight: 700 !important;
+}
+
+.btn-primaire:hover, .dropdown-item:hover { 
+  background-color: #FFD7D7 !important;
+  color: #FF2D01 !important; 
+  outline: none !important;
+}
+
+.btn-primaire:hover a {
+  color: #FF2D01 !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.dropdown {
+  font-size: 15px;
+}
+
+* {
   margin: 0;
   font-family: 'Lato', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+.color-red {
+  color: #FF2D01;
+}
+
 .btn-primaire { 
   background-color: #FF2D01 !important; 
   color: white;
   font-weight: 700;
+  height: 40px;
 }
+
 .btn-primaire:hover, .dropdown-item:hover { 
   background-color: #FFD7D7 !important;
   color: #FF2D01 !important; 
@@ -25,4 +81,161 @@ body {
 a {
   color: white;
   text-decoration: none;
+}
+
+.red {
+  color: #FF2D01;
+}
+
+.grey {
+  color: #4E5166;
+}
+
+.avatar {
+  position: absolute;
+}
+
+.bg-profil {
+  background-color: #FFD7D7;
+  height: 70px;
+  position: relative;
+}
+
+.profileImageUpload {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  top: 31px;
+  left: 56%
+}
+
+.imagePreview {
+  object-fit: cover;
+}
+
+.post-box {
+  max-width: 80%;
+  width: 600px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.userInfo {
+  height: 50px;
+  font-size: 14px;
+}
+
+.userImage {
+  max-width: 40px;
+  min-width: 30px;
+  max-height: 40px;
+  min-height: 30px;
+  border-radius: 50%;
+}
+
+
+.userInfo p {
+  margin: 0;
+}
+
+.postImage {
+  height: auto;
+  max-width: 100%;
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+.btn {
+  padding: 5px;
+}
+
+
+
+.form-container {
+  max-width: 80%;
+  width: 600px;
+  border-radius: 15px;
+}
+.createPostPage {
+  width: 100%;
+  border-radius: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.form-control:focus {
+  border: 0px solid transparent !important;
+  border-color: transparent !important;
+  outline: 0px transparent !important;
+  box-shadow:  0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px transparent !important;
+}
+
+input:focus {
+  color: transparent;
+  background-color : transparent; 
+  border: 1px solid transparent !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  box-shadow: 0 0 0 40px white inset !important;
+  border: 1px solid transparent !important;
+}
+
+.imageUpload {
+  height: 40px;
+  max-width: 100px;
+  min-width: 100px;
+  position: relative;
+  padding-right: 10px;
+  border-radius: 0.2rem;
+}
+
+.inputFileLabel {
+  width: 110px;
+}
+
+.resetImage {
+  position: absolute;
+  right: 5px;
+  top: 23%;
+}
+
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+.popup-box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup {
+  position: absolute;
+  top: 12%;
+  background-color: white;
+  height: fit-content;
+  z-index: 9;
+  border: 3px solid #FF2D01;
+}
+
+.x-mark {
+  font-size: 80px;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #FF2D01;
+  border-radius: 50%;
+  text-align: center;
 }

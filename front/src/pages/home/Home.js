@@ -1,33 +1,18 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react'
-import Header from '../header/Header';
+import Header from '../../components/header/Header';
+import AllPosts from '../../components/post/AllPosts';
+import LocalContextProvider from '../../context/LocalContext';
 
-
+/**
+ * Home page
+ * @returns HTML of home page
+ */
 export default function Home() {
-
-  const [listOfPosts, setListOfPosts] = useState([]);
-
-
-  useEffect(() => {
-    axios.get("http://localhost:3000/posts")
-    .then((response) => setListOfPosts(response.data));
-  }, [])
-
   return (
-    <div className='container d-flex flex-column justify-content-center m-auto'>
-      <Header/>
-        {
-        listOfPosts.map((value, key) => {
-          return(
-            <div className="container d-flex flex-column justify-content-center align-items-center" key={value.id}>
-              <img src={value.imageUrl} alt="post" width={400}/>
-              <h2>{value.title}</h2>
-              <p>{value.postText}</p>
-              <p>{value.createdAt.split('T')[0]}</p>
-            </div>
-          )
-        })
-      }
-    </div>
+    <LocalContextProvider >
+      <div className='bg-light vh-100'>
+        <Header/>
+        <AllPosts/>
+      </div>
+    </LocalContextProvider>
   )
 }
