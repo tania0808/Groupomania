@@ -19,15 +19,6 @@ DB_DATABASE=groupomaniaDB
 TOKEN=hHpK79ZV4N7YAbdj
 ```
 
-To access admin user, enter the following infos on the connection page :
-
-```
-Email:
-admin@gmail.com
-Password:
-admin
-```
-
 
 BACK-END SETUP  
 
@@ -76,3 +67,12 @@ npm install
 npm start
 ```
 
+
+To access admin user, enter the following infos on the connection page :
+
+```
+Email:
+admin@gmail.com
+Password:
+admin
+```
