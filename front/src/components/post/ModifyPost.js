@@ -68,8 +68,9 @@ export default function ModifyPost() {
                         <label htmlFor="postText">Share your thoughts</label>
                         <input defaultValue={post.postText}   type='text' className="form-control p-5" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
                     </div>
-                    {post.imageUrl !== null && image ? <img src={post.imageUrl} alt=" " width={140} className="mt-3"/> 
-                    :  <img src={imageURL} alt="" width={140} className="mt-3" />}
+                    { post.imageUrl == null && null }
+                    { post.imageUrl !== null && imageURL == null ? <img src={post.imageUrl} alt="existing image preview" width={140} className="mt-3"/> 
+                    :  <img src={imageURL} alt="post image preview" width={140} className="mt-3" />}
                     <div className="form-group mt-5">
                         <label htmlFor="imageUrl">Choose another image</label><br />
                         <input className="form-control" type="file" id="imageUrl" onChange={uploadImageToClient} name="imageUrl"></input>

@@ -54,7 +54,7 @@ export default function CreatePost(props) {
         <div className='d-flex align-items-center mt-3 justify-content-start'>
           <PostHeader userName={userName} avatar={userImageUrl} userPosition={userPosition} />
         </div>
-        { image && <img src={imageURL} alt="post image" className="mt-3 w-100" /> }
+        { image && <img src={imageURL} alt="post image preview" className="mt-3 w-100" /> }
         <div className="form-group">
           <label htmlFor="postText"></label>
           <input type='text' value={postText} placeholder="Qu'avez-vous à partager ?" className="form-control border border-white pb-2" id="postText" rows="3" required onChange={(e) => setPostText(e.target.value)}/>
