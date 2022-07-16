@@ -16,7 +16,7 @@ DB_HOST=localhost
 DB_USERNAME=your_database_user
 DB_PASSWORD=your_user_password
 DB_DATABASE=groupomaniaDB
-TOKEN=hHpK79ZV4N7YAbdj
+TOKEN_SECRET_KEY=your_secret_key
 ```
 
 
