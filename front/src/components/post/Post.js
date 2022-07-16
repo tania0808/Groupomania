@@ -76,7 +76,7 @@ export default function Post(props) {
         <PostDropDown id={id} deletePost={deletePost} /> }
       </div>
       <div className='w-100'>
-        {imageUrl && <img className='postImage' src={imageUrl} alt="post"/>}
+        {imageUrl && <img className='postImage' src={imageUrl} alt="post image"/>}
         <div className="d-flex flex-column">
           <div className="postText mt-3 ms-2 d-flex justify-content-between">
             <p className='ps-2'>{postText}</p>

@@ -110,8 +110,8 @@ export default function UpdateProfile() {
                 <div className={popup ? "d-flex flex-column align-items-center w-100 opacity-25" : "d-flex flex-column align-items-center w-100"}>
                     <div className='bg-profil rounded-top w-100 position-relative d-flex justify-content-between'>
                         {!image
-                            ? <img src={user.userImageUrl} alt="" className="imagePreview rounded-circle position-absolute top-100 start-50 translate-middle" width={100} height={100}/> 
-                            : <img src={imageURL} className="imagePreview rounded-circle position-absolute top-100 start-50 translate-middle" alt="user image" width={100} height={100}  style={{objectFit: 'cover'}}/>
+                            ? <img src={user.userImageUrl} alt="user avatar" className="imagePreview rounded-circle position-absolute top-100 start-50 translate-middle" width={100} height={100}/> 
+                            : <img src={imageURL} className="imagePreview rounded-circle position-absolute top-100 start-50 translate-middle" alt="user image preview" width={100} height={100}  style={{objectFit: 'cover'}}/>
                         }
                         <div className="form-group profileImageUpload bg-transparent position-absolute">
                             <label htmlFor="userImageUrl" className='profileImageUpload align-items-center p-2 rounded-1 fw-bolder fs-6 d-flex justify-content-center align-items-center'>

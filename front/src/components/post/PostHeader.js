@@ -10,7 +10,7 @@ import React from 'react'
 export default function PostHeader({avatar, userName, userPosition}) {
   return (
     <div className="userInfo d-flex">
-        <img className='userImage' src={avatar} alt="" />
+        <img className='userImage' src={avatar} alt="user avatar" />
         <div className='ms-3'>
           <p className='fw-bold'>{userName}</p>
           <span className='fw-light'>{userPosition}</span>

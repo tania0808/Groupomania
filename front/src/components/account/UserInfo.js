@@ -29,7 +29,7 @@ export default function UserInfo() {
     <div className='w-100'>
         <div className='w-100'>
             <div className='d-flex flex-column align-items-center bg-profil rounded-top'>
-                <img src={user.userImageUrl} className="avatar rounded-circle mt-3" alt="user image" width={100} height={100} style={{objectFit: 'cover'}} />
+                <img src={user.userImageUrl} className="avatar rounded-circle mt-3" alt="user avatar" width={100} height={100} style={{objectFit: 'cover'}} />
             </div>
                 <h1 className='d-block fs-4 mt-4 text-center mt-5 pt-3 opacity-75'>{user.userName}</h1>
             <div className="info-user flex-start w-75 mt-5 ms-5 mb-5">

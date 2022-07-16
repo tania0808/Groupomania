@@ -16,16 +16,7 @@ DB_HOST=localhost
 DB_USERNAME=your_database_user
 DB_PASSWORD=your_user_password
 DB_DATABASE=groupomaniaDB
-TOKEN=hHpK79ZV4N7YAbdj
-```
-
-To access admin user, enter the following infos on the connection page :
-
-```
-Email:
-admin@gmail.com
-Password:
-admin
+TOKEN_SECRET_KEY=your_secret_key
 ```
 
 
@@ -76,3 +67,12 @@ npm install
 npm start
 ```
 
+
+To access admin user, enter the following infos on the connection page :
+
+```
+Email:
+admin@gmail.com
+Password:
+admin
+```
