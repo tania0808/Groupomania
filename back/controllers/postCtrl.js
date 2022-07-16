@@ -100,7 +100,7 @@ exports.updatePost = async (req, res) => {
         return;
     } 
     
-    else if(req.auth.id !== post.UserId || !req.auth.isAdmin) {
+    else if(req.auth.id !== post.UserId && !req.auth.isAdmin) {
         res.status(401).json('Unauthorized request !');
     }
 
