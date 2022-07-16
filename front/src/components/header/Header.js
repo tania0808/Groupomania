@@ -12,8 +12,8 @@ import logo from '../../assets/logos/icon-left-font.svg'
 export default function Header() {
     const token = localStorage.getItem('accessToken');
   return (
-    <div className='header-container d-flex bg-white mb-5 justify-content-center align-items-center'>
-        <header className='d-flex justify-content-between align-items-center bg-white col-6 col-xs-8 col-md-8 col-lg-8'>
+    <div className='header-container d-flex bg-white mb-5 justify-content-between align-items-center'>
+        <header className='d-flex w-100 justify-content-around align-items-center bg-white col-6 col-xs-8 col-md-8 col-lg-8'>
             <Link to={token ? '/posts' : '/auth/login'} className="image-container">
                 <img className='logo' src={logo} alt="logo groupomania" />
             </Link>
