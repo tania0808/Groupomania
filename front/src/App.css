@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Fascinate&family=Lato:wght@100;300;400;700;900&display=swap');
 
+* {
+  margin: 0;
+  font-family: 'Lato', cursive;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html,body{
   overflow-x: hidden;
 }
@@ -7,15 +14,21 @@ html,body{
 body {
   width: 100vw;
 }
+
+
+
 /* HEADER */
+
 header {
   max-width: 100%;
   width: 600px;
   height: 65px;
 }
+
 .header-container {
   height: 65px;
 }
+
 
 .image-container {
   height: 100%;
@@ -28,6 +41,18 @@ header {
   height: 65px;
   max-height: 100%;
   object-fit: cover;
+}
+
+
+
+/* BUTTON*/
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn {
+  padding: 5px;
 }
 
 .btn-primaire { 
@@ -46,40 +71,8 @@ header {
   color: #FF2D01 !important;
 }
 
-a {
-  text-decoration: none;
-}
-
 .dropdown {
   font-size: 15px;
-}
-
-* {
-  margin: 0;
-  font-family: 'Lato', cursive;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.color-red {
-  color: #FF2D01;
-}
-
-.btn-primaire { 
-  background-color: #FF2D01 !important; 
-  color: white;
-  font-weight: 700;
-  height: 40px;
-}
-
-.btn-primaire:hover, .dropdown-item:hover { 
-  background-color: #FFD7D7 !important;
-  color: #FF2D01 !important; 
-  outline: none !important;
-}
-
-.btn-primaire:hover a {
-  color: #FF2D01 !important;
 }
 
 a {
@@ -95,6 +88,9 @@ a {
   color: #4E5166;
 }
 
+
+
+/* PROFILE IMAGE */
 .avatar {
   position: absolute;
 }
@@ -117,12 +113,8 @@ a {
   object-fit: cover;
 }
 
-/* .post-box {
-  max-width: 100%;
-  width: 600px;
-  border-radius: 15px;
-  position: relative;
-} */
+
+/* HEADER WITH USER INFO */
 
 .userInfo {
   height: 50px;
@@ -137,7 +129,6 @@ a {
   border-radius: 50%;
 }
 
-
 .userInfo p {
   margin: 0;
 }
@@ -147,13 +138,8 @@ a {
   object-fit: contain;
 }
 
-.btn:focus {
-  box-shadow: none;
-}
 
-.btn {
-  padding: 5px;
-}
+/* CREATE POST CONTAINER*/
 
 .form-container{
   max-width: 100%;
@@ -175,20 +161,6 @@ a {
   box-shadow:  0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px transparent !important;
 }
 
-input:focus {
-  color: transparent;
-  background-color : transparent; 
-  border: 1px solid transparent !important;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-  box-shadow: 0 0 0 40px white inset !important;
-  border: 1px solid transparent !important;
-}
-
 .imageUpload {
   height: 40px;
   max-width: 100px;
@@ -208,11 +180,8 @@ input:-webkit-autofill:active{
   top: 23%;
 }
 
-.btn:focus,.btn:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
 
+/* POPUP MODAL WINDOW*/
 
 .popup-box {
   position: fixed;
@@ -241,4 +210,21 @@ input:-webkit-autofill:active{
   border: 2px solid #FF2D01;
   border-radius: 50%;
   text-align: center;
+}
+
+
+/* INPUT RESET*/
+
+input:focus {
+  color: transparent;
+  background-color : transparent; 
+  border: 1px solid transparent !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  box-shadow: 0 0 0 40px white inset !important;
+  border: 1px solid transparent !important;
 }
