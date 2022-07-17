@@ -65,8 +65,8 @@ export default function UpdatePassword() {
         <div className='w-100 d-flex flex-column-reverse align-items-center flex-md-row' >
           <form action="" method='PUT' className='col-10 col-sm-8 col-md-6 flex-start mt-5 ms-md-2' encType='multipart/form-data' onSubmit={updatePassword}>
             <h1 className='fs-3 fw-bolder opacity-75'>Change your password</h1>
-            <ShowHidePassword name={'password'} getPassword={getPassword} />
-            <ShowHidePassword name={'passwordConfirm'} getPassword={getConfirmedPassword} />
+            <ShowHidePassword name={'password'} getPassword={getPassword} value={'New password'} />
+            <ShowHidePassword name={'passwordConfirm'} getPassword={getConfirmedPassword} value={'Confirm new password'}/>
             <div className={"alert mt-3 p-2 " + (error ? 'd-block ' : 'd-none ') + (error ? 'd-block alert-danger' : '')} role="alert" >{error}</div>
             <button onSubmit={updatePassword} className={"btn btn-primaire mt-1 text-white fw-bold mb-4 w-100"}>Update password</button>
             <button onClick={() => navigate('/auth/profile')}  className={"btn btn-primaire text-white fw-bold mb-4 w-100"}>Come back</button>

@@ -9,9 +9,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
  * @param {Function} getPassword
  * @returns HTML of password input
  */
-export default function ShowHidePassword({ name, getPassword }) {
+export default function ShowHidePassword({ name, getPassword, value }) {
     const [isVisible, setVisible] = useState(false);
-
+    console.log(value);
     /**
      * Toggle password visibility
      */
@@ -21,7 +21,7 @@ export default function ShowHidePassword({ name, getPassword }) {
 
   return (
     <div className="form-group mt-3 position-relative">
-      <label htmlFor={name}>New Password</label>
+      <label htmlFor={name}>{value}</label>
       <input 
       type={isVisible ? 'text' : 'password'}
       name={name}
