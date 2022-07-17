@@ -169,10 +169,14 @@ exports.updatePassword = async (req, res) => {
     }
 
     const { password, confirmPassword } = req.body;
+    const isValidPassword = passwordValidation(req.body.password);
+    
+    if(!isValidPassword) {
+        return res.status(400).json(isValidPassword);
+    }
 
     if(password !== confirmPassword) {
-        res.status(400).json("Those passwords didn't match. Please try again");
-        return;
+        return res.status(400).json("Those passwords didn't match. Please try again");
     }
 
     const salt = await bcrypt.genSalt(10);

@@ -9,9 +9,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
  * @param {Function} getPassword
  * @returns HTML of password input
  */
-export default function ShowHidePassword({ name, getPassword, value }) {
+export default function ShowHidePassword({ name, getPassword, value, onKeyUp }) {
     const [isVisible, setVisible] = useState(false);
-    console.log(value);
+
     /**
      * Toggle password visibility
      */
@@ -27,6 +27,7 @@ export default function ShowHidePassword({ name, getPassword, value }) {
       name={name}
       className="form-control col-sm-6" 
       onChange={getPassword}
+      onKeyUp={onKeyUp}
       id={name}/>
       { !isVisible ? <FontAwesomeIcon icon={faEye} onClick={toggle}
       className="position-absolute top-50 end-0 pe-3"/> 

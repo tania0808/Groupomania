@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import Header from '../header/Header';
 import ShowHidePassword from './ShowHidePassword';
+import PasswordValidator from './PasswordValidator';
 
 import { LocalContext } from '../../context/LocalContext';
 
@@ -19,6 +20,26 @@ export default function UpdatePassword() {
   const [confirmPassword, setConfirmedPassword] = useState('');
   const [error, setError] = useState('');
   
+  const [checks, setChecks] = useState({
+    capsLetterCheck: false,
+    numberCheck: false,
+    pwdLengthCheck: false,
+    specialCharCheck: false
+  });
+
+  const handleOnKeyUp = (e) => {
+    const { value } = e.target;
+    const capsLetterCheck = /[A-Z]/.test(value);
+    const numberCheck = /[0-9]/.test(value);
+    const pwdLengthCheck = value.length > 8;
+    const specialCharCheck = /[^A-Za-z0-9]/.test(value);
+    setChecks({
+        capsLetterCheck,
+        numberCheck,
+        pwdLengthCheck,
+        specialCharCheck
+    })
+}
   /**
    * get password from the input
    * @param {Event} e 
@@ -31,7 +52,7 @@ export default function UpdatePassword() {
    * @param {Event} e 
    */
   const getConfirmedPassword = e => {
-      setConfirmedPassword(e.target.value)
+    setConfirmedPassword(e.target.value)
   }
 
   const formData = new FormData();
@@ -65,19 +86,22 @@ export default function UpdatePassword() {
         <div className='w-100 d-flex flex-column-reverse align-items-center flex-md-row' >
           <form action="" method='PUT' className='col-10 col-sm-8 col-md-6 flex-start mt-5 ms-md-2' encType='multipart/form-data' onSubmit={updatePassword}>
             <h1 className='fs-3 fw-bolder opacity-75'>Change your password</h1>
-            <ShowHidePassword name={'password'} getPassword={getPassword} value={'New password'} />
-            <ShowHidePassword name={'passwordConfirm'} getPassword={getConfirmedPassword} value={'Confirm new password'}/>
+            <ShowHidePassword name={'password'} getPassword={getPassword} value={'New password'} onKeyUp={handleOnKeyUp} />
+            <ShowHidePassword name={'passwordConfirm'} getPassword={getConfirmedPassword} value={'Confirm new password'} />
             <div className={"alert mt-3 p-2 " + (error ? 'd-block ' : 'd-none ') + (error ? 'd-block alert-danger' : '')} role="alert" >{error}</div>
-            <button onSubmit={updatePassword} className={"btn btn-primaire mt-1 text-white fw-bold mb-4 w-100"}>Update password</button>
+            <button  disabled={!userPassword || !confirmPassword || !checks.capsLetterCheck || !checks.numberCheck || !checks.pwdLengthCheck || !checks.specialCharCheck }  onSubmit={updatePassword} className={"btn btn-primaire mt-1 text-white fw-bold mb-4 w-100"}>Update password</button>
             <button onClick={() => navigate('/auth/profile')}  className={"btn btn-primaire text-white fw-bold mb-4 w-100"}>Come back</button>
           </form>
+
           <div className='passwordInfo w-50 ps-3 pt-3 ps-sm-5 pe-sm-5 mb-4 d-flex flex-column w-100'>
             <h2 className='fs-5'>Password must contain:</h2>
-            <ul className="list-group list-group-flush flex-row">
-                <li className="list-group-item border-0">At least one uppper-case letter (A-Z)</li>
-                <li className="list-group-item border-0">At least 1 number(0-9)</li>
-                <li className="list-group-item border-0">At least 8 characters</li>
-            </ul>
+            <PasswordValidator
+            checks={checks}
+            capsLetterFlag={ checks.capsLetterCheck ? true : false }
+            numberFlag={ checks.numberCheck ? true : false}
+            pwdLengthFlag={ checks.pwdLengthCheck ? true : false }
+            specialCharFlag={ checks.specialCharCheck ? true : false }
+            />
           </div>
         </div>
       </div>
