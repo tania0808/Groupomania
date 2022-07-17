@@ -71,7 +71,7 @@ export default function UpdatePassword() {
       }
     })
     .then((response) => {
-      console.log(response);
+      setError(response.data.message);
       navigate('/auth/profile');
     })
     .catch(err => {
