@@ -169,10 +169,14 @@ exports.updatePassword = async (req, res) => {
     }
 
     const { password, confirmPassword } = req.body;
+    const isValidPassword = passwordValidation(password);
+    
+    if(isValidPassword) {
+        return res.json({ message: "The password should have a minimum length of 6 characters, a minimum of 1 uppercase letter, a minimum of 2 digits, should not have spaces"});
+    } 
 
     if(password !== confirmPassword) {
-        res.status(400).json("Those passwords didn't match. Please try again");
-        return;
+        return res.status(400).json("Those passwords didn't match. Please try again");
     }
 
     const salt = await bcrypt.genSalt(10);
