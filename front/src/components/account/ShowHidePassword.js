@@ -20,7 +20,7 @@ export default function ShowHidePassword({ name, getPassword, value, onKeyUp }) 
     };
 
   return (
-    <div className="form-group mt-3 position-relative">
+    <div className="form-group mt-3 position-relative w-100">
       <label htmlFor={name}>{value}</label>
       <input 
       type={isVisible ? 'text' : 'password'}

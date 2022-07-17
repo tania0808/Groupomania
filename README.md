@@ -74,5 +74,5 @@ To access admin user, enter the following infos on the connection page :
 Email:
 admin@gmail.com
 Password:
-admin
+coucou
 ```

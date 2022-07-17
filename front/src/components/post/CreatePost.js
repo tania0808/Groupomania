@@ -50,7 +50,7 @@ export default function CreatePost(props) {
 
   return (
     <div className='form-container d-flex flex-column justify-content-center align-items-center pb-3 m-3'>
-      <form action="" method='POST' className='createPostPage bg-white ps-3 pe-3 ' onSubmit={createPost} encType='multipart/form-data'>
+      <form action="" method='POST' className='createPostPage bg-white ps-3 pe-3 w-100' onSubmit={createPost} encType='multipart/form-data'>
         <div className='d-flex align-items-center mt-3 justify-content-start'>
           <PostHeader userName={userName} avatar={userImageUrl} userPosition={userPosition} />
         </div>
