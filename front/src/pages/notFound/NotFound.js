@@ -9,7 +9,7 @@ import './NotFound.css';
  */
 export default function NotFound() {
   return (
-    <div className='box vh-100 wv-100 d-flex flex-column align-items-center justify-content-center color-red'>
+    <div className='box vh-100 wv-100 d-flex flex-column align-items-center justify-content-center red'>
       <span>KEEP</span>
       <span>CALM</span>
       <span className='error'>404</span>

@@ -38,7 +38,7 @@ export default function UserInfo() {
                 <span className='fs-6'>Position</span>
                 <p className='opacity-75 mt-1'>{user.userPosition}</p>
                 <div className='d-flex flex-column w-100 justify-content-start align-items-start'>
-                    <button onClick={() => navigate('/auth/profile/update')} className={"btn btn-primaire text-center py-3 d-flex align-items-center justify-content-center flex-center fs-6"}>Update profil</button>
+                    <button onClick={() => navigate('/auth/profile/update')} className={"btn btn-primaire text-center d-flex align-items-center justify-content-center flex-center fs-6"}>Update profil</button>
                     <button onClick={() => navigate('/auth/profile/password/update')} className={"btn btn-primaire text-center d-flex mt-2"}>Change password</button>
                 </div>
             </div>

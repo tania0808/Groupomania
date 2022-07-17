@@ -105,7 +105,7 @@ export default function UpdateProfile() {
   return (
     <div className='bg-light vh-100'>
         <Header/>
-        <div className="container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">
+        <div className="col-12 col-xs-8 col-md-8 col-lg-6 col-xl-4 container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">
             <div className='w-100'>
                 <div className={popup ? "d-flex flex-column align-items-center w-100 opacity-25" : "d-flex flex-column align-items-center w-100"}>
                     <div className='bg-profil rounded-top w-100 position-relative d-flex justify-content-between'>

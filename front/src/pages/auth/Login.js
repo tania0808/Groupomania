@@ -39,7 +39,7 @@ export default function Login() {
   return (
     <div className='mb-5'>
         <Header/>
-        <div className="container mt-5 col-6 col-xs-8 col-md-8 col-lg-8">
+        <div className="container mt-5 col-10 col-xs-8 col-md-8 col-lg-8">
           <h1 className='pt-5 mb-3 text-center'>LOG IN</h1>
           <div className="mb-3">
               <label htmlFor="email" className="form-label">Email address</label>

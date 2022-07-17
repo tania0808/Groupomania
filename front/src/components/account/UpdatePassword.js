@@ -80,28 +80,30 @@ export default function UpdatePassword() {
   }
 
   return (
-    <div className='bg-light vh-100'>
+    <div className='bg-light vh-100 col-12'>
       <Header/>
-      <div className="container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">     
-        <div className='w-100 d-flex flex-column-reverse align-items-center flex-md-row' >
-          <form action="" method='PUT' className='col-10 col-sm-8 col-md-6 flex-start mt-5 ms-md-2' encType='multipart/form-data' onSubmit={updatePassword}>
+      <div className="col-12 col-xs-8 col-md-10 col-lg-8 col-xl-6 container bg-white d-flex flex-column align-items-center justify-content-center rounded-2 p-0">     
+        <div className='w-100 d-flex flex-column align-items-center flex-xl-row' >
+          <form action="" method='PUT' className='col-10 col-md-8 col-lg-6 col-xl-6 flex-start pt-md-5 ps-lg-3 ps-md-1' encType='multipart/form-data' onSubmit={updatePassword}>
             <h1 className='fs-3 fw-bolder opacity-75'>Change your password</h1>
             <ShowHidePassword name={'password'} getPassword={getPassword} value={'New password'} onKeyUp={handleOnKeyUp} />
             <ShowHidePassword name={'passwordConfirm'} getPassword={getConfirmedPassword} value={'Confirm new password'} />
             <div className={"alert mt-3 p-2 " + (error ? 'd-block ' : 'd-none ') + (error ? 'd-block alert-danger' : '')} role="alert" >{error}</div>
-            <button  disabled={!userPassword || !confirmPassword || !checks.capsLetterCheck || !checks.numberCheck || !checks.pwdLengthCheck || !checks.specialCharCheck }  onSubmit={updatePassword} className={"btn btn-primaire mt-1 text-white fw-bold mb-4 w-100"}>Update password</button>
+            <button  disabled={!userPassword || !confirmPassword || !checks.capsLetterCheck || !checks.numberCheck || !checks.pwdLengthCheck || !checks.specialCharCheck }  onSubmit={updatePassword} className={"btn btn-primaire mt-3 text-white fw-bold mb-4 w-100"}>Update password</button>
             <button onClick={() => navigate('/auth/profile')}  className={"btn btn-primaire text-white fw-bold mb-4 w-100"}>Come back</button>
           </form>
 
-          <div className='passwordInfo w-50 ps-3 pt-3 ps-sm-5 pe-sm-5 mb-4 d-flex flex-column w-100'>
-            <h2 className='fs-5'>Password must contain:</h2>
-            <PasswordValidator
-            checks={checks}
-            capsLetterFlag={ checks.capsLetterCheck ? true : false }
-            numberFlag={ checks.numberCheck ? true : false}
-            pwdLengthFlag={ checks.pwdLengthCheck ? true : false }
-            specialCharFlag={ checks.specialCharCheck ? true : false }
-            />
+          <div className='col-10 col-xs-8 col-md-8 col-lg-6 col-xl-6 ps-1 pt-1 ps-sm-2 pe-sm-2 mb-4 d-flex flex-column justify-content-center align-items-center'>
+            <h2 className='fs-6'>Password must contain:</h2>
+            <div className='col-lg-8 justify-content-center'>
+              <PasswordValidator
+              checks={checks}
+              capsLetterFlag={ checks.capsLetterCheck ? true : false }
+              numberFlag={ checks.numberCheck ? true : false}
+              pwdLengthFlag={ checks.pwdLengthCheck ? true : false }
+              specialCharFlag={ checks.specialCharCheck ? true : false }
+              />
+            </div>
           </div>
         </div>
       </div>
