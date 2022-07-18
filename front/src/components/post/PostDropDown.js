@@ -22,7 +22,7 @@ export default function PostDropDown(props) {
                     <Link className="dropdown-item"  to={`/post/update/${id}`}>Modify</Link>
                 </li>
                 <li>
-                    <a className="dropdown-item" href="#" onClick={() => deletePost(id)}>Delete</a>
+                    <span className="dropdown-item" href="#" onClick={() => deletePost(id)}>Delete</span>
                 </li>
             </ul>
         </div> 

@@ -170,9 +170,10 @@ exports.updatePassword = async (req, res) => {
 
     const { password, confirmPassword } = req.body;
     const isValidPassword = passwordValidation(password);
-    
-    if(isValidPassword) {
-        return res.json({ message: "The password should have a minimum length of 6 characters, a minimum of 1 uppercase letter, a minimum of 2 digits, should not have spaces"});
+    console.log(isValidPassword);
+    if(isValidPassword.length > 0) {
+        //res.json(isValidPassword)
+        return res.json({ message: "The password should have a minimum length of 6 characters, a minimum of 1 uppercase letter, a minimum of 1 digit, should not have spaces"});
     } 
 
     if(password !== confirmPassword) {

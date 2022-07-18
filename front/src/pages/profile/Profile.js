@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import React  from 'react';
 
 import Header from '../../components/header/Header';
 import UserInfo from '../../components/account/UserInfo';
