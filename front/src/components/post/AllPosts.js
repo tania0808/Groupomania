@@ -13,8 +13,8 @@ export default function AllPosts() {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  console.log(likedPosts);
   
+
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_ROOT}/posts`, {
       headers: {
