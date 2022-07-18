@@ -71,8 +71,11 @@ export default function UpdatePassword() {
       }
     })
     .then((response) => {
-      setError(response.data.message);
-      navigate('/auth/profile');
+      if(response.data.message) {
+        setError(response.data.message);
+      } else {
+        navigate('/auth/profile');
+      }
     })
     .catch(err => {
       setError(err.response.data)

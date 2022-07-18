@@ -110,6 +110,7 @@ exports.updatePost = async (req, res) => {
         
         if(!req.file){
             if(postText) post.postText = postText;
+            post.imageUrl = null;
             await post.save();
             res.status(200).json({ post: post }); 
             return;
