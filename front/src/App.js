@@ -12,6 +12,7 @@ import Profile from './pages/profile/Profile';
 import LocalContextProvider from './context/LocalContext';
 import UpdateProfile from './components/account/UpdateProfile'
 import UpdatePassword from './components/account/UpdatePassword';
+import PrivateRoute from './privateRoute/PrivateRoute';
 
 function App() {
   return (
@@ -21,11 +22,31 @@ function App() {
             <Route path="/" element={<Login/>} />
             <Route path="/auth/login" element={<Login/>} />
             <Route path="/auth/signup" element={<SignUp/>} />
-            <Route path="/posts" element={<Home/>} />
-            <Route path="/post/update/:id" element={<ModifyPost/>} />
-            <Route path='/auth/profile' element={<Profile/>}/>
-            <Route path='/auth/profile/update' element={<UpdateProfile/>}/>
-            <Route path='/auth/profile/password/update' element={<UpdatePassword/>}/>
+            <Route path="/posts" element={
+              <PrivateRoute>
+                <Home/>
+              </PrivateRoute>
+            } />
+            <Route path="/post/update/:id" element={
+              <PrivateRoute>
+                <ModifyPost/>
+              </PrivateRoute>
+            } />
+            <Route path='/auth/profile' element={
+              <PrivateRoute>
+                <Profile/>
+              </PrivateRoute>
+            }/>
+            <Route path='/auth/profile/update' element={
+              <PrivateRoute>
+                <UpdateProfile/>
+              </PrivateRoute>
+            }/>
+            <Route path='/auth/profile/password/update' element={
+              <PrivateRoute>
+                <UpdatePassword/>
+              </PrivateRoute>
+            }/>
             <Route path='*' element={<NotFound/>}/>
           </Routes>
         </div>
