@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fascinate&family=Lato:wght@100;300;400;700;900&display=swap');
 
 * {
+
   margin: 0;
   font-family: 'Lato', cursive;
   -webkit-font-smoothing: antialiased;
@@ -9,6 +10,7 @@
 
 html,body{
   overflow-x: hidden;
+  height: 100%;
 }
 
 body {
@@ -43,6 +45,11 @@ header {
   object-fit: cover;
 }
 
+/*ALL POSTS CONTAINER*/
+
+.post-container {
+  min-height: 100vh;
+}
 
 
 /* BUTTON*/
