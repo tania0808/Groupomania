@@ -109,6 +109,11 @@ exports.updatePost = async (req, res) => {
         const post = await Posts.findOne({ where: { id: id }});
         
         if(!req.file){
+            if(post.imageUrl !== null) {
+                const filename = post.imageUrl.split('/images/post/')[1];
+                fs.unlink(`images/post/${filename}`, () => {
+                });
+            }
             if(postText) post.postText = postText;
             post.imageUrl = null;
             await post.save();

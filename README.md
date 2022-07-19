@@ -7,7 +7,7 @@ DATABASE SETUP
 
 1. Start your MySQL server
 2. Create a database "groupomaniaDB"
-3. Import tables from dump.sql file
+3. Import tables from added sql file
 
 
 4. Create a .env file in the backend root, copy paste the following and change DB_USER and DB_PASS with your infos:

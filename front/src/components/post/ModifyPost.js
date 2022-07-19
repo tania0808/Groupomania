@@ -21,6 +21,10 @@ export default function ModifyPost() {
     const [image, setImage] = useState(post.imageUrl);
     const [imageURL, setImageURL] = useState();
     
+    /**
+     * Preview uploaded image
+     * @param {Event} event 
+     */
     const uploadImageToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
             console.log(event.target.files);
@@ -40,6 +44,10 @@ export default function ModifyPost() {
         });
     }, [id])
     
+    /**
+     * Clear file input when clicking on the cross
+     * @param {Event} event
+     */
     const clearImage = (e) => {
         e.preventDefault();
         setImage('');
@@ -49,6 +57,7 @@ export default function ModifyPost() {
     const formData = new FormData();
     formData.append('postText', postText);
     formData.append('imageUrl', image);
+    
     /**
      * Update the post
      * @param {Event} e click on the button Update the post
@@ -69,7 +78,7 @@ export default function ModifyPost() {
         <>
             <Header/>
             <div className='d-flex flex-column justify-content-center align-items-center'>
-                <h1>Modify a post</h1>
+                <h1 className='fs-3'>Update the post</h1>
                 <form action="" method='PUT' className='col-md-6 col-sm-8' encType='multipart/form-data' onSubmit={modifyPost} >
                     <div className="form-group mt-5">
                         <label htmlFor="postText">Share your thoughts</label>
