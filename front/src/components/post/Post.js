@@ -26,7 +26,7 @@ export default function Post(props) {
     setPost(props.post);
     setLiked(props.liked);
   }, []);
-    
+    console.log(post);
   /**
    * Like or unlike the post when clicking on the heart
    * @param {Number} postId 
@@ -70,7 +70,7 @@ export default function Post(props) {
     <div key={id}  className="post-box d-flex flex-column justify-content-center align-items-center mb-4 bg-white w-100 rounded">
       <div className={props.currentUser.id === UserId  || props.currentUser.isAdmin ? 'd-flex flex-row justify-content-between align-items-center w-100 p-3' : 'd-flex flex-row justify-content-start w-100 m-3 ps-3'}>
         <div className='d-flex align-items-center'>
-          <PostHeader userPosition={currentUser.userPosition} avatar={props.post.User.userImageUrl} userName={props.currentUser.id === UserId ? props.currentUser.userName : post.User.userName}/>
+          <PostHeader userPosition={props.currentUser.id != UserId ? post.User.userPosition : currentUser.userPosition} avatar={props.post.User.userImageUrl} userName={props.currentUser.id === UserId ? props.currentUser.userName : post.User.userName}/>
         </div>
         { (props.currentUser.id === UserId || props.currentUser.isAdmin) &&
         <PostDropDown id={id} deletePost={deletePost} /> }
